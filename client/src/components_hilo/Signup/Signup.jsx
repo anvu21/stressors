@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const Signup = () => {
+  
 	const [data, setData] = useState({
 		name: "",
 		username: "",

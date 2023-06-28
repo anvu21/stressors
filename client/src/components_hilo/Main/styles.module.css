@@ -1,0 +1,131 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+.screen {
+    @apply min-h-[500px] bg-l_brn relative top-14 flex justify-center p-5;
+}
+
+.top_nav {
+    @apply w-full h-14 bg-white border-b border-gray-300 fixed top-0 z-10 px-10;
+}
+
+.nav_active {
+    @apply border-b-4 border-oran px-5 py-3;
+}
+
+.nav_items {
+    @apply w-96 h-full ml-36 relative py-5 flex justify-center items-center;
+}
+
+.nav_item {
+    @apply hover:border-b-4 border-yel px-5 py-3;
+}
+
+.logo_pos {
+    @apply absolute;
+}
+
+.logo {
+    @apply w-20 h-full object-cover;
+}
+
+.user_box {
+    @apply w-[200px] min-h-[350px] absolute mr-[850px] bg-slate-100 rounded-lg shadow-sm flex;
+}
+
+.user_pic {
+    @apply w-[full] absolute top-0 object-cover rounded-tl-lg rounded-tr-lg;
+}
+
+.name {
+    @apply w-full text-black absolute mt-[200px] border-t border-gray-300 border-b p-3;
+}
+
+.bio {
+    @apply w-full mt-[249px] p-3;
+}
+
+.post_bar {
+    @apply w-[600px] h-[50px] absolute bg-neutral-300 rounded-lg shadow-sm flex items-center;
+}
+
+.profile_icon_pos {
+    @apply w-8 rounded-full overflow-hidden mx-3;
+}
+
+.profile_icon {
+    @apply w-full h-full object-cover;
+}
+
+.post_input_pos {
+    @apply w-full h-full relative flex items-center;
+}
+
+.post_input {
+    @apply w-full h-full resize-none border border-gray-300 rounded-tr-lg rounded-br-lg pl-4 pr-14 py-3;
+}
+
+.send_pos {
+    @apply absolute right-5;
+}
+
+.send {
+    @apply w-8 h-full text-neutral-500;
+}
+
+.post_box {
+    @apply w-[600px] bg-slate-100 border border-gray-300 relative top-[60px] rounded-lg shadow-sm flex-col mb-2;
+}
+
+.post_top {
+    @apply w-full min-h-[50px] relative top-0 left-0 bg-white rounded-tl-lg rounded-tr-lg items-center;
+}
+
+.post_profile_btn {
+    @apply flex;
+}
+
+.post_user_pic {
+    @apply w-7 absolute top-3 left-3 rounded-full overflow-hidden object-cover;
+}
+
+.post_name {
+    @apply text-black absolute top-3 left-14;
+}
+
+.caption {
+    @apply w-full relative mt-12 left-0 flex text-sm text-black p-4 border-t ;
+}
+
+.photo_pos {
+    @apply w-full min-h-[100px] relative flex justify-center;
+}
+
+.photo {
+    @apply relative max-h-[400px];
+}
+
+.react_bar {
+    @apply w-full h-8 relative left-0 bg-neutral-300 flex items-center;
+}
+
+.reply_btn {
+    @apply h-full w-1/3 flex justify-center items-center hover:bg-neutral-200;
+}
+
+.reply_icon {
+    @apply w-[15px] fill-current text-neutral-500;
+}
+
+.like_click {
+    @apply w-[15px] fill-current text-blue-600;
+}
+
+.white_bot {
+    @apply w-full h-[87px] relative bottom-0 bg-white rounded-b-lg flex justify-center items-center px-3;
+}
+
+.comment_bar {
+    @apply w-[500px] h-[50px] absolute bg-neutral-300 rounded-lg shadow-sm flex items-center;
+}

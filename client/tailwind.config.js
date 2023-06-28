@@ -5,8 +5,13 @@ module.exports = {
   theme: {
     extend: {
       colors: {
+
+        l_brn: '#edcaa6',
+        cya: '#55c8b4',
+        yel: '#ffde5a',
+        oran: '#fd9556',
+        brn: '#e8ae72',
         purp: '#4a3e62',
-        cya: '#08c1c3',
         
         primary: "#ffffff",
         secondary: "#aaa6c3",
