@@ -1,22 +1,28 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+//import './App.css';
 import React from 'react';
-import {Navbar} from './components'
-import CoverLetter from './CoverLetter';
-import Summary from './Summary';
-const  App=() =>{
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import Login from './components_hilo/Login/Login';
+import Signup from './components_hilo/Signup/Signup';
+
+function App() {
+  const user = localStorage.getItem("token");
 
   return (
-    <BrowserRouter>
-      <Navbar />
-      <Routes>
-        <Route path="/" element={<CoverLetter />} />
-        <Route path="/Summary" element={<Summary />} />
-      </Routes>
+    <div>
+      
+      <BrowserRouter>
+        <Routes>
+       
 
-    </BrowserRouter>
+          {user && <Route path="/" exact element={<Main />} />}
+          <Route path="/login" element={<Login />}/>
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/" element={<Navigate replace to="/login" />} />
+        </Routes>
+      </BrowserRouter>
 
-  
-)
+    </div>
+  );
 }
 
-export default App
+export default App;

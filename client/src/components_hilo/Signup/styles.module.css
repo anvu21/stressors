@@ -1,0 +1,58 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+.screen {
+    @apply min-h-[1000px] relative bg-slate-200 flex justify-center p-5;
+}
+
+.logo_pos {
+    @apply w-44 absolute;
+}
+
+.logo {
+    @apply w-full h-full object-cover;
+}
+
+.signup_box {
+    @apply min-w-[400px] h-[500px] mt-32 relative bg-slate-100 border border-neutral-300 rounded-lg shadow-sm flex justify-center;
+}
+
+.signup_text {
+    @apply text-3xl absolute top-5 text-cya font-semibold;
+}
+
+.input_contain {
+    @apply w-full h-full relative top-20 flex flex-col items-center;
+}
+
+.input {
+    @apply w-4/5 h-10 mb-3 bg-white text-black border border-gray-300 resize-none rounded-lg px-4 py-1.5;
+}
+
+.signup_btn_pos {
+    @apply w-4/5 h-12 absolute bottom-32 flex;
+}
+
+.signup_btn {
+    @apply w-full h-full bg-cya hover:bg-yellow-300 hover:text-black text-2xl text-white font-bold rounded-lg shadow-sm focus:outline-none flex justify-center items-center;
+}
+
+.acct_btn_pos {
+    @apply absolute bottom-5 flex;
+}
+
+.acct_btn {
+    @apply hover:underline text-black font-bold focus:outline-none flex justify-center items-center;
+}
+
+.error_msg {
+	width: 370px;
+	padding: 15px;
+	margin: 5px 0;
+	font-size: 14px;
+	background-color: #f34646;
+	color: white;
+	border-radius: 5px;
+	text-align: center;
+}
