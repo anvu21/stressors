@@ -12,7 +12,7 @@
 
 .logo {
     @apply w-full h-full object-cover;
-  }
+}
 
 .login_box {
     @apply min-w-[400px] h-[400px] mt-32 relative bg-slate-100 border border-neutral-300 rounded-lg shadow-sm flex justify-center;
@@ -35,11 +35,11 @@
 }
 
 .login_btn {
-    @apply w-full h-full bg-cya hover:bg-yellow-300 hover:text-black text-2xl text-white font-bold rounded-lg shadow-sm focus:outline-none flex justify-center items-center;
+    @apply w-full h-full bg-cya hover:bg-yel hover:text-black text-2xl text-white font-bold rounded-lg shadow-sm focus:outline-none flex justify-center items-center;
 }
 
 .forgot_btn {
-    @apply absolute bottom-32 text-black text-sm hover:underline;
+    @apply absolute bottom-32 text-black text-sm hover:text-yellow-400 hover:underline;
 }
 
 .or {
@@ -51,7 +51,7 @@
 }
 
 .acct_btn {
-    @apply w-full h-full bg-cya hover:bg-yellow-300 hover:text-black text-white font-bold rounded-lg shadow-sm focus:outline-none flex justify-center items-center;
+    @apply w-full h-full bg-oran hover:bg-brn hover:text-black text-white font-bold rounded-lg shadow-sm focus:outline-none flex justify-center items-center;
 }
 
 .error_msg {

@@ -43,7 +43,7 @@
 }
 
 .acct_btn {
-    @apply hover:underline text-black font-bold focus:outline-none flex justify-center items-center;
+    @apply text-oran font-bold hover:text-brn hover:underline focus:outline-none flex justify-center items-center;
 }
 
 .error_msg {
