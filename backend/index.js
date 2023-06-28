@@ -3,16 +3,12 @@ const bodyParser = require('body-parser')
 const cors = require('cors')
 const app = express()
 const pool = require("./db");
-const apiKey = process.env.OPENAI_API_KEY;
 const path=require("path")
 const PORT=process.env.PORT ||5000;
-const { Configuration, OpenAIApi } = require("openai");
-const axios = require('axios');
 
-const configuration = new Configuration({
-  apiKey: process.env.OPENAI_API_KEY,
-});
-const openai = new OpenAIApi(configuration);
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
+
 //middleware
 app.use(cors());
 app.use(express.json())
@@ -24,131 +20,111 @@ if (process.env.NODE_ENV === 'production'){
 }
 //routes
 app.get('/register', function(req, res) {
-    res.send("Welcome");
-    
+    res.send("It works!");
 });
 //create
-app.post('/ask', async (req, res) => {
 
-  //const prompt = 'Write me a short description';
-  //console.log(req.body.text)
-  //console.log(req.body)
+const jwtSecret = process.env.JWT_SECRET || 'your-secret-key'; // This should be in an environment variable in production
+
+
+
+app.post('/signup', async (req, res) => {
+  const { username, password, groupId } = req.body;
+  console.log(req.body);
+  console.log(password);
+  console.log(groupId);
+
+  if (!username || !password || !groupId) {
+    return res.status(400).json({ message: 'Username, password, and group id are required' });
+  }
 
   try {
- //   if (prompt == null) {
- //    throw new Error("Uh oh, no prompt was provided");
- //   }
-    prompt = req.body.text
-    if (prompt == null) {
-          throw new Error("Uh oh, no prompt was provided");
-         }
-    const response = await openai.createCompletion({
-      model: "text-davinci-003",
-      prompt,
-      temperature: 0.7,
-      max_tokens: 500,
-      top_p: 1,
-      frequency_penalty: 0,
-      presence_penalty: 0,
-    });
-    
-    const completion = response.data.choices[0].text;
-    console.log(response.data)
-    console.log(completion)
+    const saltRounds = 10;
+    const hashedPassword = await bcrypt.hash(password, saltRounds);
 
-    return res.status(200).json({
-      success: true,
-      message: completion,
-     
-    });
-  } catch (error) {
-    console.log(error.message);
+    const result = await pool.query('INSERT INTO Users (username, password, group_id, created_at, updated_at) VALUES ($1, $2, $3, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP) RETURNING id', [username, hashedPassword, groupId]);
+
+    const userId = result.rows[0].id;
+
+    const token = jwt.sign({ id: userId }, jwtSecret, { expiresIn: '1h' });
+
+    return res.status(201).json({ message: 'User created successfully', userId, token });
+
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ message: 'Internal server error' });
   }
-  
-
-
 });
 
-app.post("/food", async(req,res)=> {
-    try{
-        
-        var name= req.body.food
-        var density= req.body.density
-        var carbon = req.body.carbon
-        console.log(name, density,carbon)
-        console.log(req.body)
-        //INSERT INTO food (Food, density, Carbon) VALUES (rice,g,50)
-        const Food = await pool.query(
-            "INSERT INTO food (food, density, carbon) VALUES ($1,$2 ,$3) ON CONFLICT (food) DO NOTHING Returning *",
-            [name,density,carbon]
-          );
-      
-          res.json(Food.rows[0]);
-        } catch (err) {
-            console.error("error")
-          console.error(err.message);
-        }
-  
+app.post('/signin', async (req, res) => {
+  const { username, password } = req.body;
 
+  if (!username || !password) {
+    return res.status(400).json({ message: 'Username and password are required' });
+  }
 
-})
-//recipe post recipe
-app.post("/recipe", async(req,res)=> {
-  try{
-      
-      console.log(req.body)
-      var count = Object.keys(req.body).length
-      //console.log(count)
-      var recipe = req.body[0].recipe;
-      console.log("Recipe:"+recipe);
-      var serving = req.body[0].serving;
-      console.log("Serving:"+serving);
-      var location = req.body[0].location;
-      console.log("location:"+location);
-      const result = await pool.query(
-        "INSERT INTO recipe_index(name,serving,location) VALUES ($1,$2,$3) RETURNING recipe_id",
-        [recipe,serving,location]
-      );
-      const recipe_id =result.rows[0]
-      console.log(recipe_id.recipe_id)
+  try {
+    const user = await pool.query('SELECT * FROM Users WHERE username = $1', [username]);
 
-      for (let  i=0; i<count;i++){
-        var recipe = req.body[i].recipe;
-        console.log("Recipe:"+recipe);
-        
-        var food = req.body[i].food;
-        console.log("Food:"+food);
-        
-        var quantity = req.body[i].quantity;
-        console.log("Quantity:"+quantity);
-        var uom = req.body[i].uom;
-        console.log("Uom:"+uom);
-        
-        
-        const Recipe = await pool.query(
-          "INSERT INTO recipe(recipe_id,food,quantity,uom) VALUES ($1,$2,$3,$4)",
-          [recipe_id.recipe_id,food,quantity,uom]
-        );
-      }
-      //res.json(Recipe.rows[i]);
-    
-      } catch (err) {
-          console.error("error")
-        console.error(err.message);
-      }
+    if (user.rows.length === 0) {
+      return res.status(401).json({ message: 'Invalid username or password' });
+    }
 
+    const isValidPassword = await bcrypt.compare(password, user.rows[0].password);
 
+    if (!isValidPassword) {
+      return res.status(401).json({ message: 'Invalid username or password' });
+    }
 
-})
+    const userId = user.rows[0].id;
 
+    const token = jwt.sign({ id: userId }, jwtSecret, { expiresIn: '1h' });
 
+    return res.status(200).json({ message: 'User authenticated successfully', userId, token });
 
- app.get("*",(req,res)=>{
-   res.sendFile(path.join(__dirname, "client/build/index.html"));
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ message: 'Internal server error' });
+  }
+});
 
- })
+app.post('/post', async (req, res) => {
+  const { text, image_url } = req.body;
+  const { id: userId } = req.user;
 
+  if (!text && !image_url) {
+    return res.status(400).json({ message: 'Post must contain either text or image url' });
+  }
 
+  try {
+    const result = await pool.query('INSERT INTO Posts (user_id, text, image_url, created_at, updated_at) VALUES ($1, $2, $3, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP) RETURNING id', [userId, text, image_url]);
+
+    return res.status(201).json({ message: 'Post created successfully', postId: result.rows[0].id });
+
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+app.post('/comment', async (req, res) => {
+  const { postId, text } = req.body;
+  const { id: userId } = req.user;
+
+  if (!postId || !text) {
+    return res.status(400).json({ message: 'Post id and text are required' });
+  }
+
+  try {
+    const result = await pool.query('INSERT INTO Comments (post_id, user_id, text, created_at, updated_at) VALUES ($1, $2, $3, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP) RETURNING id', [postId, userId, text]);
+
+    return res.status(201).json({ message: 'Comment created successfully', commentId: result.rows[0].id });
+
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ message: 'Internal server error' });
+  }
+});
 
 app.listen(PORT,()=>{
     console.log(`server start on port ${PORT}`)

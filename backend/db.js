@@ -1,4 +1,4 @@
-const Pool = require("pg").Pool;
+const { Pool } = require('pg');
 require("dotenv").config();
 
 // const devConfig = {
@@ -16,11 +16,11 @@ require("dotenv").config();
 //     },
 // });
 const pool = new Pool({
-  connectionString:
-    process.env.DATABASE_URL ||
-    `postgresql://${process.env.PG_USER}:${process.env.PG_PASSWORD}@${process.env.PG_HOST}:${process.env.PG_PORT}/${process.env.PG_DATABASE}`,
-  ssl: process.env.DATABASE_URL ? true : false, //uncomment this when you want to run local
-  //ssl: { rejectUnauthorized: false }, //Turn this on when deploy
+  user: 'postgres',
+  host: 'localhost',
+  database: 'mountain',
+  password: '1234',
+  port: 5433,
 });
 
 /*
