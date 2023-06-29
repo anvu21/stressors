@@ -23,10 +23,8 @@ const Main = () => {
 
   return (
     <div>
-      <Navbar />   
-
       <div className={styles.screen}> 
-
+        <Navbar />   
         <div className={styles.user_box}>
             <div className="">
               <img className={styles.user_pic} src="avatar.png" alt="Profile Picture"/>
