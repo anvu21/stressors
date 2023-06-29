@@ -2,10 +2,24 @@ import styles from './styles.module.css';
 import React, { useState, useEffect }  from 'react';
 import profiles from './profiles';
 import Navbar from './Navbar';
+import axios from "axios";
 
 const Main = () => {
 
   const [likeStates, setLikeStates] = useState(profiles.map(() => false));
+
+  const [data, setData] = useState({
+		
+		text: ""
+    
+  });
+  const [error, setError] = useState("");
+
+
+  const handleChange = ({ currentTarget: input }) => {
+  setData({ ...data, [input.name]: input.value });
+  console.log(data);
+  };
 
   const handleLikeClick = (index) => {
     const updatedLikeStates = [...likeStates];
@@ -20,7 +34,22 @@ const Main = () => {
   const handleShareClick = () => {
     console.log('Share button clicked');
   };
-
+  const handlePost = async (e) => {
+    //console.log('Post button clicked');
+    e.preventDefault();
+    let groupid =localStorage.getItem("userID") // MAKE SURE WE CHANGE THIS LATER CAUSE THIS IS A TERRIBLE FIX
+    try {
+      const response = await axios.post('http://localhost:5000/post', { text: data.text, group_id: groupid }, {
+          headers: {
+              'auth-token': localStorage.getItem('token') 
+          }
+      });
+      alert(response.data.message);
+  } catch (error) {
+      console.error(error);
+      alert('Could not create post');
+  }
+  };
   return (
     <div>
       <div className={styles.screen}> 
@@ -45,10 +74,20 @@ const Main = () => {
             <img className={styles.profile_icon} src="avatar.png" alt="Avatar"/>
           </button> 
           <div className={styles.post_input_pos}>
-            <textarea className={styles.post_input} placeholder="Start a post"></textarea>
+            <textarea 
+            className={styles.post_input} 
+            placeholder="Start a post"
+              type="text"
+              name="text"
+              onChange={handleChange}
+              value={data.text}
+            >
+
+
+            </textarea>
           </div>  
         
-          <button className={styles.send_pos}>
+          <button className={styles.send_pos} onClick={handlePost}>
             <svg className={styles.send} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" data-supported-dps="24x24" fill="currentColor" class="mercado-match" width="24" height="24" focusable="false">
               <path d="M21 3L0 10l7.66 4.26L16 8l-6.26 8.34L14 24l7-21z"></path>
             </svg>
@@ -135,7 +174,8 @@ const Main = () => {
                     <textarea className={styles.post_input} placeholder="Comment"></textarea>
                   </div>  
                 
-                  <button className={styles.send_pos}>
+                  <button className={styles.send_pos} >
+                    
                     <svg className={styles.send} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" data-supported-dps="24x24" fill="currentColor" class="mercado-match" width="24" height="24" focusable="false">
                       <path d="M21 3L0 10l7.66 4.26L16 8l-6.26 8.34L14 24l7-21z"></path>
                     </svg>

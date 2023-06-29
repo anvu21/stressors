@@ -13,14 +13,15 @@ const Login = () => {
 	const handleSubmit = async (e) => {
 	  e.preventDefault();
 	  try {
-		const url = "/_users/login";
+		const url = "http://localhost:5000/signin";
 		const { data: res } = await axios.post(url, data);
 		console.log(res)
 		if (res.status === 401) {
 		  setError("Wrong username or password");
 		} else {
-		  localStorage.setItem("token", res._id);
-		  localStorage.setItem("name", res.name);
+		  localStorage.setItem("token", res.token);
+		  localStorage.setItem("name", res.userName);
+      localStorage.setItem("userID", res.userId);
 		  window.location = "/";
 		}
 	  } catch (error) {
