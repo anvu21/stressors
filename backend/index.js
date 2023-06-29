@@ -5,7 +5,7 @@ const app = express()
 const pool = require("./db");
 const path=require("path")
 const PORT=process.env.PORT ||5000;
-
+const verifyToken = require('./verifyToken');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 
@@ -75,12 +75,12 @@ app.post('/signin', async (req, res) => {
     if (!isValidPassword) {
       return res.status(401).json({ message: 'Invalid username or password' });
     }
-
     const userId = user.rows[0].id;
-
+    const userName= user.rows[0].username;
+    console.log(userName)
     const token = jwt.sign({ id: userId }, jwtSecret, { expiresIn: '1h' });
 
-    return res.status(200).json({ message: 'User authenticated successfully', userId, token });
+    return res.status(200).json({ message: 'User authenticated successfully', userId, token, userName });
 
   } catch (err) {
     console.error(err);
@@ -88,19 +88,38 @@ app.post('/signin', async (req, res) => {
   }
 });
 
-app.post('/post', async (req, res) => {
-  const { text, image_url } = req.body;
+app.post('/post', verifyToken, async (req, res) => {
+  const { text } = req.body;
   const { id: userId } = req.user;
-
+  let group_id = 5 // TERRIBLE FIX
+    let image_url = 'e'
+    let up_down = Math.floor(Math.random() * 10)
   if (!text && !image_url) {
     return res.status(400).json({ message: 'Post must contain either text or image url' });
   }
-
+  
   try {
-    const result = await pool.query('INSERT INTO Posts (user_id, text, image_url, created_at, updated_at) VALUES ($1, $2, $3, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP) RETURNING id', [userId, text, image_url]);
+    const result = await pool.query('INSERT INTO Posts (user_id, content, up_down, group_id, image_url, created_at, updated_at) VALUES ($1, $2, $3, $4, $5, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP) RETURNING id', [userId, text, up_down, group_id, image_url] );
 
     return res.status(201).json({ message: 'Post created successfully', postId: result.rows[0].id });
 
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+app.get('/posts/:groupId', verifyToken, async (req, res) => {
+  const { groupId } = req.params;
+
+  try {
+    const result = await pool.query('SELECT * FROM Posts WHERE group_id = $1', [groupId]);
+    
+    if (result.rows.length === 0) {
+      return res.status(404).json({ message: 'No posts found for this group' });
+    }
+
+    return res.status(200).json(result.rows);
   } catch (err) {
     console.error(err);
     return res.status(500).json({ message: 'Internal server error' });

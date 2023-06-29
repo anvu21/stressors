@@ -2,6 +2,12 @@ import styles from './styles.module.css';
 import React from 'react';
 
 const Navbar = () => {
+
+  const handleLogout = () => {
+		localStorage.removeItem("token");
+		window.location.reload();
+	};
+
   return (
     <nav className={styles.top_nav}>
       <button className={styles.logo_pos}>
@@ -9,8 +15,11 @@ const Navbar = () => {
       </button> 
       <div className={styles.nav_items}>
         <a className={styles.nav_active} href="/home">Home</a>
-        { /*
-        <a className={styles.nav_item} href="/thing1">Thing 1</a>
+        { 
+        <button className={styles.white_btn} onClick={handleLogout}>
+        Logout
+      </button>
+        /*
         <a className={styles.nav_item} href="/thing1">Thing 2</a>
         <a className={styles.nav_item} href="/thing1">Thing 3</a>
         */}

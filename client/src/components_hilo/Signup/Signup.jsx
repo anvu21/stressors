@@ -6,12 +6,11 @@ import axios from "axios";
 const Signup = () => {
   
 	const [data, setData] = useState({
-		name: "",
+		
 		username: "",
 		password: "",
-    c_password: "",
-    email: "",
-    c_email: "",
+    groupId: "",
+    
   });
   const [error, setError] = useState("");
   const navigate = useNavigate();
@@ -23,7 +22,7 @@ const Signup = () => {
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		try {
-		  const url = "http://localhost:4000/_users";
+		  const url = "http://localhost:5000/signup";
 		  const { data: res } = await axios.post(url, data);
 		  navigate("/login");
 		  console.log(res.message);
@@ -49,15 +48,7 @@ const Signup = () => {
         <div className={styles.signup_box}>
           <div className={styles.signup_text}>Create a new account</div>
           <form className={styles.input_contain} onSubmit={handleSubmit}>
-            <input
-              type="text"
-              placeholder="Enter name"
-              name="name"
-              onChange={handleChange}
-              value={data.name}
-              required
-              className={styles.input}
-            />
+            
             <input
               type="text"
               placeholder="New username"
@@ -77,32 +68,15 @@ const Signup = () => {
               className={styles.input}
             />
             <input
-              type="c_password"
-              placeholder="Confirm password"
-              name="c_password"
+              type="groupId"
+              placeholder="group id"
+              name="groupId"
               onChange={handleChange}
-              value={data.c_password}
+              value={data.groupId}
               required
               className={styles.input}
             />
-            <input
-              type="email"
-              placeholder="Enter email"
-              name="email"
-              onChange={handleChange}
-              value={data.email}
-              required
-              className={styles.input}
-            />
-            <input
-              type="c_email"
-              placeholder="Confirm email"
-              name="c_email"
-              onChange={handleChange}
-              value={data.c_email}
-              required
-              className={styles.input}
-            />
+            
             {error && <div className={styles.error_msg}>{error}</div>}
             
             <button type="submit" className={styles.signup_btn_pos}>
