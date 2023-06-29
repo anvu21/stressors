@@ -7,6 +7,7 @@ const Navbar = () => {
       <button className={styles.logo_pos}>
         <img className={styles.logo} src="HiLo Logo.png" alt="Logo"/>
       </button> 
+
       <div className={styles.nav_items}>
         <a className={styles.nav_active} href="/home">Home</a>
         { /*
@@ -14,7 +15,11 @@ const Navbar = () => {
         <a className={styles.nav_item} href="/thing1">Thing 2</a>
         <a className={styles.nav_item} href="/thing1">Thing 3</a>
         */}
+        
       </div>
+     
+      <button className={styles.logout}>Logout</button>
+     
     </nav>
   );
 };

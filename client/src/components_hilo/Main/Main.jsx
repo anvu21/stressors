@@ -23,10 +23,9 @@ const Main = () => {
 
   return (
     <div>
-       
-      <div className={styles.screen}> 
+      <Navbar />   
 
-        <Navbar />  
+      <div className={styles.screen}> 
 
         <div className={styles.user_box}>
             <div className="">
