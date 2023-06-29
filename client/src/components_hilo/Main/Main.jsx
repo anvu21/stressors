@@ -6,6 +6,9 @@ import axios from "axios";
 
 const Main = () => {
 
+  let name = localStorage.getItem("name");
+  let bio = localStorage.getItem("bio");
+
   const [likeStates, setLikeStates] = useState(profiles.map(() => false));
 
   const [data, setData] = useState({
@@ -14,7 +17,6 @@ const Main = () => {
     
   });
   const [error, setError] = useState("");
-
 
   const handleChange = ({ currentTarget: input }) => {
   setData({ ...data, [input.name]: input.value });
@@ -34,6 +36,7 @@ const Main = () => {
   const handleShareClick = () => {
     console.log('Share button clicked');
   };
+
   const handlePost = async (e) => {
     //console.log('Post button clicked');
     e.preventDefault();
@@ -45,11 +48,12 @@ const Main = () => {
           }
       });
       alert(response.data.message);
-  } catch (error) {
-      console.error(error);
-      alert('Could not create post');
-  }
+    } catch (error) {
+        console.error(error);
+        alert('Could not create post');
+    }
   };
+
   return (
     <div>
       <div className={styles.screen}> 
@@ -60,10 +64,10 @@ const Main = () => {
             </div>
             <div className="flex">
               <div className={styles.name}>
-                Name: 
+                {console.log(name)}
               </div>
               <div className={styles.bio}>
-                Bio: brief bio (100 characters max) name, grade, age, some interests/hobbies
+                {console.log(bio)}
               </div>
             </div>
         </div>
@@ -90,6 +94,17 @@ const Main = () => {
           <button className={styles.send_pos} onClick={handlePost}>
             <svg className={styles.send} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" data-supported-dps="24x24" fill="currentColor" class="mercado-match" width="24" height="24" focusable="false">
               <path d="M21 3L0 10l7.66 4.26L16 8l-6.26 8.34L14 24l7-21z"></path>
+            </svg>
+          </button>
+
+          <button className={styles.hi_pos}>
+            <svg className={styles.hi} enable-background="new 0 0 32 32" height="32px" id="Layer_1" version="1.1" viewBox="0 0 32 32" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+              <path d="M18.221,7.206l9.585,9.585c0.879,0.879,0.879,2.317,0,3.195l-0.8,0.801c-0.877,0.878-2.316,0.878-3.194,0  l-7.315-7.315l-7.315,7.315c-0.878,0.878-2.317,0.878-3.194,0l-0.8-0.801c-0.879-0.878-0.879-2.316,0-3.195l9.587-9.585  c0.471-0.472,1.103-0.682,1.723-0.647C17.115,6.524,17.748,6.734,18.221,7.206z" fill="#515151"/>
+            </svg>
+          </button>
+          <button className={styles.lo_pos}>
+            <svg className={styles.lo} enable-background="new 0 0 32 32" height="32px" id="Layer_1" version="1.1" viewBox="0 0 32 32" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+              <path d="M14.77,23.795L5.185,14.21c-0.879-0.879-0.879-2.317,0-3.195l0.8-0.801c0.877-0.878,2.316-0.878,3.194,0  l7.315,7.315l7.316-7.315c0.878-0.878,2.317-0.878,3.194,0l0.8,0.801c0.879,0.878,0.879,2.316,0,3.195l-9.587,9.585  c-0.471,0.472-1.104,0.682-1.723,0.647C15.875,24.477,15.243,24.267,14.77,23.795z" fill="#515151"/>
             </svg>
           </button>
         </div>
