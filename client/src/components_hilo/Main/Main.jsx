@@ -6,8 +6,10 @@ import axios from "axios";
 
 const Main = () => {
 
-  let name = localStorage.getItem("name");
-  let bio = localStorage.getItem("bio");
+  let name =  'annie' //placeholder
+  //localStorage.getItem("name");
+  let bio = 'bio ' // placeholder
+  //localStorage.getItem("bio");
 
   const [likeStates, setLikeStates] = useState(profiles.map(() => false));
 
@@ -19,8 +21,8 @@ const Main = () => {
   const [error, setError] = useState("");
 
   const handleChange = ({ currentTarget: input }) => {
-  setData({ ...data, [input.name]: input.value });
-  console.log(data);
+    setData({ ...data, [input.name]: input.value });
+    console.log(data);
   };
 
   const handleLikeClick = (index) => {
@@ -42,34 +44,62 @@ const Main = () => {
     e.preventDefault();
     let groupid =localStorage.getItem("userID") // MAKE SURE WE CHANGE THIS LATER CAUSE THIS IS A TERRIBLE FIX
     try {
-      const response = await axios.post('http://localhost:5000/post', { text: data.text, group_id: groupid }, {
+     /* const response = await axios.post('http://localhost:5000/post', { text: data.text, group_id: groupid }, {
           headers: {
               'auth-token': localStorage.getItem('token') 
           }
-      });
+      });*/
+      response = 
       alert(response.data.message);
     } catch (error) {
         console.error(error);
         alert('Could not create post');
     }
   };
+  
+  const fetchPosts = async () => {
+    try {
+      let response = []; //placeholder
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      const data = await response.json();
+      const processedPosts = manipulatePosts(data); 
+      console.log(processedPosts);
+    } catch (error) {
+      console.error('Fetching posts failed:', error);
+    }
+  };
+
+  const manipulatePosts = (data) => {
+    return data.map((post) => {
+      return {
+        caption: post.caption,
+        //photo: post.photo,
+      };
+    });
+  };
+
+
+  
 
   return (
     <div>
       <div className={styles.screen}> 
         <Navbar />   
         <div className={styles.user_box}>
-            <div className="">
-              <img className={styles.user_pic} src="avatar.png" alt="Profile Picture"/>
+          {/** image not editable by user yet */}
+          <div className="">
+            <img className={styles.user_pic} src="avatar.png" alt="Profile Picture"/>
+          </div>
+          <div className="flex">
+            <div className={styles.name}>
+              {name}
             </div>
-            <div className="flex">
-              <div className={styles.name}>
-                {console.log(name)}
-              </div>
-              <div className={styles.bio}>
-                {console.log(bio)}
-              </div>
+            <div className={styles.bio}>
+              {bio}
             </div>
+          </div>
         </div>
         
       
@@ -79,24 +109,22 @@ const Main = () => {
           </button> 
           <div className={styles.post_input_pos}>
             <textarea 
-            className={styles.post_input} 
-            placeholder="Start a post"
-              type="text"
-              name="text"
-              onChange={handleChange}
-              value={data.text}
-            >
-
-
-            </textarea>
+              className={styles.post_input} 
+              placeholder="Start a post"
+                type="text"
+                name="text"
+                onChange={handleChange}
+                value={data.text}
+            />
           </div>  
+          
         
           <button className={styles.send_pos} onClick={handlePost}>
             <svg className={styles.send} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" data-supported-dps="24x24" fill="currentColor" class="mercado-match" width="24" height="24" focusable="false">
               <path d="M21 3L0 10l7.66 4.26L16 8l-6.26 8.34L14 24l7-21z"></path>
             </svg>
           </button>
-
+          {/**high and low btn no funtion yet */}
           <button className={styles.hi_pos}>
             <svg className={styles.hi} enable-background="new 0 0 32 32" height="32px" id="Layer_1" version="1.1" viewBox="0 0 32 32" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
               <path d="M18.221,7.206l9.585,9.585c0.879,0.879,0.879,2.317,0,3.195l-0.8,0.801c-0.877,0.878-2.316,0.878-3.194,0  l-7.315-7.315l-7.315,7.315c-0.878,0.878-2.317,0.878-3.194,0l-0.8-0.801c-0.879-0.878-0.879-2.316,0-3.195l9.587-9.585  c0.471-0.472,1.103-0.682,1.723-0.647C17.115,6.524,17.748,6.734,18.221,7.206z" fill="#515151"/>
@@ -128,6 +156,7 @@ const Main = () => {
                 <img className={styles.photo} src={profile.posts[0].photo} alt="Photo"/>
               </div>
 
+              {/** reply share and like no function yet */}
               <div className={styles.react_bar}>
                 <button className={styles.reply_btn} onClick={() => handleReplyClick(index)}>
                   <svg className={styles.reply_icon} version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" enable-background="new 0 0 512 512">

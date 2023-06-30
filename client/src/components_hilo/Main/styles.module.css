@@ -3,7 +3,7 @@
 @import 'tailwindcss/utilities';
 
 .screen {
-    @apply min-h-[500px] bg-l_brn relative top-14 flex justify-center p-5;
+    @apply min-h-[500px] bg-l_brn relative top-14 flex flex-col items-center p-5;
 }
 
 .top_nav {
@@ -39,7 +39,7 @@
 }
 
 .user_box {
-    @apply w-[200px] min-h-[350px] absolute mr-[850px] bg-slate-100 rounded-lg shadow-sm flex;
+    @apply w-[200px] min-h-[350px] absolute mr-[850px] bg-slate-100 border border-gray-300 rounded-lg shadow-sm flex;
 }
 
 .user_pic {
@@ -47,7 +47,7 @@
 }
 
 .name {
-    @apply w-full text-black absolute mt-[200px] border-t border-gray-300 border-b p-3;
+    @apply w-full text-black font-bold absolute mt-[200px] border-t border-gray-300 border-b p-3;
 }
 
 .bio {
@@ -55,11 +55,11 @@
 }
 
 .post_bar {
-    @apply w-[600px] h-[50px] absolute bg-neutral-300 rounded-lg shadow-sm flex items-center;
+    @apply w-[600px] h-[50px] relative bg-gray-300 rounded-lg shadow-sm flex items-center;
 }
 
 .profile_icon_pos {
-    @apply w-8 rounded-full overflow-hidden mx-3;
+    @apply w-8 relative rounded-full overflow-hidden mx-3;
 }
 
 .profile_icon {
@@ -99,7 +99,7 @@
 }
 
 .post_box {
-    @apply w-[600px] bg-slate-100 border border-gray-300 relative top-[60px] rounded-lg shadow-sm flex-col mb-2;
+    @apply w-[600px] bg-slate-100 border border-gray-300 relative rounded-lg shadow-sm flex-col mt-3;
 }
 
 .post_top {
@@ -131,7 +131,7 @@
 }
 
 .react_bar {
-    @apply w-full h-8 relative left-0 bg-neutral-300 flex items-center;
+    @apply w-full h-8 relative left-0 bg-gray-300 flex items-center;
 }
 
 .reply_btn {
@@ -147,7 +147,7 @@
 }
 
 .comment_bar {
-    @apply w-[500px] h-[50px] absolute bg-neutral-300 rounded-lg shadow-sm flex items-center;
+    @apply w-[500px] h-[50px] absolute bg-gray-300 rounded-lg shadow-sm flex items-center;
 }
 
 .white_bot {

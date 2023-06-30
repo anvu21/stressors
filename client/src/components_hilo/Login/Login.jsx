@@ -72,7 +72,7 @@ const Login = () => {
               <div className={styles.login_btn}>Sign In</div>
             </button>
           </form>
-
+          {/* forget btn no function yet*/}
           <button className={styles.forgot_btn}> <a className="" href="/password_reset">Forgot password?</a></button>     
 
           <div className={styles.or}>or</div>

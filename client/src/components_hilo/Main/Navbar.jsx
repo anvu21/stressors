@@ -12,13 +12,12 @@ const Navbar = () => {
     <nav className={styles.top_nav}>
       <div className={styles.nav_contain}>
         <button className={styles.logo_pos}>
-          <img className={styles.logo} src="HiLo Logo.png" alt="Logo"/>
+          <img className={styles.logo} src="HiLo Logo.png" href="/home" alt="Logo"/>
         </button> 
 
         <div className={styles.nav_items}>
           <a className={styles.nav_active} href="/home">Home</a>
-          { 
-          /*
+          {/*
           <a className={styles.nav_item} href="/thing1">Thing 2</a>
           <a className={styles.nav_item} href="/thing1">Thing 3</a>
           */}
