@@ -11,6 +11,7 @@ const profiles = [
         photo: '1_photo.jpg',
         highs: '3 5 interpersonal disclosures 5 non-interpersonal',
         lows: '3 5 interpersonal disclosures 5 non-interpersonal',
+        likes: 3,
       }
     ]
   },
@@ -26,6 +27,7 @@ const profiles = [
         photo: '2_photo.jpg',
         highs: '2 5 interpersonal disclosures 5 non-interpersonal',
         lows: '2 5 interpersonal disclosures 5 non-interpersonal',
+        likes: 2,
       }
     ]
   },
@@ -41,6 +43,7 @@ const profiles = [
         photo: '1 food.png',
         highs: '1 5 interpersonal disclosures 5 non-interpersonal',
         lows: '1 5 interpersonal disclosures 5 non-interpersonal',
+        likes: 1,
       }
     ]
   },
