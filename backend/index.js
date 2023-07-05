@@ -29,7 +29,7 @@ const jwtSecret = process.env.JWT_SECRET || 'your-secret-key'; // This should be
 
 
 app.post('/signup', async (req, res) => {
-  const { username, password, groupId } = req.body;
+  const { username, password, groupId, bio } = req.body;
   console.log(req.body);
   console.log(password);
   console.log(groupId);
@@ -42,7 +42,7 @@ app.post('/signup', async (req, res) => {
     const saltRounds = 10;
     const hashedPassword = await bcrypt.hash(password, saltRounds);
 
-    const result = await pool.query('INSERT INTO Users (username, password, group_id, created_at, updated_at) VALUES ($1, $2, $3, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP) RETURNING id', [username, hashedPassword, groupId]);
+    const result = await pool.query('INSERT INTO Users (username, password, group_id, created_at, updated_at,bio) VALUES ($1, $2, $3, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, $4) RETURNING id', [username, hashedPassword, groupId,bio]);
 
     const userId = result.rows[0].id;
 
@@ -77,10 +77,12 @@ app.post('/signin', async (req, res) => {
     }
     const userId = user.rows[0].id;
     const userName= user.rows[0].username;
+    const bio= user.rows[0].bio;
+    const groupId = user.rows[0].group_id;
     console.log(userName)
     const token = jwt.sign({ id: userId }, jwtSecret, { expiresIn: '1h' });
 
-    return res.status(200).json({ message: 'User authenticated successfully', userId, token, userName });
+    return res.status(200).json({ message: 'User authenticated successfully', userId, token, userName,bio,groupId });
 
   } catch (err) {
     console.error(err);
@@ -91,7 +93,8 @@ app.post('/signin', async (req, res) => {
 app.post('/post', verifyToken, async (req, res) => {
   const { text } = req.body;
   const { id: userId } = req.user;
-  let group_id = 5 // TERRIBLE FIX
+  console.log(req.body)
+  let group_id = 5 
     let image_url = 'e'
     let up_down = Math.floor(Math.random() * 10)
   if (!text && !image_url) {

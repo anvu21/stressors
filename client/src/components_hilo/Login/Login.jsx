@@ -22,6 +22,9 @@ const Login = () => {
 		  localStorage.setItem("token", res.token);
 		  localStorage.setItem("name", res.userName);
       localStorage.setItem("userID", res.userId);
+      localStorage.setItem("groupID", res.groupId);
+      localStorage.setItem("bio", res.bio);
+
 		  window.location = "/";
 		}
 	  } catch (error) {

@@ -35,11 +35,9 @@ const Main = () => {
     console.log('Share button clicked');
   };
 
-  let name =  'Annie' //placeholder
-  //localStorage.getItem("name");
-  let bio = 'bio ' // placeholder
-  //localStorage.getItem("bio");
-
+  let name =  localStorage.getItem("name");
+  let bio = localStorage.getItem("bio");
+  let groupId = localStorage.getItem("groupID");
   const [data, setData] = useState({
 		
 		text: ""
@@ -57,16 +55,17 @@ const Main = () => {
   const handlePost = async (e) => {
     //console.log('Post button clicked');
     e.preventDefault();
-    let groupid =localStorage.getItem("userID") // MAKE SURE WE CHANGE THIS LATER CAUSE THIS IS A TERRIBLE FIX
+    let groupid =localStorage.getItem("groupID") 
+    console.log(data)
     try {
-      {/**const response = await axios.post('http://localhost:5000/post', { text: data.text,group_id: groupid }, {
+      const response = await axios.post('http://localhost:5000/post', { text: data.text,group_id: groupid }, {
         headers: {
           'auth-token': localStorage.getItem('token') 
         }
-      }); */}
-
+      }); 
+        
       // sample data temporary
-      const newPost = {
+      /*const newPost = {
         id: Date.now(), 
         user_id: 1, 
         content: data.text,
@@ -77,10 +76,10 @@ const Main = () => {
         updated_at: new Date().toISOString()
       };
       setPosts([newPost, ...posts]);
-      setData({ text: "" });      
-
-      //alert(response.data.message);
-    
+      setData({ text: "" });   */    
+      console.log(response)
+      alert(response.data.message);
+      fetchPosts();
     } catch (error) {
       console.error(error);
       alert('Could not create post');
@@ -88,54 +87,27 @@ const Main = () => {
   };
 
   useEffect(() => {
+    
+
+
     fetchPosts();
   }, []);
 
   const fetchPosts = async () => {
     try {
 
-      {/**const response = await axios.get('http://localhost:5000/posts', {
+      const response = await axios.get(`http://localhost:5000/posts/${groupId}`, {
         headers: {
           'auth-token': localStorage.getItem('token')
         }
-      }); */}
+      }); 
       
-      const response = [ //placeholder sample data
-        {
-          id: 2,
-          user_id: 1,
-          content: "wer",
-          up_down: "9",
-          group_id: 5,
-          image_url: "e",
-          created_at: "2023-06-29T03:52:32.401Z",
-          updated_at: "2023-06-29T03:52:32.401Z"
-        },
-        {
-          id: 3,
-          user_id: 1,
-          content: "wer",
-          up_down: "9",
-          group_id: 5,
-          image_url: "e",
-          created_at: "2023-06-29T03:52:35.857Z",
-          updated_at: "2023-06-29T03:52:35.857Z"
-        },
-        {
-          id: 4,
-          user_id: 1,
-          content: "werrwe",
-          up_down: "6",
-          group_id: 5,
-          image_url: "e",
-          created_at: "2023-06-29T03:52:43.206Z",
-          updated_at: "2023-06-29T03:52:43.206Z"
-        },
-      ]; 
+      
 
       //const data = await response.json();
       //setPosts(data);
-      setPosts(response);
+      console.log(response.data)
+      setPosts(response.data);
 
     } catch (error) {
       console.error('Fetching posts failed:', error);
