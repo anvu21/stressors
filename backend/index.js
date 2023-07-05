@@ -109,9 +109,10 @@ app.post('/post', verifyToken, async (req, res) => {
   }
 });
 
-app.get('/posts/:groupId', verifyToken, async (req, res) => {
+app.get('/posts/:groupId', async (req, res) => {
+  console.log(req.params)
   const { groupId } = req.params;
-
+  console.log(groupId)
   try {
     const result = await pool.query('SELECT * FROM Posts WHERE group_id = $1', [groupId]);
     
