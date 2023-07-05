@@ -7,7 +7,8 @@ import Main from './components_hilo/Main/Main';
 
 
 function App() {
-  const user = localStorage.getItem("token");
+  const user = 'a'
+  //localStorage.getItem("token");
 
   return (
     <div>

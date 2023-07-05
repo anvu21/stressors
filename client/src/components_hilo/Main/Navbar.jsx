@@ -10,19 +10,21 @@ const Navbar = () => {
 
   return (
     <nav className={styles.top_nav}>
-      <button className={styles.logo_pos}>
-        <img className={styles.logo} src="HiLo Logo.png" alt="Logo"/>
-      </button> 
-      <div className={styles.nav_items}>
-        <a className={styles.nav_active} href="/home">Home</a>
-        { 
-        <button className={styles.white_btn} onClick={handleLogout}>
-        Logout
-      </button>
-        /*
-        <a className={styles.nav_item} href="/thing1">Thing 2</a>
-        <a className={styles.nav_item} href="/thing1">Thing 3</a>
-        */}
+      <div className={styles.nav_contain}>
+        <button className={styles.logo_pos}>
+          <img className={styles.logo} src="HiLo Logo.png" href="/home" alt="Logo"/>
+        </button> 
+
+        <div className={styles.nav_items}>
+          <a className={styles.nav_active} href="/home">Home</a>
+          {/*
+          <a className={styles.nav_item} href="/thing1">Thing 2</a>
+          <a className={styles.nav_item} href="/thing1">Thing 3</a>
+          */}
+          
+        </div>
+      
+        <button className={styles.logout} onClick={handleLogout}>Logout</button>
       </div>
     </nav>
   );

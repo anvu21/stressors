@@ -3,7 +3,7 @@
 @import 'tailwindcss/utilities';
 
 .screen {
-    @apply min-h-[1000px] relative bg-slate-200 flex justify-center p-5;
+    @apply min-h-[1000px] relative bg-gray-200 flex justify-center p-5;
 }
 
 .logo_pos {
@@ -15,7 +15,7 @@
 }
 
 .signup_box {
-    @apply min-w-[400px] h-[500px] mt-32 relative bg-slate-100 border border-neutral-300 rounded-lg shadow-sm flex justify-center;
+    @apply min-w-[400px] h-[480px] mt-32 relative bg-gray-100 border border-neutral-300 rounded-lg shadow-sm flex justify-center;
 }
 
 .signup_text {
@@ -26,8 +26,12 @@
     @apply w-full h-full relative top-20 flex flex-col items-center;
 }
 
-.input {
-    @apply w-4/5 h-10 mb-3 bg-white text-black border border-gray-300 resize-none rounded-lg px-4 py-1.5;
+.enter {
+    @apply w-4/5 h-10 mb-3 bg-white text-black border border-gray-300 resize-none rounded-lg px-3 py-1.5;
+}
+
+.bio {
+    @apply w-4/5 h-28 mr-2 px-4 py-2 bg-white text-black border border-gray-300 resize-none rounded-lg;
 }
 
 .signup_btn_pos {

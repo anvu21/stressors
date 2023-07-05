@@ -10,6 +10,7 @@ const Signup = () => {
 		username: "",
 		password: "",
     groupId: "",
+    bio: "",
     
   });
   const [error, setError] = useState("");
@@ -51,31 +52,39 @@ const Signup = () => {
             
             <input
               type="text"
-              placeholder="New username"
+              placeholder="New Username"
               name="username"
               onChange={handleChange}
               value={data.username}
               required
-              className={styles.input}
+              className={styles.enter}
             />
             <input
-              type="password"
-              placeholder="New password"
+              type="text"
+              placeholder="New Password"
               name="password"
               onChange={handleChange}
               value={data.password}
               required
-              className={styles.input}
+              className={styles.enter}
             />
             <input
-              type="groupId"
-              placeholder="group id"
+              type="text"
+              placeholder="Group ID"
               name="groupId"
               onChange={handleChange}
               value={data.groupId}
               required
-              className={styles.input}
+              className={styles.enter}
             />
+            <textarea
+              type="text"
+              placeholder="Bio"
+              name="bio"
+              onChange={handleChange}
+              value={data.bio}
+              className="w-4/5 h-28 px-3 py-2 border border-gray-300 rounded-lg resize-none focus:border-transparent bg-white text-black"
+            ></textarea>
             
             {error && <div className={styles.error_msg}>{error}</div>}
             
