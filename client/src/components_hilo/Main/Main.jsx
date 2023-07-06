@@ -93,7 +93,7 @@ const Main = () => {
   let bio = localStorage.getItem("bio");
   let groupId = localStorage.getItem("groupID");
 
-  const [data, setData] = useState({ text: "", up_down: "up" });
+  const [data, setData] = useState({ text: "", up_down: "" });
   const [error, setError] = useState("");
 
   const [posts, setPosts] = useState([]);
@@ -109,7 +109,7 @@ const Main = () => {
     let groupid =localStorage.getItem("groupID") 
     console.log(data)
     try {
-      const response = await axios.post('http://localhost:5000/post', { text: data.text,group_id: groupid }, {
+      const response = await axios.post('http://localhost:5000/post', { text: data.text,group_id: groupid,up_down: data.up_down }, {
         headers: {
           'auth-token': localStorage.getItem('token') 
         }
@@ -189,10 +189,14 @@ const Main = () => {
   };
 
   const handleHiClick = () => {
+
+    console.log("Hi")
     setData({ ...data, up_down: "up" });
   };
   
   const handleLoClick = () => {
+    console.log("low")
+
     setData({ ...data, up_down: "down" });
   };
 
