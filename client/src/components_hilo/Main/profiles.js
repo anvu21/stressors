@@ -24,7 +24,7 @@ const profiles = [
       {
         caption: '2 caption 1-2 sentences max',
         photo: '2_photo.jpg',
-        hilo: 'lo',
+        hilo: 'hi',
         likes: 2,
       }
     ]
@@ -39,7 +39,7 @@ const profiles = [
       {
         caption: '1 caption 1-2 sentences max',
         photo: '1 food.png',
-        hilo: 'hi',
+        hilo: 'lo',
         likes: 1,
       }
     ]

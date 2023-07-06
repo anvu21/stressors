@@ -147,13 +147,34 @@ const Main = () => {
 
   const fetchPosts = async () => {
     try {
-      {/** */}
+      {/**const sample = [
+        {
+          id: 2,
+          user_id: 1,
+          content: "wer",
+          up_down: 9,
+          group_id: 5,
+          image_url: "e",
+          created_at: "2023-06-29T03:52:32.401Z",
+          updated_at: "2023-06-29T03:52:32.401Z"
+          },
+          {
+          id: 3,
+          user_id: 1,
+          content: "wer",
+          up_down: 9,
+          group_id: 5,
+          image_url: "e",
+          created_at: "2023-06-29T03:52:35.857Z",
+          updated_at: "2023-06-29T03:52:35.857Z"
+          }
+      ]   */}
       const response = await axios.get(`http://localhost:5000/posts/${groupId}`, {
         headers: {
           'auth-token': localStorage.getItem('token')
         }
-      });  
-
+      });
+      
       const sortedPosts = response.data.sort((a, b) => {
         return new Date(b.created_at) - new Date(a.created_at);
       });
@@ -229,8 +250,8 @@ const Main = () => {
             <div className={styles.post_top}>
                 <button className={styles.char_btn}>
                   <img className={styles.char_pic} src={"avatar.png"} alt="Profile Picture"/>
-                  {/** post.user_id change to user name */}
-                  <div className={styles.char_name}>{post.user_id}</div>
+                  {/** name of user */}
+                  <div className={styles.char_name}>{name}</div>
                 </button>
 
                 <div className={styles.caption}>

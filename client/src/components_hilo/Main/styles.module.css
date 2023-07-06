@@ -3,7 +3,7 @@
 @import 'tailwindcss/utilities';
 
 .screen {
-    @apply min-h-[500px] bg-l_brn relative top-14 flex flex-col items-center p-5;
+    @apply w-full min-h-[500px] bg-l_brn relative top-14 flex flex-col items-center p-5;
 }
 
 .top_nav {
@@ -159,7 +159,7 @@
 }
 
 .num_likes {
-    @apply w-10 h-full bg-oran right-0 absolute text-white flex justify-center items-center;
+    @apply w-10 h-full bg-amber-400 right-0 absolute text-black flex justify-center items-center;
 }
 
 .comment_bar {
