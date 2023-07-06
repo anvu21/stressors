@@ -9,8 +9,7 @@ const profiles = [
       {
         caption: '3 caption 1-2 sentences max',
         photo: '1_photo.jpg',
-        highs: '3 5 interpersonal disclosures 5 non-interpersonal',
-        lows: '3 5 interpersonal disclosures 5 non-interpersonal',
+        hilo: 'hi',
         likes: 3,
       }
     ]
@@ -25,8 +24,7 @@ const profiles = [
       {
         caption: '2 caption 1-2 sentences max',
         photo: '2_photo.jpg',
-        highs: '2 5 interpersonal disclosures 5 non-interpersonal',
-        lows: '2 5 interpersonal disclosures 5 non-interpersonal',
+        hilo: 'lo',
         likes: 2,
       }
     ]
@@ -41,12 +39,13 @@ const profiles = [
       {
         caption: '1 caption 1-2 sentences max',
         photo: '1 food.png',
-        highs: '1 5 interpersonal disclosures 5 non-interpersonal',
-        lows: '1 5 interpersonal disclosures 5 non-interpersonal',
+        hilo: 'hi',
         likes: 1,
       }
     ]
   },
+
+  
 ];
 
 export default profiles;

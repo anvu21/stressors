@@ -71,7 +71,7 @@
 }
 
 .post_input {
-    @apply w-full h-full resize-none border border-gray-300 rounded-tr-lg rounded-br-lg pl-4 pr-28 py-3;
+    @apply w-full h-full resize-none border border-gray-300 rounded-tr-lg rounded-br-lg pl-4 pr-32 py-3;
 }
 
 .send_pos {
@@ -79,31 +79,39 @@
 }
 
 .send {
-    @apply w-8 h-full fill-current text-neutral-500;
+    @apply w-8 h-full fill-current text-neutral-500 hover:text-neutral-700;
 }
 
 .hi_pos {
-    @apply absolute right-16 mb-5;
+    @apply absolute right-[70px];
 }
 
 .hi {
-    @apply w-7 fill-current text-neutral-500;
+    @apply w-6 fill-current;
 }
 
 .lo_pos {
-    @apply absolute right-16 mt-5;
+    @apply absolute right-[110px];
 }
 
 .lo {
-    @apply w-7 fill-current text-neutral-500;
+    @apply w-5 fill-current;
 }
 
 .post_box {
-    @apply w-[600px] bg-slate-100 border border-gray-300 relative rounded-lg shadow-sm flex-col mt-3;
+    @apply w-[600px] bg-white border border-gray-300 relative rounded-lg shadow-sm flex-col mt-3;
+}
+
+.hi_post {
+    @apply w-[600px] bg-emerald-300 border border-gray-300 relative rounded-lg shadow-sm flex-col mt-3;
+}
+
+.lo_post {
+    @apply w-[600px] bg-red-300 border border-gray-300 relative rounded-lg shadow-sm flex-col mt-3;
 }
 
 .post_top {
-    @apply w-full min-h-[50px] relative top-0 left-0 bg-white rounded-tl-lg rounded-tr-lg items-center;
+    @apply w-full min-h-[50px] relative top-0 left-0 rounded-tl-lg rounded-tr-lg items-center;
 }
 
 .char_btn {
@@ -119,11 +127,11 @@
 }
 
 .caption {
-    @apply w-full relative mt-12 left-0 flex text-sm text-black p-4 border-t ;
+    @apply w-full bg-white relative mt-12 left-0 flex text-sm text-black p-4 border-t border-b border-gray-300;
 }
 
 .photo_pos {
-    @apply w-full min-h-[100px] relative flex justify-center;
+    @apply w-full min-h-[100px] bg-slate-100 relative flex justify-center;
 }
 
 .photo {
@@ -159,7 +167,7 @@
 }
 
 .white_bot {
-    @apply w-full h-[87px] relative bottom-0 bg-white rounded-b-lg flex justify-center items-center px-3;
+    @apply w-full h-[87px] relative bottom-0 rounded-b-lg flex justify-center items-center px-3;
 }
 
 

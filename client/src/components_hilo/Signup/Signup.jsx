@@ -83,7 +83,7 @@ const Signup = () => {
               name="bio"
               onChange={handleChange}
               value={data.bio}
-              className="w-4/5 h-28 px-3 py-2 border border-gray-300 rounded-lg resize-none focus:border-transparent bg-white text-black"
+              className={styles.bio}
             ></textarea>
             
             {error && <div className={styles.error_msg}>{error}</div>}

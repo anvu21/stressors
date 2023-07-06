@@ -4,6 +4,29 @@ import profiles from './profiles';
 import Navbar from './Navbar';
 import axios from "axios";
 
+const LikeButton = ({ postId, initialLikes }) => {
+  const [likes, setLikes] = useState(initialLikes);
+  const [isLiked, setIsLiked] = useState(false);
+
+  const handleLikeClick = () => {
+    if (isLiked) {
+      setLikes(likes - 1);
+    } else {
+      setLikes(likes + 1);
+    }
+    setIsLiked(!isLiked);
+  };
+
+  return (
+    <button
+      className={`text-xl ${isLiked ? 'text-red-500' : 'text-gray-500'}`}
+      onClick={handleLikeClick}
+    >
+      {isLiked ? 'Liked' : 'Like'} ({likes})
+    </button>
+  );
+};
+
 const Main = () => {
 
   // user_posts like-icon change color when clicked
@@ -38,11 +61,8 @@ const Main = () => {
   let name =  localStorage.getItem("name");
   let bio = localStorage.getItem("bio");
   let groupId = localStorage.getItem("groupID");
-  const [data, setData] = useState({
-		
-		text: ""
-    
-  });
+
+  const [data, setData] = useState({ text: "", up_down: "up" });
   const [error, setError] = useState("");
 
   const [posts, setPosts] = useState([]);
@@ -62,21 +82,22 @@ const Main = () => {
         headers: {
           'auth-token': localStorage.getItem('token') 
         }
-      }); 
-        
+      });   
+
       // sample data temporary
-      /*const newPost = {
-        id: Date.now(), 
+      /* const newPost = {
+        id: 1, 
         user_id: 1, 
         content: data.text,
-        up_down: "0", 
+        up_down: data.up_down, 
         group_id: groupid,
         image_url: "", 
         created_at: new Date().toISOString(),
         updated_at: new Date().toISOString()
       };
-      setPosts([newPost, ...posts]);
-      setData({ text: "" });   */    
+      setPosts([newPost, ...posts]);  */ 
+
+      setData({ text: "", up_down: "" }); 
       console.log(response)
       alert(response.data.message);
       fetchPosts();
@@ -95,25 +116,33 @@ const Main = () => {
 
   const fetchPosts = async () => {
     try {
-
+      {/** */}
       const response = await axios.get(`http://localhost:5000/posts/${groupId}`, {
         headers: {
           'auth-token': localStorage.getItem('token')
         }
-      }); 
-      
-      
+      });  
 
-      //const data = await response.json();
-      //setPosts(data);
-      console.log(response.data)
-      setPosts(response.data);
+      const sortedPosts = response.data.sort((a, b) => {
+        return new Date(b.created_at) - new Date(a.created_at);
+      });
+
+      console.log(sortedPosts)
+      setPosts(sortedPosts);
+      //setPosts(data);      
 
     } catch (error) {
       console.error('Fetching posts failed:', error);
     }
   };
 
+  const handleHiClick = () => {
+    setData({ ...data, up_down: "up" });
+  };
+  
+  const handleLoClick = () => {
+    setData({ ...data, up_down: "down" });
+  };
 
   return (
     <div>
@@ -155,25 +184,21 @@ const Main = () => {
             </button>
           </div>  
 
-          {/**high and low btn no funtion yet */}
-          <button className={styles.hi_pos}>
-            <svg className={styles.hi} enable-background="new 0 0 32 32" height="32px" id="Layer_1" version="1.1" viewBox="0 0 32 32" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-              <path d="M18.221,7.206l9.585,9.585c0.879,0.879,0.879,2.317,0,3.195l-0.8,0.801c-0.877,0.878-2.316,0.878-3.194,0  l-7.315-7.315l-7.315,7.315c-0.878,0.878-2.317,0.878-3.194,0l-0.8-0.801c-0.879-0.878-0.879-2.316,0-3.195l9.587-9.585  c0.471-0.472,1.103-0.682,1.723-0.647C17.115,6.524,17.748,6.734,18.221,7.206z" fill="#515151"/>
-            </svg>
+          <button className={styles.hi_pos} onClick={handleHiClick}>
+            <img className={styles.hi} src={"Hi.png"} alt="High"/>
           </button>
-          <button className={styles.lo_pos}>
-            <svg className={styles.lo} enable-background="new 0 0 32 32" height="32px" id="Layer_1" version="1.1" viewBox="0 0 32 32" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-              <path d="M14.77,23.795L5.185,14.21c-0.879-0.879-0.879-2.317,0-3.195l0.8-0.801c0.877-0.878,2.316-0.878,3.194,0  l7.315,7.315l7.316-7.315c0.878-0.878,2.317-0.878,3.194,0l0.8,0.801c0.879,0.878,0.879,2.316,0,3.195l-9.587,9.585  c-0.471,0.472-1.104,0.682-1.723,0.647C15.875,24.477,15.243,24.267,14.77,23.795z" fill="#515151"/>
-            </svg>
+          <button className={styles.lo_pos} onClick={ handleLoClick}>
+            <img className={styles.lo} src={"Lo.png"} alt="Low"/>
           </button>
         </div>
 
         {/** user posts */}
         {posts.map((post, index) => (
-          <div className={styles.post_box} key={post.id}>
+          <div className={`${styles.post_box} ${post.up_down === "up" ? styles.hi_post : post.up_down === "down" ? styles.lo_post : ""}`} key={post.id}>
             <div className={styles.post_top}>
                 <button className={styles.char_btn}>
                   <img className={styles.char_pic} src={"avatar.png"} alt="Profile Picture"/>
+                  {/** post.user_id change to user name */}
                   <div className={styles.char_name}>{post.user_id}</div>
                 </button>
 
@@ -265,8 +290,10 @@ const Main = () => {
         <div>
           {/** character posts */}
           {profiles.map((profile, index) => (
-          
-            <div className={styles.post_box}>
+            
+            <div key={profile.id} className={`${styles.post_box} ${
+              profile.posts[0].hilo === "hi" ? styles.hi_post : styles.lo_post
+            }`}>
               <div className={styles.post_top}>
                 <button className={styles.char_btn}>
                   <img className={styles.char_pic} src={profile.profile_pic} alt="Profile Picture"/>
@@ -281,6 +308,7 @@ const Main = () => {
               <div className={styles.photo_pos}>
                 <img className={styles.photo} src={profile.posts[0].photo} alt="Photo"/>
               </div>
+              
 
               {/** reply share and like no function yet */}
               <div className={styles.react_bar}>
