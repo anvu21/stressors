@@ -10,7 +10,7 @@ const profiles = [
         caption: '3 caption 1-2 sentences max',
         photo: '1_photo.jpg',
         hilo: 'hi',
-        likes: 3,
+        likes: 0,
       }
     ]
   },

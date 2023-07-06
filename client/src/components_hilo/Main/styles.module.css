@@ -3,7 +3,7 @@
 @import 'tailwindcss/utilities';
 
 .screen {
-    @apply min-h-[500px] bg-gray-200 relative top-14 flex flex-col items-center p-5;
+    @apply min-h-[500px] bg-l_brn relative top-14 flex flex-col items-center p-5;
 }
 
 .top_nav {
@@ -143,7 +143,7 @@
 }
 
 .reply_btn {
-    @apply h-full w-1/3 flex justify-center items-center hover:bg-stone-200;
+    @apply h-full w-1/3 relative flex justify-center items-center hover:bg-stone-200;
 }
 
 .reply_icon {
@@ -155,7 +155,7 @@
 }
 
 .like_click {
-    @apply w-[15px] fill-current text-teal-500;
+    @apply w-[15px] fill-current text-blue-500;
 }
 
 .num_likes {
