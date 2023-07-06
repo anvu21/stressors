@@ -94,9 +94,11 @@ app.post('/post', verifyToken, async (req, res) => {
   const { text } = req.body;
   const { id: userId } = req.user;
   console.log(req.body)
+  console.log(userId)
   let group_id = 5 
-    let image_url = 'e'
-    let up_down = Math.floor(Math.random() * 10)
+  let image_url = 'e'
+  let up_down = req.body.up_down
+  console.log(up_down)
   if (!text && !image_url) {
     return res.status(400).json({ message: 'Post must contain either text or image url' });
   }
