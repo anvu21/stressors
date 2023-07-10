@@ -46,9 +46,9 @@ app.post('/signup', async (req, res) => {
 
     const userId = result.rows[0].id;
 
-    const token = jwt.sign({ id: userId }, jwtSecret, { expiresIn: '1h' });
+    const token = jwt.sign({ id: userId ,group_id: groupId}, jwtSecret, { expiresIn: '1h' });
 
-    return res.status(201).json({ message: 'User created successfully', userId, token });
+    return res.status(201).json({ message: 'User created successfully', userId, groupId, token });
 
   } catch (err) {
     console.error(err);
@@ -93,12 +93,12 @@ app.post('/signin', async (req, res) => {
 app.post('/post', verifyToken, async (req, res) => {
   const { text } = req.body;
   const { id: userId } = req.user;
-  console.log(req.body)
+  //console.log(req.body)
   console.log(userId)
-  let group_id = 5 
+  let group_id = req.body.group_id
   let image_url = 'e'
   let up_down = req.body.up_down
-  console.log(up_down)
+  console.log(group_id)
   if (!text && !image_url) {
     return res.status(400).json({ message: 'Post must contain either text or image url' });
   }
@@ -115,11 +115,11 @@ app.post('/post', verifyToken, async (req, res) => {
 });
 
 app.get('/posts/:groupId', async (req, res) => {
-  console.log(req.params)
+  //console.log(req.params)
   const { groupId } = req.params;
-  console.log(groupId)
+  //console.log(groupId)
   try {
-    const result = await pool.query('SELECT * FROM Posts WHERE group_id = $1', [groupId]);
+    const result = await pool.query('SELECT posts.*, users.username FROM posts INNER JOIN users ON posts.user_id = users.id WHERE posts.group_id = $1', [groupId]);
     
     if (result.rows.length === 0) {
       return res.status(404).json({ message: 'No posts found for this group' });
@@ -134,14 +134,16 @@ app.get('/posts/:groupId', async (req, res) => {
 
 app.post('/comment', async (req, res) => {
   const { postId, text } = req.body;
-  const { id: userId } = req.user;
-
+  const { id: userId } = req.body;
+  console.log(userId)
+  console.log(postId) 
+  console.log(text) 
   if (!postId || !text) {
     return res.status(400).json({ message: 'Post id and text are required' });
   }
 
   try {
-    const result = await pool.query('INSERT INTO Comments (post_id, user_id, text, created_at, updated_at) VALUES ($1, $2, $3, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP) RETURNING id', [postId, userId, text]);
+    const result = await pool.query('INSERT INTO Comments (post_id, user_id, content, created_at, updated_at) VALUES ($1, $2, $3, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP) RETURNING id', [postId, userId, text]);
 
     return res.status(201).json({ message: 'Comment created successfully', commentId: result.rows[0].id });
 

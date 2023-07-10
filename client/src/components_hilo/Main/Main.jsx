@@ -147,7 +147,7 @@ const Main = () => {
 
   const fetchPosts = async () => {
     try {
-      {/** */}
+      
       const response = await axios.get(`http://localhost:5000/posts/${groupId}`, {
         headers: {
           'auth-token': localStorage.getItem('token')
@@ -234,7 +234,7 @@ const Main = () => {
                 <button className={styles.char_btn}>
                   <img className={styles.char_pic} src={"avatar.png"} alt="Profile Picture"/>
                   {/** post.user_id change to user name */}
-                  <div className={styles.char_name}>{post.user_id}</div>
+                  <div className={styles.char_name}>{post.username}</div>
                 </button>
 
                 <div className={styles.caption}>
