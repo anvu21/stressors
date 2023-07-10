@@ -9,12 +9,9 @@ const LikeButton = ({ postId, initialLikes }) => {
   const [isLiked, setIsLiked] = useState(false);
 
   const handleLikeClick = () => {
-    if (isLiked) {
-      setLikes(likes - 1);
-    } else {
-      setLikes(likes + 1);
-    }
-    setIsLiked(!isLiked);
+    setLikes(isLiked ? likes - 1 : likes + 1);
+    setIsLiked(prevIsLiked => !prevIsLiked);
+    console.log('Like button clicked');
   };
 
   return (
@@ -54,32 +51,6 @@ const LikeButton = ({ postId, initialLikes }) => {
 };
 
 const Main = () => {
-{/** 
-  // user_posts like-icon change color when clicked
-  const [likedPosts, setLikedPosts] = useState([]);
-  const user_handleLikeClick = (index) => {
-    const post = posts[index];
-    const isLiked = likedPosts.includes(post.id);
-    if (isLiked) {
-      const updatedLikedPosts = likedPosts.filter((postId) => postId !== post.id);
-      setLikedPosts(updatedLikedPosts);
-    } else {
-      const updatedLikedPosts = [...likedPosts, post.id];
-      setLikedPosts(updatedLikedPosts);
-    }
-    console.log('Like button clicked');
-  };
-  // character_posts like-icon change color when clicked
- const [likeStates, setLikeStates] = useState(profiles.map(() => false));
-  const handleLikeClick = (index) => {
-    const updatedLikeStates = [...likeStates];
-    updatedLikeStates[index] = !updatedLikeStates[index];
-    setLikeStates(updatedLikeStates);
-    console.log('Like button clicked');
-  };*/}
-
-
-
   const handleReplyClick = () => {
     console.log('Reply button clicked');
   };
@@ -147,32 +118,7 @@ const Main = () => {
 
   const fetchPosts = async () => {
     try {
-<<<<<<< HEAD
-      {/**const sample = [
-        {
-          id: 2,
-          user_id: 1,
-          content: "wer",
-          up_down: 9,
-          group_id: 5,
-          image_url: "e",
-          created_at: "2023-06-29T03:52:32.401Z",
-          updated_at: "2023-06-29T03:52:32.401Z"
-          },
-          {
-          id: 3,
-          user_id: 1,
-          content: "wer",
-          up_down: 9,
-          group_id: 5,
-          image_url: "e",
-          created_at: "2023-06-29T03:52:35.857Z",
-          updated_at: "2023-06-29T03:52:35.857Z"
-          }
-      ]   */}
-=======
-      
->>>>>>> 32dd3374687ef521a66367d476f85550a254541c
+      {/** */}
       const response = await axios.get(`http://localhost:5000/posts/${groupId}`, {
         headers: {
           'auth-token': localStorage.getItem('token')
@@ -193,16 +139,40 @@ const Main = () => {
   };
 
   const handleHiClick = () => {
-
     console.log("Hi")
     setData({ ...data, up_down: "up" });
   };
   
   const handleLoClick = () => {
     console.log("low")
-
     setData({ ...data, up_down: "down" });
   };
+
+  const [isImageHoveredHi, setIsImageHoveredHi] = useState(false);
+  const defaultHi = "Hi.png";
+  const hoverHi = "hi_green.png";  
+  const [isImageHoveredLo, setIsImageHoveredLo] = useState(false);
+  const defaultLo = "Lo.png";
+  const hoverLo = "lo_red.png";
+
+  const [comments, setComments] = useState([]);
+  const handleCommentChange = (index, comment) => {
+    const updatedComments = [...comments];
+    updatedComments[index] = comment;
+    setComments(updatedComments);
+  };
+  
+  const handleCommentSubmit = (index) => {
+    const comment = comments[index];
+    // Perform the necessary logic to submit the comment
+    console.log(`Submitting comment for post with index ${index}: ${comment}`);
+    // Clear the comment field
+    const updatedComments = [...comments];
+    updatedComments[index] = '';
+    setComments(updatedComments);
+  };
+  
+
 
   return (
     <div>
@@ -223,7 +193,7 @@ const Main = () => {
           </div>
         </div>
         
-        <div className={styles.post_bar} onSubmit={handlePost}>
+        <div className={styles.post_bar}>
           <button className={styles.profile_icon_pos}>
             <img className={styles.profile_icon} src="avatar.png" alt="Avatar"/>
           </button> 
@@ -235,21 +205,38 @@ const Main = () => {
               onChange={handleChange}
               value={data.text}
               className={styles.post_input} 
+
+              rows={1}
+              onInput={(e) => {
+                e.target.style.height = 'auto';
+                e.target.style.height = `${e.target.scrollHeight}px`;
+              }}
             />
             
-            <button type="submit" className={styles.send_pos} onClick={handlePost}>
+            <button className={styles.send_pos} onClick={handlePost}>
               <svg className={styles.send} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" >
                 <path d="M21 3L0 10l7.66 4.26L16 8l-6.26 8.34L14 24l7-21z"></path>
               </svg>
             </button>
+            <button className={styles.hi_pos} onClick={handleHiClick}>
+              <img 
+              className={styles.hi}   
+              src={isImageHoveredHi ? hoverHi : defaultHi}
+              alt="High"
+              onMouseEnter={() => setIsImageHoveredHi(true)}
+              onMouseLeave={() => setIsImageHoveredHi(false)}
+              />
+            </button>
+            <button className={styles.lo_pos} onClick={handleLoClick}>
+              <img 
+              className={styles.lo}
+              src={isImageHoveredLo ? hoverLo : defaultLo}
+              alt="Low"
+              onMouseEnter={() => setIsImageHoveredLo(true)}
+              onMouseLeave={() => setIsImageHoveredLo(false)}
+              />
+            </button>
           </div>  
-
-          <button className={styles.hi_pos} onClick={handleHiClick}>
-            <img className={styles.hi} src={"Hi.png"} alt="High"/>
-          </button>
-          <button className={styles.lo_pos} onClick={ handleLoClick}>
-            <img className={styles.lo} src={"Lo.png"} alt="Low"/>
-          </button>
         </div>
 
         {/** user posts */}
@@ -258,13 +245,8 @@ const Main = () => {
             <div className={styles.post_top}>
                 <button className={styles.char_btn}>
                   <img className={styles.char_pic} src={"avatar.png"} alt="Profile Picture"/>
-<<<<<<< HEAD
                   {/** name of user */}
-                  <div className={styles.char_name}>{name}</div>
-=======
-                  {/** post.user_id change to user name */}
                   <div className={styles.char_name}>{post.username}</div>
->>>>>>> 32dd3374687ef521a66367d476f85550a254541c
                 </button>
 
                 <div className={styles.caption}>
@@ -301,13 +283,16 @@ const Main = () => {
 
               
               {/** Comment not yet */}
-              <div className={styles.white_bot}>
+              <div className={styles.posts_bot}>
                 <div className={styles.comment_bar}>
                   <button className={styles.profile_icon_pos}>
                     <img className={styles.profile_icon} src="avatar.png" alt="Avatar"/>
                   </button>
                   <div className={styles.post_input_pos}>
-                    <textarea className={styles.post_input} placeholder="Comment"></textarea>
+                    
+                    <textarea className={styles.post_input} placeholder="Add a comment"
+                    >
+                    </textarea>
                   </div>  
                 
                   <button className={styles.send_pos} >
@@ -346,6 +331,8 @@ const Main = () => {
 
               {/** reply share no function yet */}
               <div className={styles.react_bar}>
+                <LikeButton postId={profile.id} initialLikes={profile.posts[0].likes} />
+
                 <button className={styles.reply_btn} onClick={() => handleReplyClick(index)}>
                   <svg className={styles.reply_icon} version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" enable-background="new 0 0 512 512">
                     <path d="M160.156,415.641l-160-159.125l160-160.875v96h128c123.688,0,224,100.313,224,224c0-53-43-96-96-96h-256V415.641z"/>
@@ -363,28 +350,38 @@ const Main = () => {
                     Share
                   </div>
                 </button>
-
-                <LikeButton postId={profile.id} initialLikes={profile.posts[0].likes} />
-
               </div>
 
-              <div className={styles.white_bot}>
+              <div className={styles.posts_bot}>
                 <div className={styles.comment_bar}>
                   <button className={styles.profile_icon_pos}>
                     <img className={styles.profile_icon} src="avatar.png" alt="Avatar"/>
                   </button>
                   {/** Comment not yet */}
-                  <div className={styles.post_input_pos}>
-                    <textarea className={styles.post_input} placeholder="Comment"></textarea>
+                  <div className={styles.comment_input_pos}>
+                    <textarea 
+                    name="text"
+                    placeholder="Add a comment"    
+                    type="text"
+                    onChange={(e) => handleCommentChange(index, e.target.value)}
+                    value={comments[index] || ''}
+                    className={styles.comment_input} 
+                    >
+                    </textarea>
                   </div>  
                 
-                  <button className={styles.send_pos} >
-                    
+                  <button className={styles.send_pos} onClick={() => handleCommentSubmit(index)}>
                     <svg className={styles.send} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" >
                       <path d="M21 3L0 10l7.66 4.26L16 8l-6.26 8.34L14 24l7-21z"></path>
                     </svg>
                   </button>
                 </div>
+                {/** comments*/}
+                {comments.map((comment, index) => ( 
+                  <div className='w-20'>
+                    {comment.content}
+                  </div>
+                ))}
               </div>
             </div>
           ))}

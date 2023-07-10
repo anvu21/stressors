@@ -7,7 +7,7 @@
 }
 
 .top_nav {
-    @apply w-full h-14 bg-white border-b border-gray-300 fixed top-0 z-10 px-10 flex justify-center;
+    @apply w-full h-14 bg-white border-b border-slate-300 fixed top-0 z-10 px-10 flex justify-center;
 }
 
 .nav_contain {
@@ -39,7 +39,7 @@
 }
 
 .user_box {
-    @apply w-[200px] min-h-[350px] absolute mr-[850px] bg-white border border-gray-300 rounded-lg shadow-sm flex;
+    @apply w-[200px] min-h-[350px] absolute mr-[1000px] bg-white border border-slate-300 rounded-lg shadow-sm flex;
 }
 
 .user_pic {
@@ -47,7 +47,7 @@
 }
 
 .name {
-    @apply w-full text-black font-bold absolute mt-[200px] border-t border-gray-300 border-b p-3;
+    @apply w-full text-black font-bold absolute mt-[200px] border-t border-slate-300 border-b p-3;
 }
 
 .bio {
@@ -55,7 +55,7 @@
 }
 
 .post_bar {
-    @apply w-[600px] h-[50px] relative bg-zinc-300 rounded-lg shadow-sm flex items-center;
+    @apply w-[600px] min-h-[50px] relative mr-[150px] bg-slate-300 rounded-lg shadow-sm flex items-center;
 }
 
 .profile_icon_pos {
@@ -71,7 +71,7 @@
 }
 
 .post_input {
-    @apply w-full h-full resize-none border border-gray-300 rounded-tr-lg rounded-br-lg pl-4 pr-32 py-3;
+    @apply w-full h-full resize-none border border-slate-300 rounded-tr-lg rounded-br-lg pl-4 pr-36 py-3 overflow-hidden;
 }
 
 .send_pos {
@@ -99,15 +99,15 @@
 }
 
 .post_box {
-    @apply w-[600px] bg-white border border-gray-300 relative rounded-lg shadow-sm flex-col mt-3;
+    @apply w-[600px] mr-[150px] bg-white border border-slate-300 relative rounded-lg shadow-sm flex-col mt-3;
 }
 
 .hi_post {
-    @apply w-[600px] bg-emerald-300 border border-gray-300 relative rounded-lg shadow-sm flex-col mt-3;
+    @apply bg-emerald-300 border border-slate-300 relative rounded-lg shadow-sm flex-col mt-3;
 }
 
 .lo_post {
-    @apply w-[600px] bg-red-300 border border-gray-300 relative rounded-lg shadow-sm flex-col mt-3;
+    @apply bg-red-300 border border-slate-300 relative rounded-lg shadow-sm flex-col mt-3;
 }
 
 .post_top {
@@ -127,11 +127,11 @@
 }
 
 .caption {
-    @apply w-full bg-white relative mt-12 left-0 flex text-sm text-black p-4 border-t border-b border-gray-300;
+    @apply w-full bg-white relative mt-12 left-0 flex text-sm text-black p-4 border-t border-b border-slate-300;
 }
 
 .photo_pos {
-    @apply w-full min-h-[100px] bg-slate-100 relative flex justify-center;
+    @apply w-full min-h-[100px] relative flex justify-center;
 }
 
 .photo {
@@ -139,7 +139,7 @@
 }
 
 .react_bar {
-    @apply w-full h-8 relative left-0 bg-white border-t border-b border-gray-300 flex items-center;
+    @apply w-full h-8 relative left-0 bg-white border-t border-b border-slate-300 flex items-center;
 }
 
 .reply_btn {
@@ -159,15 +159,23 @@
 }
 
 .num_likes {
-    @apply w-10 h-full bg-amber-400 right-0 absolute text-black flex justify-center items-center;
+    @apply w-10 h-full bg-amber-400 left-0 absolute text-black flex justify-center items-center;
+}
+
+.posts_bot {
+    @apply w-full min-h-[80px] relative rounded-b-lg flex justify-center px-3;
 }
 
 .comment_bar {
-    @apply w-[500px] h-[50px] absolute bg-zinc-300 rounded-lg shadow-sm flex items-center;
+    @apply w-5/6 h-[50px] absolute bg-slate-300 rounded-lg shadow-sm flex items-center mt-4;
 }
 
-.white_bot {
-    @apply w-full h-[87px] relative bottom-0 rounded-b-lg flex justify-center items-center px-3;
+.comment_input_pos {
+    @apply w-full h-full relative flex items-center;
+}
+
+.comment_input {
+    @apply w-full h-full resize-none border border-slate-300 rounded-tr-lg rounded-br-lg pl-4 pr-20 py-3 ;
 }
 
 
