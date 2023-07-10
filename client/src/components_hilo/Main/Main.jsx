@@ -147,6 +147,7 @@ const Main = () => {
 
   const fetchPosts = async () => {
     try {
+<<<<<<< HEAD
       {/**const sample = [
         {
           id: 2,
@@ -169,6 +170,9 @@ const Main = () => {
           updated_at: "2023-06-29T03:52:35.857Z"
           }
       ]   */}
+=======
+      
+>>>>>>> 32dd3374687ef521a66367d476f85550a254541c
       const response = await axios.get(`http://localhost:5000/posts/${groupId}`, {
         headers: {
           'auth-token': localStorage.getItem('token')
@@ -254,8 +258,13 @@ const Main = () => {
             <div className={styles.post_top}>
                 <button className={styles.char_btn}>
                   <img className={styles.char_pic} src={"avatar.png"} alt="Profile Picture"/>
+<<<<<<< HEAD
                   {/** name of user */}
                   <div className={styles.char_name}>{name}</div>
+=======
+                  {/** post.user_id change to user name */}
+                  <div className={styles.char_name}>{post.username}</div>
+>>>>>>> 32dd3374687ef521a66367d476f85550a254541c
                 </button>
 
                 <div className={styles.caption}>
