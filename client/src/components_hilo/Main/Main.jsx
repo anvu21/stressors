@@ -5,12 +5,12 @@ import Navbar from './Navbar';
 import axios from "axios";
 
 const LikeButton = ({ postId, initialLikes }) => {
-  const [likes, setLikes] = useState(initialLikes);
+  const [likes, setLikes] = useState(initialLikes || 0);
   const [isLiked, setIsLiked] = useState(false);
 
   const handleLikeClick = () => {
     setLikes(isLiked ? likes - 1 : likes + 1);
-    setIsLiked(prevIsLiked => !prevIsLiked);
+    setIsLiked(!isLiked);
     console.log('Like button clicked');
   };
 
@@ -58,21 +58,19 @@ const Main = () => {
     console.log('Share button clicked');
   };
   // Placeholder 
-  let user_initialLikes = 0;
-
   let name = localStorage.getItem("name");
   let bio = localStorage.getItem("bio");
   let groupId = localStorage.getItem("groupID");
-
-  const [data, setData] = useState({ text: "", up_down: "" });
+  
   const [error, setError] = useState("");
-
-  const [posts, setPosts] = useState([]);
+  const [data, setData] = useState({ text: "", up_down: "" });
 
   const handleChange = ({ currentTarget: input }) => {
     setData({ ...data, [input.name]: input.value });
     console.log(data);
   };
+
+  const [posts, setPosts] = useState([...profiles]);
 
   const handlePost = async (e) => {
     //console.log('Post button clicked');
@@ -85,23 +83,9 @@ const Main = () => {
           'auth-token': localStorage.getItem('token') 
         }
       });   
-
-      // sample data temporary
-      /* const newPost = {
-        id: 1, 
-        user_id: 1, 
-        content: data.text,
-        up_down: data.up_down, 
-        group_id: groupid,
-        image_url: "", 
-        created_at: new Date().toISOString(),
-        updated_at: new Date().toISOString()
-      };
-      setPosts([newPost, ...posts]);  */ 
-
       setData({ text: "", up_down: "" }); 
       console.log(response)
-      alert(response.data.message);
+      //alert(response.data.message);
       fetchPosts();
     } catch (error) {
       console.error(error);
@@ -110,69 +94,177 @@ const Main = () => {
   };
 
   useEffect(() => {
-    
-
-
     fetchPosts();
   }, []);
 
   const fetchPosts = async () => {
     try {
-      {/** */}
       const response = await axios.get(`http://localhost:5000/posts/${groupId}`, {
         headers: {
           'auth-token': localStorage.getItem('token')
         }
       });
-      
-      const sortedPosts = response.data.sort((a, b) => {
+      const combinedPosts = [...profiles, ...response.data];
+  
+      const sortedPosts = combinedPosts.sort((a, b) => {
         return new Date(b.created_at) - new Date(a.created_at);
       });
-
-      console.log(sortedPosts)
+    
       setPosts(sortedPosts);
-      //setPosts(data);      
+      console.log(sortedPosts)
 
     } catch (error) {
       console.error('Fetching posts failed:', error);
     }
   };
+  
+  const [isHiActive, setIsHiActive] = useState(false);
+  const [isLoActive, setIsLoActive] = useState(false);
 
   const handleHiClick = () => {
     console.log("Hi")
     setData({ ...data, up_down: "up" });
+    setIsHiActive(true);
+    setIsLoActive(false);
   };
   
   const handleLoClick = () => {
     console.log("low")
     setData({ ...data, up_down: "down" });
+    setIsHiActive(false);
+    setIsLoActive(true);
   };
-
+  
   const [isImageHoveredHi, setIsImageHoveredHi] = useState(false);
   const defaultHi = "Hi.png";
   const hoverHi = "hi_green.png";  
+
   const [isImageHoveredLo, setIsImageHoveredLo] = useState(false);
   const defaultLo = "Lo.png";
   const hoverLo = "lo_red.png";
 
-  const [comments, setComments] = useState([]);
-  const handleCommentChange = (index, comment) => {
-    const updatedComments = [...comments];
-    updatedComments[index] = comment;
-    setComments(updatedComments);
+  const [commentText, setCommentText] = useState({ text: ""});
+
+
+  const handleCommentChange = ({ currentTarget: input }) => {
+    setData({ ...commentText, [input.name]: input.value });
+    console.log(commentText);
   };
   
-  const handleCommentSubmit = (index) => {
-    const comment = comments[index];
-    // Perform the necessary logic to submit the comment
-    console.log(`Submitting comment for post with index ${index}: ${comment}`);
-    // Clear the comment field
-    const updatedComments = [...comments];
-    updatedComments[index] = '';
-    setComments(updatedComments);
+  const [comments, setComments] = useState([]);
+
+  const handleAddComment = async (e) => {
+    //console.log('Post button clicked');
+    e.preventDefault();
+    let groupid =localStorage.getItem("groupID") 
+    console.log(commentText)
+    try {
+      {/**const response = await axios.post('http://localhost:5000/post', { text: commentText,group_id: groupid,}, {
+        headers: {
+          'auth-token': localStorage.getItem('token') 
+        }
+      });   */}
+      const newComment = {
+        id: comments.length + 1,
+        user_id: 1,
+        post_id: postId,
+        content: commentText,
+        group_id: 1,
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString(),
+        username: name,
+      };
+
+      setComments({ text: ""}); 
+      //console.log(response)
+      //alert(response.data.message);
+      fetchComments();
+      
+    } catch (error) {
+      console.error(error);
+      alert('Could not create comment');
+    }
   };
+
+  useEffect(() => {
+    fetchComments();
+  }, []);
+
+  const fetchComments = async () => {
+    try {
+      {/** 
+      const response = await axios.get(`http://localhost:5000/comments/${groupId}`, {
+        headers: {
+          'auth-token': localStorage.getItem('token')
+        }
+      });
+    */}
+      
+      const response = [
+        {
+          id: 9,
+          user_id: 1,
+          post_id: 1,
+          content: "1 Brah moment different test",
+          group_id: 1,
+          created_at: "2023-07-10T13:36:51.779Z",
+          updated_at: "2023-07-10T13:36:51.779Z",
+          username: name
+        },
+        {
+          id: 8,
+          user_id: 1,
+          post_id: 1,
+          content: "1 Brah moment number 3",
+          group_id: 1,
+          created_at: "2023-07-10T13:36:37.885Z",
+          updated_at: "2023-07-10T13:36:37.885Z",
+          username: name
+        },
+        {
+          id: 7,
+          user_id: 1,
+          post_id: 2,
+          content: "2 Brah moment number 3",
+          group_id: 1,
+          created_at: "2023-07-10T13:36:34.671Z",
+          updated_at: "2023-07-10T13:36:34.671Z",
+          username: name
+        },
+        {
+          id: 6,
+          user_id: 1,
+          post_id: 2,
+          content: "2 Brah moment wwwwwwwwwwwwwwwwwwwwwwww wwwwwwwwwwwww wwwwwwwwwww wwwwwwwwwwwwwww wwwwwwwwwwwww wwwwwwwww wwwwwwwwwwwww",
+          group_id: 1,
+          created_at: "2023-07-10T13:34:41.081Z",
+          updated_at: "2023-07-10T13:34:41.081Z",
+          username: name
+        },
+      ]
+
+      const sortedComments = response.sort((a, b) => {
+        return new Date(b.created_at) - new Date(a.created_at);
+      });
+    
+      setComments(sortedComments);
+      console.log(sortedComments);
+    } catch (error) {
+      console.error('Fetching commments failed:', error);
+    }
+  }
   
 
+  {/**[
+    {
+        id: 4,
+        user_id: 13,
+        post_id: 37,
+        comment_id: null,
+        group_id: 2,
+        created_at: "2023-07-11T03:17:04.771Z"
+    }
+] */}
 
   return (
     <div>
@@ -206,11 +298,6 @@ const Main = () => {
               value={data.text}
               className={styles.post_input} 
 
-              rows={1}
-              onInput={(e) => {
-                e.target.style.height = 'auto';
-                e.target.style.height = `${e.target.scrollHeight}px`;
-              }}
             />
             
             <button className={styles.send_pos} onClick={handlePost}>
@@ -221,7 +308,7 @@ const Main = () => {
             <button className={styles.hi_pos} onClick={handleHiClick}>
               <img 
               className={styles.hi}   
-              src={isImageHoveredHi ? hoverHi : defaultHi}
+              src={isImageHoveredHi || isHiActive ? hoverHi : defaultHi}
               alt="High"
               onMouseEnter={() => setIsImageHoveredHi(true)}
               onMouseLeave={() => setIsImageHoveredHi(false)}
@@ -230,7 +317,7 @@ const Main = () => {
             <button className={styles.lo_pos} onClick={handleLoClick}>
               <img 
               className={styles.lo}
-              src={isImageHoveredLo ? hoverLo : defaultLo}
+              src={isImageHoveredLo || isLoActive ? hoverLo : defaultLo}
               alt="Low"
               onMouseEnter={() => setIsImageHoveredLo(true)}
               onMouseLeave={() => setIsImageHoveredLo(false)}
@@ -239,17 +326,15 @@ const Main = () => {
           </div>  
         </div>
 
-        {/** user posts */}
         {posts.map((post, index) => (
           <div className={`${styles.post_box} ${post.up_down === "up" ? styles.hi_post : post.up_down === "down" ? styles.lo_post : ""}`} key={post.id}>
             <div className={styles.post_top}>
                 <button className={styles.char_btn}>
                   <img className={styles.char_pic} src={"avatar.png"} alt="Profile Picture"/>
-                  {/** name of user */}
                   <div className={styles.char_name}>{post.username}</div>
                 </button>
 
-                <div className={styles.caption}>
+                <div className={styles.content}>
                   {post.content}
                 </div>
               </div>
@@ -258,16 +343,9 @@ const Main = () => {
                 <img className={styles.photo} src={post.image_url} alt="Photo"/>
               </div>
 
-              {/** reply share no function yet */}
-              <div className={styles.react_bar}>
-                <button className={styles.reply_btn} onClick={() => handleReplyClick(index)}>
-                  <svg className={styles.reply_icon} version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" enable-background="new 0 0 512 512">
-                    <path d="M160.156,415.641l-160-159.125l160-160.875v96h128c123.688,0,224,100.313,224,224c0-53-43-96-96-96h-256V415.641z"/>
-                  </svg>              
-                  <div className={styles.reply_text}>
-                    Reply
-                  </div>
-                </button>
+              {/** reply & share no function yet */}
+              <div className={styles.react_bar}>                
+                <LikeButton postId={post.user_id} initialLikes={post.likes}/>
 
                 <button className={styles.reply_btn} onClick={() => handleShareClick(index)}>
                   <svg className={styles.reply_icon} version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 122.88 114.318" enable-background="new 0 0 122.88 114.318">
@@ -277,11 +355,18 @@ const Main = () => {
                     Share
                   </div>
                 </button>
+
+                <button className={styles.reply_btn} onClick={() => handleReplyClick(index)}>
+                  <svg className={styles.reply_icon} version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" enable-background="new 0 0 512 512">
+                    <path d="M160.156,415.641l-160-159.125l160-160.875v96h128c123.688,0,224,100.313,224,224c0-53-43-96-96-96h-256V415.641z"/>
+                  </svg>              
+                  <div className={styles.reply_text}>
+                    Reply
+                  </div>
+                </button>
                 
-                <LikeButton postId={posts.user_id} initialLikes={user_initialLikes}/>
               </div>
 
-              
               {/** Comment not yet */}
               <div className={styles.posts_bot}>
                 <div className={styles.comment_bar}>
@@ -289,103 +374,46 @@ const Main = () => {
                     <img className={styles.profile_icon} src="avatar.png" alt="Avatar"/>
                   </button>
                   <div className={styles.post_input_pos}>
-                    
-                    <textarea className={styles.post_input} placeholder="Add a comment"
+                    <textarea 
+                    type="text"
+                    placeholder="Add a comment"
+                    value={commentText}
+                    onChange={handleCommentChange}
+                    className={styles.post_input}
                     >
                     </textarea>
                   </div>  
                 
-                  <button className={styles.send_pos} >
+                  <button className={styles.send_pos} onClick={handleAddComment}>
                     <svg className={styles.send} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" >
                       <path d="M21 3L0 10l7.66 4.26L16 8l-6.26 8.34L14 24l7-21z"></path>
                     </svg>
                   </button>
+                </div>
+
+                <div className={styles.comment_box}>
+                  {comments
+                  .filter((comment) => comment.post_id === post.id)
+                  .map((comment) => (
+                    <div className={styles.comment_each}>
+                      <div className='h-full flex'>
+                        <button className={styles.profile_icon_pos}>
+                          <img className={styles.profile_icon} src="avatar.png" alt="Avatar"/>
+                        </button>
+                      </div>
+                      <div className={styles.comment_name}>{comment.username}</div>
+                      <div key={comment.id} className={styles.comment_text}>{comment.content}</div>
+                      
+                    </div>
+                  ))}
+                  
                 </div>
               </div>
           </div>
         ))}
 
-
-        <div>
-          {/** character posts */}
-          {profiles.map((profile, index) => (
-            
-            <div key={profile.id} className={`${styles.post_box} ${
-              profile.posts[0].hilo === "hi" ? styles.hi_post : styles.lo_post
-            }`}>
-              <div className={styles.post_top}>
-                <button className={styles.char_btn}>
-                  <img className={styles.char_pic} src={profile.profile_pic} alt="Profile Picture"/>
-                  <div className={styles.char_name}>{profile.name}</div>
-                </button>
-
-                <div className={styles.caption}>
-                  {profile.posts[0].caption}
-                </div>
-              </div>
-
-              <div className={styles.photo_pos}>
-                <img className={styles.photo} src={profile.posts[0].photo} alt="Photo"/>
-              </div>
-              
-
-              {/** reply share no function yet */}
-              <div className={styles.react_bar}>
-                <LikeButton postId={profile.id} initialLikes={profile.posts[0].likes} />
-
-                <button className={styles.reply_btn} onClick={() => handleReplyClick(index)}>
-                  <svg className={styles.reply_icon} version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" enable-background="new 0 0 512 512">
-                    <path d="M160.156,415.641l-160-159.125l160-160.875v96h128c123.688,0,224,100.313,224,224c0-53-43-96-96-96h-256V415.641z"/>
-                  </svg>              
-                  <div className={styles.reply_text}>
-                    Reply
-                  </div>
-                </button>
-
-                <button className={styles.reply_btn} onClick={() => handleShareClick(index)}>
-                  <svg className={styles.reply_icon} version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 122.88 114.318" enable-background="new 0 0 122.88 114.318">
-                    <path fill-rule="evenodd" clip-rule="evenodd" d="M122.88,35.289L87.945,70.578v-17.58c-22.091-4.577-39.542,0.468-52.796,17.271 c2.301-34.558,25.907-51.235,52.795-52.339L87.945,0L122.88,35.289L122.88,35.289z"/><path d="M6.908,23.746h35.626c-4.587,3.96-8.71,8.563-12.264,13.815H13.815v62.943h80.603V85.831l13.814-13.579v35.159 c0,3.814-3.093,6.907-6.907,6.907H6.908c-3.815,0-6.908-3.093-6.908-6.907V30.653C0,26.838,3.093,23.746,6.908,23.746L6.908,23.746 z"/>
-                  </svg>
-                  <div className={styles.reply_text}>
-                    Share
-                  </div>
-                </button>
-              </div>
-
-              <div className={styles.posts_bot}>
-                <div className={styles.comment_bar}>
-                  <button className={styles.profile_icon_pos}>
-                    <img className={styles.profile_icon} src="avatar.png" alt="Avatar"/>
-                  </button>
-                  {/** Comment not yet */}
-                  <div className={styles.comment_input_pos}>
-                    <textarea 
-                    name="text"
-                    placeholder="Add a comment"    
-                    type="text"
-                    onChange={(e) => handleCommentChange(index, e.target.value)}
-                    value={comments[index] || ''}
-                    className={styles.comment_input} 
-                    >
-                    </textarea>
-                  </div>  
-                
-                  <button className={styles.send_pos} onClick={() => handleCommentSubmit(index)}>
-                    <svg className={styles.send} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" >
-                      <path d="M21 3L0 10l7.66 4.26L16 8l-6.26 8.34L14 24l7-21z"></path>
-                    </svg>
-                  </button>
-                </div>
-                {/** comments*/}
-                {comments.map((comment, index) => ( 
-                  <div className='w-20'>
-                    {comment.content}
-                  </div>
-                ))}
-              </div>
-            </div>
-          ))}
-        </div> 
+        
+          
 
       </div>
     </div>
