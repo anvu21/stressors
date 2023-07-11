@@ -80,7 +80,7 @@ app.post('/signin', async (req, res) => {
     const bio= user.rows[0].bio;
     const groupId = user.rows[0].group_id;
     console.log(userName)
-    const token = jwt.sign({ id: userId }, jwtSecret, { expiresIn: '1h' });
+    const token = jwt.sign({ id: userId ,group_id: groupId}, jwtSecret, { expiresIn: '1h' });
 
     return res.status(200).json({ message: 'User authenticated successfully', userId, token, userName,bio,groupId });
 
@@ -119,7 +119,7 @@ app.get('/posts/:groupId', async (req, res) => {
   const { groupId } = req.params;
   //console.log(groupId)
   try {
-    const result = await pool.query('SELECT posts.*, users.username FROM posts INNER JOIN users ON posts.user_id = users.id WHERE posts.group_id = $1', [groupId]);
+    const result = await pool.query('SELECT posts.*, users.username FROM posts INNER JOIN users ON posts.user_id = users.id WHERE posts.group_id = $1  OR posts.group_id = 100', [groupId]);
     
     if (result.rows.length === 0) {
       return res.status(404).json({ message: 'No posts found for this group' });
@@ -134,16 +134,19 @@ app.get('/posts/:groupId', async (req, res) => {
 
 app.post('/comment', async (req, res) => {
   const { postId, text } = req.body;
-  const { id: userId } = req.body;
+  const {userId, group_id} = req.body;
+  //const { id: userId,group_id: group_id  } = req.user;
+
   console.log(userId)
   console.log(postId) 
   console.log(text) 
+  console.log(group_id)
   if (!postId || !text) {
     return res.status(400).json({ message: 'Post id and text are required' });
   }
 
   try {
-    const result = await pool.query('INSERT INTO Comments (post_id, user_id, content, created_at, updated_at) VALUES ($1, $2, $3, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP) RETURNING id', [postId, userId, text]);
+    const result = await pool.query('INSERT INTO Comments (post_id, user_id, content,group_id, created_at, updated_at) VALUES ($1, $2, $3 , $4 , CURRENT_TIMESTAMP, CURRENT_TIMESTAMP) RETURNING id', [postId, userId, text,group_id]);
 
     return res.status(201).json({ message: 'Comment created successfully', commentId: result.rows[0].id });
 
@@ -152,6 +155,79 @@ app.post('/comment', async (req, res) => {
     return res.status(500).json({ message: 'Internal server error' });
   }
 });
+
+app.get('/comments/:groupId', async (req, res) => {
+  try {
+    const { groupId } = req.params;
+    const results = await pool.query(`
+      SELECT comments.*, users.username 
+      FROM comments 
+      INNER JOIN users ON comments.user_id = users.id 
+      WHERE comments.group_id = $1`, 
+      [groupId]
+    );
+    res.json(results.rows);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+app.post('/like',  async (req, res) => {//verifyToken ,
+  const { postId } = req.body;
+  const { id: userId } = req.user;
+
+  if (!postId) {
+    return res.status(400).json({ message: 'Post id is required' });
+  }
+
+  try {
+    const result = await pool.query('INSERT INTO Likes (post_id, user_id, created_at, updated_at) VALUES ($1, $2, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP) RETURNING id', [postId, userId]);
+
+    return res.status(201).json({ message: 'Like created successfully', likeId: result.rows[0].id });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+app.delete('/like/:likeId', verifyToken, async (req, res) => {
+  const { likeId } = req.params;
+  const { id: userId } = req.user;
+
+  try {
+    const result = await pool.query('DELETE FROM Likes WHERE id = $1 AND user_id = $2 RETURNING id', [likeId, userId]);
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({ message: 'No like found with this id for the current user' });
+    }
+
+    return res.status(200).json({ message: 'Like deleted successfully' });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+
+app.get('/likes/:postId', async (req, res) => {
+  const { postId } = req.params;
+  const { groupId } = req.body; // Assume group id is sent in the request body
+
+  try {
+    const result = await pool.query('SELECT Likes.* FROM Likes INNER JOIN Posts ON Likes.post_id = Posts.id WHERE Likes.post_id = $1 AND Posts.group_id = $2', [postId, groupId]);
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({ message: 'No likes found for this post in the given group' });
+    }
+
+    return res.status(200).json(result.rows);
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
 
 app.listen(PORT,()=>{
     console.log(`server start on port ${PORT}`)
