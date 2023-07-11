@@ -115,18 +115,7 @@ const Main = () => {
         }
       });   
 
-      // sample data temporary
-      /* const newPost = {
-        id: 1, 
-        user_id: 1, 
-        content: data.text,
-        up_down: data.up_down, 
-        group_id: groupid,
-        image_url: "", 
-        created_at: new Date().toISOString(),
-        updated_at: new Date().toISOString()
-      };
-      setPosts([newPost, ...posts]);  */ 
+      
 
       setData({ text: "", up_down: "" }); 
       console.log(response)
@@ -233,7 +222,7 @@ const Main = () => {
             <div className={styles.post_top}>
                 <button className={styles.char_btn}>
                   <img className={styles.char_pic} src={"avatar.png"} alt="Profile Picture"/>
-                  {/** post.user_id change to user name */}
+                 
                   <div className={styles.char_name}>{post.username}</div>
                 </button>
 

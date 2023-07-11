@@ -16,13 +16,12 @@ require("dotenv").config();
 //     },
 // });
 const pool = new Pool({
-  user: 'postgres',
-  host: 'localhost',
-  database: 'mountain',
-  password: '1234',
-  port: 5433,
+  user: process.env.DB_USER,
+  host: process.env.DB_HOST,
+  database: process.env.DB_NAME,
+  password: process.env.DB_PASSWORD,
+  port: process.env.DB_PORT,
 });
-
 /*
 const devConfig = `postgresql://${process.env.PG_USER}:${process.env.PG_PASSWORD}@${process.env.PG_HOST}:${process.env.PG_PORT}/${process.env.PG_DATABASE}`;
 
