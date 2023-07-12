@@ -139,11 +139,11 @@
 }
 
 .photo_pos {
-    @apply w-full min-h-[100px] relative flex justify-center;
+    @apply w-full min-h-[000px] relative flex justify-center;
 }
 
 .photo {
-    @apply relative max-h-[400px];
+    @apply relative max-h-[400px] min-w-[300px];
 }
 
 .react_bar {
@@ -200,4 +200,8 @@
 
 .comment_text {
     @apply text-xs;
+}
+
+.load {
+    @apply bg-oran hover:bg-orange-400 hover:text-black text-white font-semibold py-2 px-4 mt-5 rounded;
 }

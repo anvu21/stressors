@@ -52,6 +52,13 @@ const LikeButton = ({ like }) => {
 };
 
 const Main = () => {
+  // temp number of posts on screen
+  const [visiblePosts, setVisiblePosts] = useState(10); // Number of initially visible posts
+  const postsPerPage = 10;
+  const handleLoadMore = () => {
+    setVisiblePosts(prevVisiblePosts => prevVisiblePosts + postsPerPage);
+  };
+
   const handleCamera = () => {
     console.log('Photo');
   };
@@ -61,7 +68,7 @@ const Main = () => {
     {
       id: 4,
       user_id: 13,
-      post_id: 1,
+      post_id: 110,
       comment_id: null,
       group_id: 1,
       created_at: "2023-07-11T03:17:04.771Z",
@@ -69,7 +76,7 @@ const Main = () => {
     {
       id: 4,
       user_id: 13,
-      post_id: 1,
+      post_id: 110,
       comment_id: null,
       group_id: 1,
       created_at: "2023-07-11T03:17:04.771Z",
@@ -77,7 +84,7 @@ const Main = () => {
     {
       id: 4,
       user_id: 13,
-      post_id: 1,
+      post_id: 110,
       comment_id: null,
       group_id: 1,
       created_at: "2023-07-11T03:17:04.771Z",
@@ -85,7 +92,7 @@ const Main = () => {
     {
       id: 4,
       user_id: 13,
-      post_id: 2,
+      post_id: 111,
       comment_id: null,
       group_id: 1,
       created_at: "2023-07-11T03:17:04.771Z",
@@ -145,8 +152,14 @@ const Main = () => {
           'auth-token': localStorage.getItem('token')
         }
       });
-      const combinedPosts = [...profiles, ...response.data];
-  
+      const highestProfileId = Math.max(...profiles.map(profile => profile.id));
+      const fetchedPosts = response.data.map((post, index) => ({
+        ...post,
+        id: highestProfileId + index + 1, // Auto-increment the id starting from a value higher than the highest profile id
+      }));
+
+      const combinedPosts = [...profiles, ...fetchedPosts];
+
       const sortedPosts = combinedPosts.sort((a, b) => {
         return new Date(b.created_at) - new Date(a.created_at);
       });
@@ -219,7 +232,6 @@ const Main = () => {
         updated_at: new Date().toISOString(),
         username: name,
       };
-      setComments(newComment);
       setCommentText((prevCommentText) => ({
         ...prevCommentText,
         [postId]: "",
@@ -252,8 +264,8 @@ const Main = () => {
         {
           id: 9,
           user_id: 1,
-          post_id: 1,
-          content: "1 Brah moment different test",
+          post_id: 110,
+          content: "Brah moment different test",
           group_id: 1,
           created_at: "2023-07-10T13:36:51.779Z",
           updated_at: "2023-07-10T13:36:51.779Z",
@@ -262,8 +274,8 @@ const Main = () => {
         {
           id: 8,
           user_id: 1,
-          post_id: 1,
-          content: "1 Brah moment number 3",
+          post_id: 110,
+          content: "Brah moment number 3",
           group_id: 1,
           created_at: "2023-07-10T13:36:37.885Z",
           updated_at: "2023-07-10T13:36:37.885Z",
@@ -272,7 +284,7 @@ const Main = () => {
         {
           id: 7,
           user_id: 1,
-          post_id: 2,
+          post_id: 111,
           content: "2 Brah moment number 3",
           group_id: 1,
           created_at: "2023-07-10T13:36:34.671Z",
@@ -282,7 +294,7 @@ const Main = () => {
         {
           id: 6,
           user_id: 1,
-          post_id: 2,
+          post_id: 111,
           content: "2 Brah moment wwwwwwwwwwwwwwwwwwwwwwww wwwwwwwwwwwww wwwwwwwwwww wwwwwwwwwwwwwww wwwwwwwwwwwww wwwwwwwww wwwwwwwwwwwww",
           group_id: 1,
           created_at: "2023-07-10T13:34:41.081Z",
@@ -376,21 +388,25 @@ const Main = () => {
           </div>  
         </div>
 
-        {posts.map((post, index) => (
+        {posts.slice(0, visiblePosts).map((post, index) => (
           <div className={`${styles.post_box} ${post.up_down === "up" ? styles.hi_post : post.up_down === "down" ? styles.lo_post : ""}`} key={post.id}>
             <div className={styles.post_top}>
                 <button className={styles.char_btn}>
-                  <img className={styles.char_pic} src={"avatar.png"} alt="Profile Picture"/>
+                  {/** user profile pic placeholder "avatar.png" */}
+                  <img className={styles.char_pic} src={post.prof_pic || "avatar.png"} alt="Profile Picture"/>
                   <div className={styles.char_name}>{post.username}</div>
                 </button>
-
+                <div className='text-sm absolute right-5 top-1'>
+                  <div>Created at {new Date(post.created_at).toLocaleDateString()}</div>
+                  <div>Updated at {new Date(post.updated_at).toLocaleDateString()}</div>
+                </div>
                 <div className={styles.content}>
                   {post.content}
                 </div>
               </div>
 
               <div className={styles.photo_pos}>
-                <img className={styles.photo} src={post.image_url} alt="Photo"/>
+                <img className={styles.photo} src={post.image_url} alt="No photo"/>
               </div>
 
               {/** reply & share no function yet */}
@@ -461,10 +477,8 @@ const Main = () => {
               </div>
           </div>
         ))}
-
-        
-          
-
+        {/** temp btn to load posts */}
+        <button className={styles.load} onClick={handleLoadMore}>Load More</button>
       </div>
     </div>
   );
