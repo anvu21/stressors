@@ -71,19 +71,27 @@
 }
 
 .post_input {
-    @apply w-full h-full resize-none border border-slate-300 rounded-tr-lg rounded-br-lg pl-4 pr-36 py-3 overflow-hidden;
+    @apply w-full h-full resize-none border border-slate-300 rounded-tr-lg rounded-br-lg pl-4 pr-[200px] py-3;
 }
 
 .send_pos {
-    @apply absolute right-5;
+    @apply absolute right-3;
 }
 
 .send {
     @apply w-8 h-full fill-current text-neutral-500 hover:text-neutral-700;
 }
 
+.camera_pos {
+    @apply absolute right-[60px];
+}
+
+.camera_icon {
+    @apply w-8 fill-current text-neutral-500 hover:text-neutral-700;
+}
+
 .hi_pos {
-    @apply absolute right-[70px];
+    @apply absolute right-[110px];
 }
 
 .hi {
@@ -91,7 +99,7 @@
 }
 
 .lo_pos {
-    @apply absolute right-[110px];
+    @apply absolute right-[150px];
 }
 
 .lo {

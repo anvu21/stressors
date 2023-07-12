@@ -22,11 +22,7 @@ const pool = new Pool({
   host: process.env.DB_HOST,
   database: process.env.DB_NAME,
   password: process.env.DB_PASSWORD,
-<<<<<<< HEAD
-  port: process.env.DB_PORT
-=======
   port: process.env.DB_PORT,
->>>>>>> cac7e2bfb3a2998081f72c14644f1dbfb266c5af
 });
 /*
 const devConfig = `postgresql://${process.env.PG_USER}:${process.env.PG_PASSWORD}@${process.env.PG_HOST}:${process.env.PG_PORT}/${process.env.PG_DATABASE}`;
