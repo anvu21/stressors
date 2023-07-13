@@ -143,6 +143,8 @@ const Main = () => {
 
   useEffect(() => {
     fetchPosts();
+    fetchComments();
+
   }, []);
 
   const fetchPosts = async () => {
@@ -152,11 +154,7 @@ const Main = () => {
           'auth-token': localStorage.getItem('token')
         }
       });
-      const highestProfileId = Math.max(...profiles.map(profile => profile.id));
-      const fetchedPosts = response.data.map((post, index) => ({
-        ...post,
-        id: highestProfileId + index + 1, // Auto-increment the id starting from a value higher than the highest profile id
-      }));
+      const fetchedPosts = response.data
 
       const combinedPosts = [...profiles, ...fetchedPosts];
 
@@ -198,45 +196,41 @@ const Main = () => {
   const hoverLo = "lo_red.png";
 
 
-
-  const [commentText, setCommentText] = useState({});
-
-  const handleCommentChange = ({ currentTarget: input }, postId) => {
-    setCommentText((prevCommentText) => ({
-      ...prevCommentText,
-      [postId]: input.value,
-    }));
-    console.log(commentText);
-  };
-  
   const [comments, setComments] = useState([]);
 
-  const handleAddComment = async (e) => {
+  const [commentText, setCommentText] = useState({});
+  
+  
+  const handleCommentChange = ({ currentTarget: input }, postId) => {
+    const newCommentText = {
+      postId: postId,
+      comment_text: input.value,
+    };
+  
+    setCommentText(newCommentText);
+    console.log(newCommentText);
+};
+  
+
+  const handleAddComment = async (e , post__id) => {
     //console.log('Post button clicked');
     e.preventDefault();
+    //console.log("Comment text"+commentText)
     let groupid =localStorage.getItem("groupID") 
+    const { comment_text } = commentText;
     console.log(commentText)
     try {
-      {/**const response = await axios.post('http://localhost:5000/post', { text: commentText,group_id: groupid,}, {
+      const response = await axios.post('http://localhost:5000/comment', { comment_text, group_id: groupid, postId: post__id}, {
         headers: {
           'auth-token': localStorage.getItem('token') 
         }
-      });   */}
-      const newComment = {
-        id: comments.length + 1,
-        user_id: 1,
-        post_id: postId,
-        content: commentText[postId],
-        group_id: 1,
-        created_at: new Date().toISOString(),
-        updated_at: new Date().toISOString(),
-        username: name,
-      };
+      });   
+      
       setCommentText((prevCommentText) => ({
         ...prevCommentText,
-        [postId]: "",
+        [post__id]: "",
       }));
-      //console.log(response)
+      console.log(response)
       //alert(response.data.message);
       fetchComments();
       
@@ -246,68 +240,26 @@ const Main = () => {
     }
   };
 
-  useEffect(() => {
-    fetchComments();
-  }, []);
+
 
   const fetchComments = async () => {
     try {
-      {/** 
+      
       const response = await axios.get(`http://localhost:5000/comments/${groupId}`, {
         headers: {
           'auth-token': localStorage.getItem('token')
         }
       });
-    */}
+    
       
-      const response = [
-        {
-          id: 9,
-          user_id: 1,
-          post_id: 110,
-          content: "Brah moment different test",
-          group_id: 1,
-          created_at: "2023-07-10T13:36:51.779Z",
-          updated_at: "2023-07-10T13:36:51.779Z",
-          username: name
-        },
-        {
-          id: 8,
-          user_id: 1,
-          post_id: 110,
-          content: "Brah moment number 3",
-          group_id: 1,
-          created_at: "2023-07-10T13:36:37.885Z",
-          updated_at: "2023-07-10T13:36:37.885Z",
-          username: name
-        },
-        {
-          id: 7,
-          user_id: 1,
-          post_id: 111,
-          content: "2 Brah moment number 3",
-          group_id: 1,
-          created_at: "2023-07-10T13:36:34.671Z",
-          updated_at: "2023-07-10T13:36:34.671Z",
-          username: name
-        },
-        {
-          id: 6,
-          user_id: 1,
-          post_id: 111,
-          content: "2 Brah moment wwwwwwwwwwwwwwwwwwwwwwww wwwwwwwwwwwww wwwwwwwwwww wwwwwwwwwwwwwww wwwwwwwwwwwww wwwwwwwww wwwwwwwwwwwww",
-          group_id: 1,
-          created_at: "2023-07-10T13:34:41.081Z",
-          updated_at: "2023-07-10T13:34:41.081Z",
-          username: name
-        },
-      ]
-
-      const sortedComments = response.sort((a, b) => {
+      
+      console.log(response)
+      const sortedComments = response.data.sort((a, b) => {
         return new Date(b.created_at) - new Date(a.created_at);
       });
     
       setComments(sortedComments);
+      console.log("comment fetch")
       console.log(sortedComments);
     } catch (error) {
       console.error('Fetching commments failed:', error);
@@ -443,14 +395,14 @@ const Main = () => {
                     <textarea 
                     type="text"
                     placeholder="Add a comment"
-                    value={commentText[post.id] || ""}
+                    value={commentText.postId === post.id ? commentText.comment_text : ""}
                     onChange={(event) => handleCommentChange(event, post.id)}
                     className={styles.post_input}
                     >
                     </textarea>
                   </div>  
                 
-                  <button className={styles.send_pos} onClick={handleAddComment}>
+                  <button className={styles.send_pos} onClick={(e) => handleAddComment(e, post.id)}>
                     <svg className={styles.send} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" >
                       <path d="M21 3L0 10l7.66 4.26L16 8l-6.26 8.34L14 24l7-21z"></path>
                     </svg>
