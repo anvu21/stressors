@@ -8,6 +8,11 @@ const PORT=process.env.PORT ||5000;
 const verifyToken = require('./verifyToken');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
+const aws = require('aws-sdk');
+const multer = require('multer');
+const multerS3 = require('multer-s3');
+
+const s3 = new aws.S3();
 
 //middleware
 app.use(cors());
@@ -132,21 +137,22 @@ app.get('/posts/:groupId', async (req, res) => {
   }
 });
 
-app.post('/comment', async (req, res) => {
-  const { postId, text } = req.body;
-  const {userId, group_id} = req.body;
-  //const { id: userId,group_id: group_id  } = req.user;
+app.post('/comment', verifyToken, async (req, res) => {
+  const { postId, comment_text } = req.body;
+  console.log(req.body)
+  //const {userId, group_id} = req.body;
+  const { id: userId,group_id: group_id  } = req.user;
 
-  console.log(userId)
-  console.log(postId) 
-  console.log(text) 
-  console.log(group_id)
-  if (!postId || !text) {
+  console.log("userID"+userId)
+  console.log("postID"+postId) 
+  console.log("text"+comment_text) 
+  console.log("GroupID"+group_id)
+  if (!postId || !comment_text) {
     return res.status(400).json({ message: 'Post id and text are required' });
   }
 
   try {
-    const result = await pool.query('INSERT INTO Comments (post_id, user_id, content,group_id, created_at, updated_at) VALUES ($1, $2, $3 , $4 , CURRENT_TIMESTAMP, CURRENT_TIMESTAMP) RETURNING id', [postId, userId, text,group_id]);
+    const result = await pool.query('INSERT INTO Comments (post_id, user_id, content,group_id, created_at, updated_at) VALUES ($1, $2, $3 , $4 , CURRENT_TIMESTAMP, CURRENT_TIMESTAMP) RETURNING id', [postId, userId, comment_text,group_id]);
 
     return res.status(201).json({ message: 'Comment created successfully', commentId: result.rows[0].id });
 
@@ -175,47 +181,49 @@ app.get('/comments/:groupId', async (req, res) => {
 
 app.post('/like',  async (req, res) => {//verifyToken ,
   const { postId } = req.body;
-  const { id: userId } = req.user;
-
+  //const { id: userId } = req.user;
+  const { group_id, userId} = req.body;
+  console.log(userId)
+  console.log(group_id)
   if (!postId) {
     return res.status(400).json({ message: 'Post id is required' });
   }
+  //const result = await pool.query('INSERT INTO likes (post_id, user_id,group_id ,created_at) VALUES ($1, $2,$3 , CURRENT_TIMESTAMP) RETURNING id', [postId, userId,group_id]);
 
-  try {
-    const result = await pool.query('INSERT INTO Likes (post_id, user_id, created_at, updated_at) VALUES ($1, $2, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP) RETURNING id', [postId, userId]);
+  
+    const existingLikeResult = await pool.query('SELECT * FROM Likes WHERE post_id = $1 AND user_id = $2 AND group_id = $3', [postId, userId, group_id]);
 
-    return res.status(201).json({ message: 'Like created successfully', likeId: result.rows[0].id });
-  } catch (err) {
-    console.error(err);
-    return res.status(500).json({ message: 'Internal server error' });
-  }
-});
-
-app.delete('/like/:likeId', verifyToken, async (req, res) => {
-  const { likeId } = req.params;
-  const { id: userId } = req.user;
-
-  try {
-    const result = await pool.query('DELETE FROM Likes WHERE id = $1 AND user_id = $2 RETURNING id', [likeId, userId]);
-
-    if (result.rows.length === 0) {
-      return res.status(404).json({ message: 'No like found with this id for the current user' });
+    if (existingLikeResult.rows.length > 0) {
+      // If a like already exists, delete it
+      try {
+        await pool.query('DELETE FROM Likes WHERE post_id = $1 AND user_id = $2 AND group_id = $3', [postId, userId, group_id]);
+        return res.status(200).json({ message: 'Like removed successfully' });
+      } catch (err) {
+        console.error(err);
+        return res.status(500).json({ message: 'Internal server error' });
+      }
+    } else {
+      // If no like exists, create it
+      try {
+        const result = await pool.query('INSERT INTO Likes (post_id, user_id, group_id, created_at) VALUES ($1, $2, $3, CURRENT_TIMESTAMP) RETURNING id', [postId, userId, group_id]);
+        return res.status(201).json({ message: 'Like added successfully', likeId: result.rows[0].id });
+      } catch (err) {
+        console.error(err);
+        return res.status(500).json({ message: 'Internal server error' });
+      }
     }
+  
+  });
 
-    return res.status(200).json({ message: 'Like deleted successfully' });
-  } catch (err) {
-    console.error(err);
-    return res.status(500).json({ message: 'Internal server error' });
-  }
-});
+
 
 
 app.get('/likes/:postId', async (req, res) => {
   const { postId } = req.params;
-  const { groupId } = req.body; // Assume group id is sent in the request body
+  const { group_id } = req.body; // Assume group id is sent in the request body
 
   try {
-    const result = await pool.query('SELECT Likes.* FROM Likes INNER JOIN Posts ON Likes.post_id = Posts.id WHERE Likes.post_id = $1 AND Posts.group_id = $2', [postId, groupId]);
+    const result = await pool.query('SELECT Likes.* FROM Likes INNER JOIN Posts ON Likes.post_id = Posts.id WHERE Likes.post_id = $1 AND Posts.group_id = $2', [postId, group_id]);
 
     if (result.rows.length === 0) {
       return res.status(404).json({ message: 'No likes found for this post in the given group' });
