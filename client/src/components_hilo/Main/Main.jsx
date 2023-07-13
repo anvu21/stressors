@@ -264,7 +264,7 @@ const Main = () => {
         {
           id: 9,
           user_id: 1,
-          post_id: 110,
+          post_id: 120,
           content: "Brah moment different test",
           group_id: 1,
           created_at: "2023-07-10T13:36:51.779Z",
@@ -274,7 +274,7 @@ const Main = () => {
         {
           id: 8,
           user_id: 1,
-          post_id: 110,
+          post_id: 120,
           content: "Brah moment number 3",
           group_id: 1,
           created_at: "2023-07-10T13:36:37.885Z",
@@ -396,7 +396,7 @@ const Main = () => {
                   <img className={styles.char_pic} src={post.prof_pic || "avatar.png"} alt="Profile Picture"/>
                   <div className={styles.char_name}>{post.username}</div>
                 </button>
-                <div className='text-sm absolute right-5 top-1'>
+                <div className={styles.dates}>
                   <div>Created at {new Date(post.created_at).toLocaleDateString()}</div>
                   <div>Updated at {new Date(post.updated_at).toLocaleDateString()}</div>
                 </div>
