@@ -11,7 +11,8 @@ module.exports = {
         yel: '#ffde5a',
         oran: '#fd9556',
         brn: '#e8ae72',
-        purp: '#4a3e62',
+        purp: '#daddf5',
+        d_purp: '#4a3e62',
         
         primary: "#ffffff",
         secondary: "#aaa6c3",

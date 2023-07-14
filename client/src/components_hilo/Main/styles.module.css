@@ -3,39 +3,7 @@
 @import 'tailwindcss/utilities';
 
 .screen {
-    @apply w-full min-h-[500px] bg-l_brn relative top-14 flex flex-col items-center p-5;
-}
-
-.top_nav {
-    @apply w-full h-14 bg-white border-b border-slate-300 fixed top-0 z-10 px-10 flex justify-center;
-}
-
-.nav_contain {
-    @apply w-[1200px] flex;
-}
-
-.nav_items {
-    @apply w-96 h-full ml-36 absolute py-5 flex justify-center items-center;
-}
-
-.nav_active {
-    @apply border-b-4 border-oran px-5 py-3;
-}
-
-.nav_item {
-    @apply hover:border-b-4 border-yel px-5 py-3;
-}
-
-.logout {
-    @apply absolute ml-[1100px] mt-3 hover:underline;
-}
-
-.logo_pos {
-    @apply w-20 absolute mr-[1100px];
-}
-
-.logo {
-    @apply w-full h-full object-cover;
+    @apply w-full min-h-[500px] bg-purp relative top-14 flex flex-col items-center p-5;
 }
 
 .user_box {
@@ -111,7 +79,7 @@
 }
 
 .hi_post {
-    @apply bg-emerald-300 border border-slate-300 relative rounded-lg shadow-sm flex-col mt-3;
+    @apply bg-green-300 border border-slate-300 relative rounded-lg shadow-sm flex-col mt-3;
 }
 
 .lo_post {

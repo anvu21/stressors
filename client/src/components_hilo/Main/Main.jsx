@@ -1,8 +1,10 @@
 import styles from './styles.module.css';
 import React, { useState, useEffect }  from 'react';
 import profiles from './profiles';
-import Navbar from './Navbar';
+import Navbar from '../Navbar/Navbar';
 import axios from "axios";
+import { Link } from 'react-router-dom';
+
 
 const LikeButton = ({ like }) => {
   
@@ -105,8 +107,8 @@ const Main = () => {
   const handleShareClick = () => {
     console.log('Share button clicked');
   };
-  // Placeholder 
-  let name = localStorage.getItem("name");
+  
+  let username = localStorage.getItem("name");
   let bio = localStorage.getItem("bio");
   let groupId = localStorage.getItem("groupID");
   
@@ -209,7 +211,7 @@ const Main = () => {
   
     setCommentText(newCommentText);
     console.log(newCommentText);
-};
+  };
   
 
   const handleAddComment = async (e , post__id) => {
@@ -244,22 +246,18 @@ const Main = () => {
 
   const fetchComments = async () => {
     try {
-      
       const response = await axios.get(`http://localhost:5000/comments/${groupId}`, {
         headers: {
           'auth-token': localStorage.getItem('token')
         }
       });
-    
-      
-      
-      console.log(response)
+      console.log(response.data)
       const sortedComments = response.data.sort((a, b) => {
         return new Date(b.created_at) - new Date(a.created_at);
       });
     
       setComments(sortedComments);
-      console.log("comment fetch")
+      console.log("comment fetch");
       console.log(sortedComments);
     } catch (error) {
       console.error('Fetching commments failed:', error);
@@ -275,12 +273,12 @@ const Main = () => {
         <Navbar />   
         <div className={styles.user_box}>
           {/** profile not editable by user yet */}
-          <div className="">
+          <a href="/profile">
             <img className={styles.user_pic} src="avatar.png" alt="Profile Picture"/>
-          </div>
+          </a>
           <div className="flex">
             <div className={styles.name}>
-              {name}
+              {username}
             </div>
             <div className={styles.bio}>
               {bio}
@@ -289,9 +287,10 @@ const Main = () => {
         </div>
         
         <div className={styles.post_bar}>
-          <button className={styles.profile_icon_pos}>
+          <a className={styles.profile_icon_pos} href="/profile">
             <img className={styles.profile_icon} src="avatar.png" alt="Avatar"/>
-          </button> 
+          </a>
+        
           <div className={styles.post_input_pos}>
             <textarea 
               type="text"
