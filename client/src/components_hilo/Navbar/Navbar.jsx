@@ -12,7 +12,7 @@ const Navbar = () => {
     <nav className={styles.top_nav}>
       <div className={styles.nav_contain}>
         <button className={styles.logo_pos}>
-          <img className={styles.logo} src="HiLo Logo.png" href="/home" alt="Logo"/>
+          <img className={styles.logo} src="/HiLo Logo.png" href="/" alt="Logo"/>
         </button> 
 
         <div className={styles.nav_items}>

@@ -27,11 +27,11 @@
 }
 
 .edit {
-    @apply text-lg absolute top-[260px] right-5 z-20 hover:underline border border-black rounded-full py-2 px-5;
+    @apply text-lg absolute top-[265px] right-5 z-20 hover:underline border border-black rounded-full py-2 px-5;
 }
 
 .bio {
-    @apply relative text-sm mt-5 mb-5 ml-14;
+    @apply relative text-sm mt-5 mb-10 ml-14;
 }
 
 

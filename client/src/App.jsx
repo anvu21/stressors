@@ -21,7 +21,7 @@ function App() {
           <Route path="/signup" element={<Signup />} />
           <Route path="/" element={<Navigate replace to="/login" />} />
           
-          <Route path="/profile" element={<Profile />}/>
+          <Route path="/profile/:username" element={<Profile />}/>
         </Routes>
       </BrowserRouter>
 

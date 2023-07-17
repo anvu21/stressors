@@ -74,14 +74,13 @@ const Login = () => {
             <button type="submit" className={styles.login_btn_pos}>
               <div className={styles.login_btn}>Sign In</div>
             </button>
+            <div className={styles.or}>or</div>
+            <button className={styles.acct_btn_pos}>
+              <a className={styles.acct_btn} href="/signup">Create new account</a>
+            </button>
           </form>
-          {/* forget btn no function yet*/}
-          <button className={styles.forgot_btn}> <a className="" href="/password_reset">Forgot password?</a></button>     
+         
 
-          <div className={styles.or}>or</div>
-          <button className={styles.acct_btn_pos}>
-            <a className={styles.acct_btn} href="/signup">Create new account</a>
-          </button>
         </div>
         
       </div>

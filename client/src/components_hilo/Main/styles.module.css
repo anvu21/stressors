@@ -103,7 +103,7 @@
 }
 
 .dates {
-    @apply text-xs text-neutral-600 absolute right-5 top-2;
+    @apply flex text-xs text-neutral-600 absolute right-5 top-4;
 }
 
 .content {
@@ -155,7 +155,7 @@
 }
 
 .comment_input {
-    @apply w-full h-full resize-none border border-slate-300 rounded-tr-lg rounded-br-lg pl-4 pr-20 py-3 ;
+    @apply w-full h-full resize-none border border-slate-300 rounded-tr-lg rounded-br-lg pl-4 pr-16 py-3 ;
 }
 
 .comment_box {

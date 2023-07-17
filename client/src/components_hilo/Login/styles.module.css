@@ -15,15 +15,15 @@
 }
 
 .login_box {
-    @apply min-w-[400px] h-[400px] mt-32 relative bg-gray-100 border border-neutral-300 rounded-lg shadow-sm flex justify-center;
+    @apply min-w-[400px] h-[400px] mt-32 relative bg-gray-100 border border-neutral-300 rounded-lg shadow-sm flex flex-col items-center;
 }
 
 .login_text {
-    @apply text-3xl absolute top-5 text-cya font-semibold;
+    @apply text-3xl relative top-5 text-cya font-semibold;
 }
 
 .input_contain {
-    @apply w-full h-full relative top-16 flex flex-col items-center;
+    @apply w-full min-h-[300px] relative mt-10 flex flex-col items-center;
 }
 
 .input {
@@ -31,23 +31,19 @@
 }
 
 .login_btn_pos {
-    @apply w-4/5 h-12 absolute top-32 flex;
+    @apply w-4/5 h-12 relative mt-5 flex;
 }
 
 .login_btn {
     @apply w-full h-full bg-cya hover:bg-yel hover:text-black text-2xl text-white font-bold rounded-lg shadow-sm focus:outline-none flex justify-center items-center;
 }
 
-.forgot_btn {
-    @apply absolute bottom-32 text-black text-sm hover:text-yellow-400 hover:underline;
-}
-
 .or {
-    @apply text-2xl absolute bottom-20 text-black font-semibold;
+    @apply text-2xl relative mt-5 text-black font-semibold;
 }
 
 .acct_btn_pos {
-    @apply w-2/4 h-12 absolute bottom-5 flex;
+    @apply w-2/4 h-12 relative mt-3 flex;
 }
 
 .acct_btn {
