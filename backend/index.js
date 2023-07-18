@@ -8,11 +8,9 @@ const PORT=process.env.PORT ||5000;
 const verifyToken = require('./verifyToken');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
-const aws = require('aws-sdk');
-const multer = require('multer');
-const multerS3 = require('multer-s3');
 
-const s3 = new aws.S3();
+const imagesRouter = require('./routes/images');
+app.use('/images', imagesRouter);
 
 //middleware
 app.use(cors());
@@ -230,6 +228,28 @@ app.get('/likes/:postId', async (req, res) => {
     }
 
     return res.status(200).json(result.rows);
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+app.get('/profile/:username', async (req, res) => {
+  const { username } = req.params;
+  try {
+    const profileResult = await pool.query('SELECT id, username, group_id, bio FROM users WHERE username = $1', [username]);    
+    if (profileResult.rows.length === 0) {
+      return res.status(404).json({ message: 'No user found with this username' });
+    }
+
+    const userProfile = profileResult.rows[0];
+
+    const postsResult = await pool.query('SELECT * FROM posts WHERE user_id = $1', [userProfile.id]);
+    
+    const userPosts = postsResult.rows;
+
+    return res.status(200).json({ profile: userProfile, posts: userPosts });
+
   } catch (err) {
     console.error(err);
     return res.status(500).json({ message: 'Internal server error' });
