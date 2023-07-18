@@ -1,110 +1,60 @@
 import styles from './styles.module.css';
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import Navbar from '../Navbar/Navbar';
+import { Link } from 'react-router-dom';
+import Navbar from '../navbar/navbar';
 import { useParams } from 'react-router-dom';
+import actors from '../Main/actors';
+
 
 const Profile = () => {
-
-  const [profiles, setProfiles] = useState(null);
+  const { username } = useParams();
+  const [profile, setProfile] = useState(null);
+  const [posts, setPosts] = useState([]);
 
   useEffect(() => {
-    fetchProfiles();
+    const fetchProfile = async () => {
+      try {
+        // actor profiles
+        const profiles = [...actors]
+          
+        const prof = profiles.find((profile) => profile.username === username);
+        if (prof) {
+          setProfile(prof);
+          setPosts([prof]);
+        }
+
+        // user profile
+        const response = await axios.get(`http://localhost:5000/profile/${username}`);
+        const { profile, posts } = response.data;
+        setProfile(profile);
+        setPosts(posts);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchProfile();
   }, []);
 
-  const fetchProfiles = async () => {
-    try {
-      {/*const response = await axios.get(http://localhost:5000/profile/:username, {
-        headers: {
-          'auth-token': localStorage.getItem('token')
-        }
-      }); 
-      setProfiles(data.response);
-      console.log(data.response);
-    */}
-
-      
-      // temporary
-      let username = localStorage.getItem("name");  
-      let bio = localStorage.getItem("bio");
-      const profiles = [
-        {
-          id: 8,
-          username: username,
-          prof_pic: "/avatar.png",
-          bio: bio,
-          group_id: 5,
-        },
-        {
-          id: 7,
-          username: "Maya Thompson",
-          prof_pic: "/mThompson/image9.png",
-          bio: "Hello there! My name is Maya Thompson. I am a high school girl. Nature is my ultimate sanctuary, where I find peace and inspiration. Exploring scenic trails and breathing in the fresh air rejuvenates my soul. Food is another passion of mine, and I love trying new flavors and experiencing different cuisines. Traveling to new places fills me with excitement!",
-        },
-        {
-          id: 6,
-          username: "Josh Williams",
-          prof_pic: "/jWilliams/image13.png",
-          bio: "what up i’m josh, im a 17 y/o senior in hs.  i like baseball and hanging with the boys"      
-        },
-        {
-          id: 5,
-          username: "Katie Erickson",
-          prof_pic: "/kErickson/image17.png",
-          bio: "hi, I’m katie! i’m 17 and a senior in high school. i like playing field hockey, listening to music, and being with my friends and my boyfriend :) i have 2 sisters and a puppy named cowboy! thanks for visiting my profile ☺️",      
-        },
-        {
-          id: 4,
-          username: "Emily Turner",
-          prof_pic: "/eTurner/image4.png",
-          bio: "🌸 17 | Bookworm | Florida | Sharing my quiet adventures | Coco's human 🐇",      
-        },  
-        {
-          id: 3,
-          username: "Mollie Abrams",
-          prof_pic: "/mAbrams/image3.png",
-          bio: "Hi everyone, my name is Molly!  I’m 16 years old and love painting and playing with my dog, Buster.  I work at the local supermarket as a cashier and have a little brother.  I hope you like my profile!",      
-        },  
-        {
-          id: 2,
-          username: "Michael Lawrence",
-          prof_pic: "/mLawrence/image1.png",
-          bio: "16 year old high school sophomore. For the homies, family, baseball, and food in that order. ",      
-        },
-        {
-          id: 1,
-          username: "Ryan Donnegan",
-          prof_pic: "/rDonnegan/image15.jpg",
-          bio: "i’m ryan, and i’m 15 years old. i have big dreams of being on broadway. NYC forever ❤️ singing, dancing, and acting "      
-        },
-      ]
-      setProfiles(profiles);
-      console.log(profiles);
-
-    } catch (error) {
-      console.error('Error fetching profiles:', error);
-    }
-  };
-
-  if (!profiles) {
-    return <div>Loading...</div>;
+  if (!profile) {
+    return <div></div>;
   }
   
-  const { username } = useParams();
-  const matchedProfile = profiles.filter(item => item.username === username);
 
+  
   return (
     <div>
       <div className={styles.screen}>
         <Navbar /> 
-        {matchedProfile.map(profile => (
         <div key={profile.id}>
           <div className={styles.container}>
             <div className={styles.bg_img}>
               
             </div>
             <div className={styles.profile}>
-              <img className={styles.profile_image} src={profile.prof_pic} alt="Profile" />
+              {/** temporay prof img */}
+              <img className={styles.profile_image} src={profile.prof_pic || "/avatar.png"} alt="Profile" />
               <h1 className={styles.username}>{profile.username}</h1>
             </div>
             {/**no edit function yet */}
@@ -112,8 +62,55 @@ const Profile = () => {
             <h2 className="text-lg mt-5 ml-14">About Me</h2>
             <p className={styles.bio}>{profile.bio}</p>
           </div>
+   
+
+
+          {/** not done yet */}
+          <div className='mt-5 flex flex-col items-center'>
+          {posts.map((post, index) => (
+            <div className={`${styles.post_box} ${post.up_down === "up" ? styles.hi_post : post.up_down === "down" ? styles.lo_post : ""}`} key={post.id}>
+              <div className={styles.post_top}>
+                <Link to={`/profile/${profile.username}`} className={styles.char_btn}>
+                  <img className={styles.char_pic} src={post.prof_pic || "/avatar.png"} alt="Profile Picture"/>
+                  <div className={styles.char_name}>{profile.username}</div>
+                </Link>
+                
+                <div className={styles.dates}>
+                  <div>{new Date(post.created_at).toLocaleDateString()}</div>
+                </div>
+                <div className={styles.content}>
+                  {post.content}
+                </div>
+              </div>
+    
+              <div className={styles.photo_pos}>
+                <img className={styles.photo} src={post.image_url} alt="No photo"/>
+              </div>
+                      
+              <div className={styles.react_bar}>                
+
+                <button className={styles.reply_btn} >
+                  <svg className={styles.reply_icon} version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 122.88 114.318">
+                    <path d="M122.88,35.289L87.945,70.578v-17.58c-22.091-4.577-39.542,0.468-52.796,17.271 c2.301-34.558,25.907-51.235,52.795-52.339L87.945,0L122.88,35.289L122.88,35.289z"/><path d="M6.908,23.746h35.626c-4.587,3.96-8.71,8.563-12.264,13.815H13.815v62.943h80.603V85.831l13.814-13.579v35.159 c0,3.814-3.093,6.907-6.907,6.907H6.908c-3.815,0-6.908-3.093-6.908-6.907V30.653C0,26.838,3.093,23.746,6.908,23.746L6.908,23.746 z"/>
+                  </svg>
+                  <div className={styles.reply_text}>
+                    Share
+                  </div>
+                </button>
+
+                <button className={styles.reply_btn}>
+                  <svg className={styles.reply_icon} version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                    <path d="M160.156,415.641l-160-159.125l160-160.875v96h128c123.688,0,224,100.313,224,224c0-53-43-96-96-96h-256V415.641z"/>
+                  </svg>              
+                  <div className={styles.reply_text}>
+                    Reply
+                  </div>
+                </button>
+              </div>
+            </div>
+          ))}
+          </div>
         </div>
-        ))}
       </div>
     </div>
   )
