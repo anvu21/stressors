@@ -14,7 +14,7 @@ const Profile = () => {
 
   const fetchProfiles = async () => {
     try {
-      {/*const response = await axios.get(http://localhost:5000/profiless, {
+      {/*const response = await axios.get(http://localhost:5000/profile/:username, {
         headers: {
           'auth-token': localStorage.getItem('token')
         }

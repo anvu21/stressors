@@ -201,19 +201,13 @@ const Main = () => {
     }
   };
 
-
-
   const fetchComments = async () => {
     try {
-      
       const response = await axios.get(`http://localhost:5000/comments/${groupId}`, {
         headers: {
           'auth-token': localStorage.getItem('token')
         }
       });
-    
-      
-      
       console.log(response)
       const sortedComments = response.data.sort((a, b) => {
         return new Date(b.created_at) - new Date(a.created_at);
@@ -228,16 +222,16 @@ const Main = () => {
   }
 
 
-
+  
   return (
     <div>
       <div className={styles.screen}> 
         <Navbar />   
         <div className={styles.user_box}>
           {/** profile not editable by user yet */}
-          <a href="/profile">
+          <Link to={`/profile/${username}`}>
             <img className={styles.user_pic} src="avatar.png" alt="Profile Picture"/>
-          </a>
+          </Link>
           <div className="flex">
             <div className={styles.name}>
               {username}
@@ -348,9 +342,9 @@ const Main = () => {
               {/** Comment not yet */}
               <div className={styles.posts_bot}>
                 <div className={styles.comment_bar}>
-                  <button className={styles.profile_icon_pos}>
+                  <Link to={`/profile/${username}`} className={styles.profile_icon_pos}>
                     <img className={styles.profile_icon} src="avatar.png" alt="Avatar"/>
-                  </button>
+                  </Link>
                   <div className={styles.post_input_pos}>
                     <textarea 
                     type="text"
@@ -375,9 +369,9 @@ const Main = () => {
                   .map((comment) => (
                     <div className={styles.comment_each}>
                       <div className='h-full flex'>
-                        <button className={styles.profile_icon_pos}>
+                        <Link to={`/profile/${username}`} className={styles.profile_icon_pos}>
                           <img className={styles.profile_icon} src="avatar.png" alt="Avatar"/>
-                        </button>
+                        </Link>
                       </div>
                       <div className={styles.comment_name}>{comment.username}</div>
                       <div key={comment.id} className={styles.comment_text}>{comment.content}</div>

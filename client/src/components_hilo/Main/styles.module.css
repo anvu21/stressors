@@ -99,7 +99,7 @@
 }
 
 .char_name {
-    @apply text-black absolute top-3 left-14;
+    @apply text-black font-semibold absolute top-3 left-14;
 }
 
 .dates {
