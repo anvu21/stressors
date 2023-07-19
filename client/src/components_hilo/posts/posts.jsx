@@ -65,9 +65,9 @@ const PostItem = ({ post, likes, handleShareClick, handleReplyClick, commentText
         
           <div className={styles.posts_bot}>
             <div className={styles.comment_bar}>
-              <Link to={`/profile/${post.username}`} className={styles.profile_icon_pos}>
+              <a className={styles.profile_icon_pos}>
                 <img className={styles.profile_icon} src="/avatar.png" alt="Avatar"/>
-              </Link>
+              </a>
               <div className={styles.comment_input_pos}>
                 <textarea 
                 type="text"
@@ -92,9 +92,9 @@ const PostItem = ({ post, likes, handleShareClick, handleReplyClick, commentText
               .map((comment) => (
                 <div className={styles.comment_each}>
                   <div className='h-full flex'>
-                    <Link to={`/profile/${post.username}`} className={styles.profile_icon_pos}>
+                    <a className={styles.profile_icon_pos}>
                       <img className={styles.profile_icon} src="/avatar.png" alt="Avatar"/>
-                    </Link>
+                    </a>
                   </div>
                   <div className={styles.comment_name}>{comment.username}</div>
                   <div key={comment.id} className={styles.comment_text}>{comment.content}</div>
