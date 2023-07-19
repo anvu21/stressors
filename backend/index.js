@@ -99,7 +99,7 @@ app.post('/post', verifyToken, async (req, res) => {
   //console.log(req.body)
   console.log(userId)
   let group_id = req.body.group_id
-  let image_url = 'e'
+  //let image_url = 'e'
   let up_down = req.body.up_down
   console.log(group_id)
   if (!text && !image_url) {
