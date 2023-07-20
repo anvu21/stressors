@@ -10,10 +10,11 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 
 const imagesRouter = require('./routes/images');
-app.use('/images', imagesRouter);
 
 //middleware
 app.use(cors());
+app.use('/images', imagesRouter);
+
 app.use(express.json())
 //app.use(express.static("./client/build"))
 
