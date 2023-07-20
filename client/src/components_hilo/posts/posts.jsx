@@ -36,7 +36,7 @@ const PostItem = ({ post, likes, handleShareClick, handleReplyClick, commentText
           </div>
 
           <div className={styles.photo_pos}>
-            <img className={styles.photo} src={post.image_url} alt="No photo"/>
+            <img className={styles.photo} src={post.imageUrl } alt="No photo"/>
           </div>
 
           {/** reply & share no function yet */}

@@ -1,8 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const multer = require('multer');
-const { S3Client, PutObjectCommand,GetObjectCommand  } = require("@aws-sdk/client-s3");
+const { S3Client, PutObjectCommand,GetObjectCommand,DeleteObjectCommand   } = require("@aws-sdk/client-s3");
 const fs = require('fs');
+const cors = require('cors');
 require("dotenv").config();
 const crypto = require('crypto');
 const upload = multer({ dest: 'uploads/' }); // temporarily store file in 'uploads' directory
@@ -11,7 +12,7 @@ const {getSignedUrl} = require('@aws-sdk/s3-request-presigner');
 //const app = express();
 const verifyToken = require('../verifyToken');
 const pool = require("../db");
-
+router.use(cors());
 
 const s3 = new S3Client({ 
   credentials: {
@@ -21,7 +22,7 @@ const s3 = new S3Client({
 
   region: process.env.BUCKET_REGION }); // create access point
 
-router.post('/upload', upload.single('image'), async (req, res) => {
+router.post('/upload',verifyToken, upload.single('image'), async (req, res) => {
   const file = req.file;
   // Generate a random string for filename
   let randomName = crypto.randomBytes(16).toString("hex");
@@ -58,9 +59,10 @@ router.post('/upload', upload.single('image'), async (req, res) => {
   }
 
   
-  const { text,userId } = req.body;
+  const { text } = req.body;
   //const { id: userId } = req.user;
   //console.log(req.body)
+  const { id: userId } = req.user;
   console.log(userId)
   let group_id = req.body.group_id
   let image_url = newFileName
@@ -102,7 +104,7 @@ router.get("/posts/:groupId", async (req, res) => {
           Bucket: process.env.BUCKET_NAME,
           Key: post.image_url // Assuming 'imageName' is a column in your table
         }),
-        { expiresIn: 60 }
+        { expiresIn: 3600 }
       );
     }
 
@@ -115,7 +117,35 @@ router.get("/posts/:groupId", async (req, res) => {
 
 });
 
-module.exports = router;
+router.delete("/posts/:id", async (req, res) => {
+  const id = +req.params.id;
+
+  try {
+    // Retrieve post from the database
+    const postResult = await pool.query('SELECT * FROM posts WHERE id = $1', [id]);
+    if (postResult.rowCount === 0) {
+      res.status(404).send('Post not found');
+      return;
+    }
+    const post = postResult.rows[0];
+
+    // Delete image from S3
+    const deleteParams = {
+      Bucket: process.env.BUCKET_NAME,
+      Key: post.image_name, // Assuming 'image_name' is the column in your table
+    };
+    await s3.send(new DeleteObjectCommand(deleteParams));
+
+    // Delete post from the database
+    await pool.query('DELETE FROM posts WHERE id = $1', [id]);
+
+    res.send(post);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('An error occurred during the operation.');
+  }
+});
+
 
 
 
