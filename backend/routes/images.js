@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const multer = require('multer');
-const { S3Client, PutObjectCommand,GetObjectCommand  } = require("@aws-sdk/client-s3");
+const { S3Client, PutObjectCommand,GetObjectCommand,DeleteObjectCommand   } = require("@aws-sdk/client-s3");
 const fs = require('fs');
 require("dotenv").config();
 const crypto = require('crypto');
@@ -102,7 +102,7 @@ router.get("/posts/:groupId", async (req, res) => {
           Bucket: process.env.BUCKET_NAME,
           Key: post.image_url // Assuming 'imageName' is a column in your table
         }),
-        { expiresIn: 60 }
+        { expiresIn: 3600 }
       );
     }
 
@@ -115,7 +115,7 @@ router.get("/posts/:groupId", async (req, res) => {
 
 });
 
-module.exports = router;
+
 
 
 
