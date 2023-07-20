@@ -1,0 +1,50 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+.screen {
+  @apply h-full p-4;
+}
+
+.conversation-container {
+  @apply w-full min-h-full bg-white border border-gray-300 rounded p-4 flex flex-col;
+}
+
+.conversation-name {
+  @apply text-2xl font-bold mb-4 border-b border-gray-300;
+}
+
+.messages-container {
+  @apply flex flex-col space-y-4 px-4;
+}
+
+.message {
+  @apply flex flex-col py-2 px-4 max-w-lg;
+}
+
+.your-message {
+  @apply bg-cyan-500 text-white rounded-t-lg rounded-bl-lg;
+}
+
+.other-message {
+  @apply bg-gray-200 rounded-t-lg rounded-br-lg;
+}
+
+.message-sender {
+  @apply text-gray-500 text-xs mt-1;
+}
+
+.message-input-container {
+  @apply mt-4 flex;
+}
+
+.message-input {
+  @apply flex-grow border border-gray-300 rounded px-4 py-2 mr-2 focus:outline-none;
+}
+
+.send-button {
+  @apply bg-blue-500 text-white px-4 py-2 rounded focus:outline-none;
+}
+
+
+

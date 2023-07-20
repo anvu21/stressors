@@ -5,6 +5,8 @@ import Login from './components_hilo/Login/Login';
 import Signup from './components_hilo/Signup/Signup';
 import Main from './components_hilo/Main/Main';
 import Profile from './components_hilo/Profile/Profile';
+import DM from './components_hilo/DM/DM';
+
 
 function App() {
   const user = localStorage.getItem("token");
@@ -22,6 +24,7 @@ function App() {
           <Route path="/" element={<Navigate replace to="/login" />} />
           
           <Route path="/profile/:username" element={<Profile />}/>
+          <Route path="/messages" element={<DM />} />
         </Routes>
       </BrowserRouter>
 

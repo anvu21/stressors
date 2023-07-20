@@ -16,7 +16,9 @@ const Navbar = () => {
         </button> 
 
         <div className={styles.nav_items}>
-          <a className={styles.nav_active} href="/">Home</a>
+          <a className={styles.nav_item} href="/">Home</a>
+          <a className={styles.nav_item} href="/messages">Message</a>
+
           {/*
           <a className={styles.nav_item} href="/thing1">Thing 2</a>
           <a className={styles.nav_item} href="/thing1">Thing 3</a>

@@ -112,7 +112,7 @@ const Main = () => {
 
   const fetchPosts = async () => {
     try {
-      const response = await axios.get(`http://localhost:5000/posts/${groupId}`, {
+      const response = await axios.get(`http://localhost:5000/images/posts/${groupId}`, {
         headers: {
           'auth-token': localStorage.getItem('token')
         }
@@ -298,8 +298,10 @@ const Main = () => {
         {posts.slice(0, visiblePosts).map((post, index) => (
           <PostItem
             key={post.id}
-            post={post}
+            postId={post.id}
+            group_id={post.groupId}
             likes={likes.filter((like) => like.post_id === post.id)}
+            post={post}
             handleShareClick={handleShareClick}
             handleReplyClick={handleReplyClick}
             commentText={commentText}
