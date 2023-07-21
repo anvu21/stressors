@@ -4,7 +4,7 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import Navbar from '../navbar/navbar';
 import { useParams } from 'react-router-dom';
-import actors from '../Main/actors';
+import actors from '../posts/actors';
 
 
 const Profile = () => {

@@ -518,7 +518,7 @@ const actorsData = [
     //created_at: //"2023-05-16T03:52:30.401Z",
     //updated_at: //"2023-05-16T03:52:30.401Z",
   },
-  {
+  /**{
     id: 85,
     username: "Katie Erickson",
     prof_pic: "/kErickson/image17.png",
@@ -543,7 +543,7 @@ const actorsData = [
     //...generateRandomDate(),
     //created_at: //"2023-05-15T04:04:42.401Z",
     //updated_at: //"2023-05-15T04:04:42.401Z",
-  },
+  },*/
   {
     id: 83,
     username: "Katie Erickson",
@@ -777,7 +777,7 @@ const actorsData = [
     //...generateRandomDate(),
     //created_at: //"2023-05-12T03:52:30.401Z",
     //updated_at: //"2023-05-12T03:52:30.401Z",
-  },
+  },/**
   {
     id: 65,
     username: "Emily Turner",
@@ -790,7 +790,7 @@ const actorsData = [
     //...generateRandomDate(),
     //created_at: //"2023-05-11T04:08:46.401Z",
     //updated_at: //"2023-05-11T04:08:46.401Z",
-  },
+  }, */
   {
     id: 64,
     username: "Emily Turner",
@@ -934,6 +934,7 @@ const actorsData = [
     //created_at: //"2023-05-09T04:04:42.401Z",
     //updated_at: //"2023-05-09T04:04:42.401Z",
   },
+  /** 
   {
     id: 53,
     username: "Mollie Abrams",
@@ -946,7 +947,7 @@ const actorsData = [
     //...generateRandomDate(),
     //created_at: //"2023-05-09T04:00:38.857Z",
     //updated_at: //"2023-05-09T04:00:38.857Z",
-  },
+  },*/
   {
     id: 52,
     username: "Mollie Abrams",
@@ -1103,7 +1104,7 @@ const actorsData = [
     //created_at: //"2023-05-07T03:52:30.401Z",
     //updated_at: //"2023-05-07T03:52:30.401Z",
   },
-  {
+  /**{
     id: 40,
     username: "Michael Lawrence",
     prof_pic: "/mLawrence/image1.png",
@@ -1116,6 +1117,7 @@ const actorsData = [
     //created_at: //"2023-05-06T04:08:46.401Z",
     //updated_at: //"2023-05-06T04:08:46.401Z",
   },
+  
   {
     id: 39,
     username: "Michael Lawrence",
@@ -1128,7 +1130,7 @@ const actorsData = [
     //...generateRandomDate(),
     //created_at: //"2023-05-06T04:04:42.401Z",
     //updated_at: //"2023-05-06T04:04:42.401Z",
-  },
+  }, */
   {
     id: 38,
     username: "Michael Lawrence",
@@ -1168,7 +1170,7 @@ const actorsData = [
     //created_at: //"2023-05-06T03:52:30.401Z",
     //updated_at: //"2023-05-06T03:52:30.401Z",
   },
-  {
+  /*{
     id: 35,
     username: "Michael Lawrence",
     prof_pic: "/mLawrence/image1.png",
@@ -1193,7 +1195,7 @@ const actorsData = [
     //...generateRandomDate(),
     //created_at: //"2023-05-05T04:04:42.401Z",
     //updated_at: //"2023-05-05T04:04:42.401Z",
-  },
+  },*/
   {
     id: 33,
     username: "Michael Lawrence",
@@ -1363,7 +1365,7 @@ const actorsData = [
     //created_at: //"2023-05-03T03:52:30.401Z",
     //updated_at: //"2023-05-03T03:52:30.401Z",
   },
-  {
+  /** {
     id: 20,
     username: "Ryan Donnegan",
     prof_pic: "/rDonnegan/image15.jpg",
@@ -1388,7 +1390,7 @@ const actorsData = [
     //...generateRandomDate(),
     //created_at: //"2023-05-02T04:04:42.401Z",
     //updated_at: //"2023-05-02T04:04:42.401Z",
-  },
+  },*/
   {
     id: 18,
     username: "Ryan Donnegan",

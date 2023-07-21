@@ -1,9 +1,104 @@
 import styles from './styles.module.css';
-import React from 'react';
-import LikeButton from './like';
+import React, { useState, useEffect }  from 'react';
 import { Link } from 'react-router-dom';
+import axios from "axios";
+import LikeButton from './like';
+import actors from '../posts/actors';
 
-const PostItem = ({ post, likes, handleShareClick, handleReplyClick, commentText, handleCommentChange, handleAddComment, comments }) => {
+const PostList = ({ groupId, userId }) => {
+
+  const [posts, setPosts] = useState([...actors]);
+
+  useEffect(() => {
+    fetchPosts();
+    fetchComments();
+  }, [groupId]);
+
+  const fetchPosts = async () => {
+    try {
+      const response = await axios.get(`http://localhost:5000/images/posts/${groupId}`, {
+        headers: {
+          'auth-token': localStorage.getItem('token')
+        }
+      });
+      const fetchedPosts = response.data;
+
+      const combinedPosts = [...actors, ...fetchedPosts];
+
+      const sortedPosts = combinedPosts.sort((a, b) => {
+        return new Date(b.created_at) - new Date(a.created_at);
+      });
+    
+      setPosts(sortedPosts);
+      console.log(sortedPosts)
+
+    } catch (error) {
+      console.error('Fetching posts failed:', error);
+    }
+  };
+
+  const [comments, setComments] = useState([]);
+  const [commentText, setCommentText] = useState({});
+
+  const fetchComments = async () => {
+    try {
+      const response = await axios.get(`http://localhost:5000/comments/${groupId}`, {
+        headers: {
+          'auth-token': localStorage.getItem('token')
+        }
+      });
+      console.log(response)
+      const sortedComments = response.data.sort((a, b) => {
+        return new Date(b.created_at) - new Date(a.created_at);
+      });
+    
+      setComments(sortedComments);
+      console.log("comment fetch")
+      console.log(sortedComments);
+    } catch (error) {
+      console.error('Fetching commments failed:', error);
+    }
+  }
+    
+  const handleCommentChange = ({ currentTarget: input }, postId) => {
+    const newCommentText = {
+      postId: postId,
+      comment_text: input.value,
+    };
+  
+    setCommentText(newCommentText);
+    console.log(newCommentText);
+  };
+  
+  const handleAddComment = async (e , post__id) => {
+    //console.log('Post button clicked');
+    e.preventDefault();
+    //console.log("Comment text"+commentText)
+    let groupid =localStorage.getItem("groupID") 
+    const { comment_text } = commentText;
+    console.log(commentText)
+    try {
+      const response = await axios.post('http://localhost:5000/comment', { comment_text, group_id: groupid, postId: post__id }, {
+        headers: {
+          'auth-token': localStorage.getItem('token') 
+        }
+      });   
+      
+      setCommentText((prevCommentText) => ({
+        ...prevCommentText,
+        [post__id]: "",
+      }));
+      window.location.reload();
+      console.log(response)
+      //alert(response.data.message);
+      fetchComments();
+      
+    } catch (error) {
+      console.error(error);
+      alert('Could not create comment');
+    }
+  };
+
   const formatPostDate = (createdAt) => {
     const postDate = new Date(createdAt);
     const currentDate = new Date();
@@ -17,8 +112,37 @@ const PostItem = ({ post, likes, handleShareClick, handleReplyClick, commentText
       return postDate.toLocaleDateString();
     }
   };
+
+  const [visiblePosts, setVisiblePosts] = useState(10); // Number of initially visible posts
+  const postsPerPage = 10;
+  const handleLoadMore = () => {
+    setVisiblePosts(prevVisiblePosts => prevVisiblePosts + postsPerPage);
+    console.log('+10 posts');
+  };
+
+    
+  //sample like data
+  const [likes, setLikes] = useState([
+    {
+      id: 4,
+      user_id: 13,
+      post_id: 115,
+      comment_id: null,
+      group_id: 1,
+      created_at: "2023-07-11T03:17:04.771Z",
+    },
+  ]);
+
+  const handleReplyClick = () => {
+    console.log('Reply button clicked');
+  };
+  const handleShareClick = () => {
+    console.log('Share button clicked');
+  };
+
   return (
-    <div>
+    <div className='flex flex-col items-center'>
+      {posts.slice(0, visiblePosts).map((post, index) => (
         <div className={`${styles.post_box} ${post.up_down === "up" ? styles.hi_post : post.up_down === "down" ? styles.lo_post : ""}`} key={post.id}>
           <div className={styles.post_top}>
             <Link to={`/profile/${post.username}`} className={styles.char_btn}>
@@ -36,12 +160,12 @@ const PostItem = ({ post, likes, handleShareClick, handleReplyClick, commentText
           </div>
 
           <div className={styles.photo_pos}>
-            <img className={styles.photo} src={post.imageUrl } alt="No photo"/>
+            <img className={styles.photo} src={post.imageUrl || post.image_url} alt="No photo"/>
           </div>
 
           {/** reply & share no function yet */}
           <div className={styles.react_bar}>                
-            <LikeButton like={likes.filter((like) => like.post_id === post.id)} />
+            <LikeButton postId={post.id} userId={userId} group_id={post.group_id} />
 
             <button className={styles.reply_btn} onClick={() => handleShareClick(index)}>
               <svg className={styles.reply_icon} version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 122.88 114.318">
@@ -65,9 +189,9 @@ const PostItem = ({ post, likes, handleShareClick, handleReplyClick, commentText
         
           <div className={styles.posts_bot}>
             <div className={styles.comment_bar}>
-              <a className={styles.profile_icon_pos}>
+              <Link to={`/profile/${post.username}`} className={styles.profile_icon_pos}>
                 <img className={styles.profile_icon} src="/avatar.png" alt="Avatar"/>
-              </a>
+              </Link>
               <div className={styles.comment_input_pos}>
                 <textarea 
                 type="text"
@@ -92,9 +216,9 @@ const PostItem = ({ post, likes, handleShareClick, handleReplyClick, commentText
               .map((comment) => (
                 <div className={styles.comment_each}>
                   <div className='h-full flex'>
-                    <a className={styles.profile_icon_pos}>
+                    <Link to={`/profile/${post.username}`} className={styles.profile_icon_pos}>
                       <img className={styles.profile_icon} src="/avatar.png" alt="Avatar"/>
-                    </a>
+                    </Link>
                   </div>
                   <div className={styles.comment_name}>{comment.username}</div>
                   <div key={comment.id} className={styles.comment_text}>{comment.content}</div>
@@ -105,8 +229,9 @@ const PostItem = ({ post, likes, handleShareClick, handleReplyClick, commentText
             </div>
           </div>
         </div>
-     
+      ))}
+      <button className={styles.load} onClick={handleLoadMore}>Load More</button>
     </div>
   );
 }
-export default PostItem;
+export default PostList;
