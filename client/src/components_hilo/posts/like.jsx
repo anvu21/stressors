@@ -1,66 +1,46 @@
 import styles from './styles.module.css';
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
-const LikeButton = ({ postId, group_id, userId }) => {
-  const [liked, setLiked] = useState(false);
-  const [likeCount, setLikeCount] = useState(0);
-  const [loading, setLoading] = useState(false);
+const LikeButton = ({ like, postId, userId, groupId }) => {
+  
+  const [likes, setLikes] = useState(like.length);
+  const [isLiked, setIsLiked] = useState(false);
 
-  useEffect(() => {
-    fetchLikeCount();
-  }, [postId, userId, group_id]);
+  const handleLikeClick = async () => {
+      setIsLiked(!isLiked);
+      console.log(postId, userId, groupId);
+      const likeData = {
+          postId: postId, 
+          userId: userId,
+          group_id: groupId 
+      };
 
-  const fetchLikeCount = async () => {
-    try {
-      /** */
-      const likeCountResponse = await axios.get(`http://localhost:5000/likes/${postId}`, {
-        headers: {
-          'auth-token': localStorage.getItem('token')
-        },
-        
-      });
+      try {
+          const response = await axios.post('http://localhost:5000/like', likeData, {
+              headers: {
+                  'auth-token': localStorage.getItem('token'),
+                  'Content-Type': 'application/json'
+              }
+          });
 
-      const like = likeCountResponse.data.length;
-      setLikeCount(like);
-      console.log(like)
-
-    } catch (error) {
-      console.error('Fetching likes failed:',error);
-    }
-  };
-
-
-  const handleLike = async () => {
-    setLoading(true);
-
-    try {
-      /**
-      if (liked) {
-        await axios.delete('http://localhost:5000/like', { data: { postId, userId, group_id } });
-        setLikeCount((prevCount) => prevCount - 1);
-      } else { */
-        await axios.post('http://localhost:5000/like', { postId, userId, group_id }, {
-          headers: {
-            'auth-token': localStorage.getItem('token')
+          // if response is successful, adjust likes count
+          if(response.status === 200 || response.status === 201) {
+              setLikes(isLiked ? likes - 1 : likes + 1);
           }
-        });
-        setLikeCount((prevCount) => prevCount + 1);
-      //}
-      setLiked(!liked);
-    } catch (error) {
-      console.error(error);
-    }
-
-    setLoading(false);
+          console.log("Like")
+          console.log(response.data.message);
+      } catch (error) {
+          console.error('Failed to like/unlike:', error);
+      }
   };
-
-  return (
+  
+    return (
       <button
-        onClick={handleLike}
         className={styles.reply_btn}
+        onClick={handleLikeClick}
       >
-        {liked ? (
+        {isLiked ? (
         <svg className={styles.like_click} version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
           <path d="M244.271,464.367c-43.73,7.81-124.007,9.094-147.98,0.1c-15.31-7.82-28.58-19.47-38.51-33.49
             c-17.25-24.51-24.07-54.76-25.69-84.29c-1.729-35.18,2.971-70.52,12.08-104.479c2.5-10.771,8.99-20.58,18.221-26.75
@@ -84,9 +64,11 @@ const LikeButton = ({ postId, group_id, userId }) => {
         <div className={styles.reply_text}>
           Like
         </div>
-        <div className={styles.num_likes}>{likeCount}</div>
+        <div className={styles.num_likes}>{likes}</div>
+        
       </button>
-  );
-};
-
+  
+    );
+  };
+  
 export default LikeButton;
