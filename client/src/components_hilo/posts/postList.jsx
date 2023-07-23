@@ -4,9 +4,10 @@ import { Link } from 'react-router-dom';
 import axios from "axios";
 import LikeButton from './like';
 import actors from '../posts/actors';
+import LoadingAnimation from './loadingBar';
 
 const PostList = ({ groupId, userId }) => {
-
+  const [loading, setLoading] = useState(true); 
   const [posts, setPosts] = useState([...actors]);
 
   useEffect(() => {
@@ -16,6 +17,9 @@ const PostList = ({ groupId, userId }) => {
 
   const fetchPosts = async () => {
     try {
+
+      setLoading(true);
+
       const response = await axios.get(`http://localhost:5000/images/posts/${groupId}`, {
         headers: {
           'auth-token': localStorage.getItem('token')
@@ -31,9 +35,11 @@ const PostList = ({ groupId, userId }) => {
     
       setPosts(sortedPosts);
       console.log(sortedPosts)
+      setLoading(false);
 
     } catch (error) {
       console.error('Fetching posts failed:', error);
+      setLoading(false);
     }
   };
 
@@ -142,7 +148,13 @@ const PostList = ({ groupId, userId }) => {
 
   return (
     <div className='flex flex-col items-center'>
-      {posts.slice(0, visiblePosts).map((post, index) => (
+      {loading ? (
+        // Render the loading window while posts are being fetched
+        <div> 
+          <LoadingAnimation />
+        </div>
+      ) : (
+      posts.slice(0, visiblePosts).map((post, index) => (
         <div className={`${styles.post_box} ${post.up_down === "up" ? styles.hi_post : post.up_down === "down" ? styles.lo_post : ""}`} key={post.id}>
           <div className={styles.post_top}>
             <Link to={`/profile/${post.username}`} className={styles.char_btn}>
@@ -229,7 +241,8 @@ const PostList = ({ groupId, userId }) => {
             </div>
           </div>
         </div>
-      ))}
+      ))
+      )}
       <button className={styles.load} onClick={handleLoadMore}>Load More</button>
     </div>
   );

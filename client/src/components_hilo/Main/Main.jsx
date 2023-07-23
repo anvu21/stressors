@@ -1,17 +1,21 @@
 import styles from './styles.module.css';
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect }  from 'react';
+import { Link,useNavigate } from 'react-router-dom';
 import Navbar from '../navbar/navbar';
 import PostBar from '../posts/postBar';
 import PostList from '../posts/postList';
+import axios from 'axios';
+
 
 
 const Main = () => {
-
+ 
   let userId = localStorage.getItem("userID");
   let username = localStorage.getItem("name");
   let bio = localStorage.getItem("bio");
   let groupId = localStorage.getItem("groupID");
+
+
 
   return (
     <div>
