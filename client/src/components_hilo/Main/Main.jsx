@@ -22,40 +22,7 @@ const Main = () => {
   };
 
   //sample like data
-  const [likes, setLikes] = useState([
-    {
-      id: 4,
-      user_id: 13,
-      post_id: 110,
-      comment_id: null,
-      group_id: 1,
-      created_at: "2023-07-11T03:17:04.771Z",
-    },
-    {
-      id: 4,
-      user_id: 13,
-      post_id: 110,
-      comment_id: null,
-      group_id: 1,
-      created_at: "2023-07-11T03:17:04.771Z",
-    },
-    {
-      id: 4,
-      user_id: 13,
-      post_id: 110,
-      comment_id: null,
-      group_id: 1,
-      created_at: "2023-07-11T03:17:04.771Z",
-    },
-    {
-      id: 4,
-      user_id: 13,
-      post_id: 111,
-      comment_id: null,
-      group_id: 1,
-      created_at: "2023-07-11T03:17:04.771Z",
-    },
-  ]);
+  const [likes, setLikes] = useState([  ]);
 
   const handleReplyClick = () => {
     console.log('Reply button clicked');
@@ -119,10 +86,31 @@ const Main = () => {
       alert('Could not create post');
     }
   };
+  const fetchLikesForGroup = async () => {
+    try {
+      let groupId = localStorage.getItem("groupID"); // replace this with your actual group id logic
+      const response = await fetch(`http://localhost:5000/likes/group/${groupId}`);
+      const data = await response.json();
+
+      if (response.ok && Array.isArray(data)) {
+        setAllGroupLikes(data);
+    } else {
+        console.log(data.message);
+        setAllGroupLikes([]);
+    }
+      console.log('Fetched likes data:', data);  // Add this line
+      
+    } catch (error) {
+      console.error("An error occurred:", error);
+      setAllGroupLikes([]);
+    }
+  };
+  const [allGroupLikes, setAllGroupLikes] = useState([]);
 
   useEffect(() => {
     fetchPosts();
     fetchComments();
+    fetchLikesForGroup();
   }, []);
 
   const fetchPosts = async () => {
@@ -330,6 +318,8 @@ const Main = () => {
             handleCommentChange={handleCommentChange}
             handleAddComment={handleAddComment}
             comments={comments.filter((comment) => comment.post_id === post.id)}
+            allGroupLikes={allGroupLikes}
+            
           />
         ))}
         {/** temp btn to load posts */}

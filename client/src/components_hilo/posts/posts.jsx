@@ -3,14 +3,15 @@ import React from 'react';
 import LikeButton from './like';
 import { Link } from 'react-router-dom';
 
-const PostItem = ({ post, likes, handleShareClick, handleReplyClick, commentText, handleCommentChange, handleAddComment, comments }) => {
-  const formatPostDate = (createdAt) => {
+const PostItem = ({ post, handleShareClick, handleReplyClick, commentText, handleCommentChange, handleAddComment, comments, allGroupLikes }) => {  const formatPostDate = (createdAt) => {
     const postDate = new Date(createdAt);
     const currentDate = new Date();
-
+    //const postLikes = allGroupLikes.filter(like => like.post_id === post.id);
     const timeDiff = Math.abs(currentDate - postDate);
     const hoursDiff = Math.floor(timeDiff / (1000 * 60 * 60));
+    let groupId = localStorage.getItem("groupID");
 
+    
     if (hoursDiff < 24) {
       return `${hoursDiff} hours ago`;
     } else {
@@ -41,9 +42,12 @@ const PostItem = ({ post, likes, handleShareClick, handleReplyClick, commentText
 
           {/** reply & share no function yet */}
           <div className={styles.react_bar}>                
-            <LikeButton like={likes.filter((like) => like.post_id === post.id)} />
+          <LikeButton like={allGroupLikes.filter(like => like.post_id === post.id)}
+            postId={post.id} // Assuming `post.id` is your `postId`
+            groupId={localStorage.getItem("groupID")}
+          />
 
-            <button className={styles.reply_btn} onClick={() => handleShareClick(index)}>
+            <button className={styles.reply_btn} onClick={() => handleShareClick(index,post.id,groupId)}>
               <svg className={styles.reply_icon} version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 122.88 114.318">
                 <path d="M122.88,35.289L87.945,70.578v-17.58c-22.091-4.577-39.542,0.468-52.796,17.271 c2.301-34.558,25.907-51.235,52.795-52.339L87.945,0L122.88,35.289L122.88,35.289z"/><path d="M6.908,23.746h35.626c-4.587,3.96-8.71,8.563-12.264,13.815H13.815v62.943h80.603V85.831l13.814-13.579v35.159 c0,3.814-3.093,6.907-6.907,6.907H6.908c-3.815,0-6.908-3.093-6.908-6.907V30.653C0,26.838,3.093,23.746,6.908,23.746L6.908,23.746 z"/>
               </svg>

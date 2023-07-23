@@ -63,11 +63,11 @@ router.post('/upload',verifyToken, upload.single('image'), async (req, res) => {
   //const { id: userId } = req.user;
   //console.log(req.body)
   const { id: userId } = req.user;
-  console.log(userId)
+ //console.log(userId)
   let group_id = req.body.group_id
   let image_url = newFileName
   let up_down = req.body.up_down
-  console.log(group_id)
+  //console.log(group_id)
   if (!text && !image_url) {
     return res.status(400).json({ message: 'Post must contain either text or image url' });
   }
@@ -95,7 +95,7 @@ router.get("/posts/:groupId", async (req, res) => {
       return;
     }
     const posts = results.rows;
-    console.log(posts)
+    //console.log(posts)
 
     for (let post of posts) { 
       post.imageUrl = await getSignedUrl(

@@ -1,16 +1,39 @@
 import styles from './styles.module.css';
 import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 
-const LikeButton = ({ like }) => {
+const LikeButton = ({ like, postId, userId, groupId }) => {
   
-    const [likes, setLikes] = useState(like.length);
-    const [isLiked, setIsLiked] = useState(false);
-  
-    const handleLikeClick = () => {
-      setLikes(isLiked ? likes - 1 : likes + 1);
+  const [likes, setLikes] = useState(like.length);
+  const [isLiked, setIsLiked] = useState(false);
+
+  const handleLikeClick = async () => {
       setIsLiked(!isLiked);
-      console.log('Like button clicked');
-    };
+      console.log(postId, userId, groupId);
+      const likeData = {
+          postId: postId, 
+          userId: userId,
+          group_id: groupId 
+      };
+
+      try {
+          const response = await axios.post('http://localhost:5000/like', likeData, {
+              headers: {
+                  'auth-token': localStorage.getItem('token'),
+                  'Content-Type': 'application/json'
+              }
+          });
+
+          // if response is successful, adjust likes count
+          if(response.status === 200 || response.status === 201) {
+              setLikes(isLiked ? likes - 1 : likes + 1);
+          }
+          console.log("Like")
+          console.log(response.data.message);
+      } catch (error) {
+          console.error('Failed to like/unlike:', error);
+      }
+  };
   
     return (
       <button

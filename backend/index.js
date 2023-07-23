@@ -164,6 +164,7 @@ app.post('/comment', verifyToken, async (req, res) => {
 app.get('/comments/:groupId', async (req, res) => {
   try {
     const { groupId } = req.params;
+    //console.log(groupId);
     const results = await pool.query(`
       SELECT comments.*, users.username 
       FROM comments 
@@ -171,19 +172,22 @@ app.get('/comments/:groupId', async (req, res) => {
       WHERE comments.group_id = $1`, 
       [groupId]
     );
+    //console.log(results.rows);
     res.json(results.rows);
+
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: 'Internal server error' });
   }
 });
 
-app.post('/like',  async (req, res) => {//verifyToken ,
-  const { postId } = req.body;
-  //const { id: userId } = req.user;
-  const { group_id, userId} = req.body;
-  console.log(userId)
-  console.log(group_id)
+app.post('/like',verifyToken,  async (req, res) => {//verifyToken ,
+  const { postId,group_id } = req.body;
+  const { id: userId } = req.user;
+  //const { group_id, userId} = req.body;
+  console.log("postId "+postId)
+  console.log("group_id "+group_id)
+  console.log("Userid "+userId)
   if (!postId) {
     return res.status(400).json({ message: 'Post id is required' });
   }
@@ -217,23 +221,23 @@ app.post('/like',  async (req, res) => {//verifyToken ,
 
 
 
-app.get('/likes/:postId', async (req, res) => {
-  const { postId } = req.params;
-  const { group_id } = req.body; // Assume group id is sent in the request body
+  app.get('/likes/group/:groupId', async (req, res) => {
+    const { groupId } = req.params;
+    
+    try {
+      const result = await pool.query('SELECT Likes.* FROM Likes INNER JOIN Posts ON Likes.post_id = Posts.id WHERE Posts.group_id = $1', [groupId]);
+      //console.log(result)
+      if (result.rows.length === 0) {
+        return res.status(404).json({ message: 'No likes found for this group' });
+      }
+      //console.log(result.rows);
 
-  try {
-    const result = await pool.query('SELECT Likes.* FROM Likes INNER JOIN Posts ON Likes.post_id = Posts.id WHERE Likes.post_id = $1 AND Posts.group_id = $2', [postId, group_id]);
-
-    if (result.rows.length === 0) {
-      return res.status(404).json({ message: 'No likes found for this post in the given group' });
+      return res.status(200).json(result.rows);
+    } catch (err) {
+      console.error(err);
+      return res.status(500).json({ message: 'Internal server error' });
     }
-
-    return res.status(200).json(result.rows);
-  } catch (err) {
-    console.error(err);
-    return res.status(500).json({ message: 'Internal server error' });
-  }
-});
+  });
 
 app.get('/profile/:username', async (req, res) => {
   const { username } = req.params;
