@@ -92,7 +92,6 @@ const Main = () => {
       let groupId = localStorage.getItem("groupID"); // replace this with your actual group id logic
       const response = await fetch(`http://localhost:5000/likes/group/${groupId}`);
       const data = await response.json();
-
       if (response.ok && Array.isArray(data)) {
         setAllGroupLikes(data);
     } else {
@@ -109,10 +108,36 @@ const Main = () => {
   const [allGroupLikes, setAllGroupLikes] = useState([]);
 
   useEffect(() => {
+    validateToken();
     fetchPosts();
     fetchComments();
     fetchLikesForGroup();
   }, []);
+  const validateToken = async () => {
+    const requestOptions = {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'auth-token': localStorage.getItem('token'),
+      },
+    };
+  
+    try {
+      const response = await fetch('http://localhost:5000/validateToken', requestOptions);
+  
+      if (!response.ok) {
+        // If the server responds with a status code outside of the 200 range
+        localStorage.removeItem('token');
+        navigate('/login'); // Redirects to the login page
+        return null;
+      }
+      
+      return true; // If we reach this point, the token is valid
+    } catch (error) {
+      console.error(`An error occurred: ${error}`);
+      return null;
+    }
+  };
 
   const fetchPosts = async () => {
     try {
