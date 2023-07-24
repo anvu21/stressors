@@ -4,8 +4,13 @@ import axios from 'axios';
 
 const LikeButton = ({ like, postId, userId, groupId }) => {
   
+  const getLikedStatus = () => {
+    const likedStatus = localStorage.getItem(`post_${postId}_liked`);
+    return likedStatus ? JSON.parse(likedStatus) : false;
+  };
+
   const [likes, setLikes] = useState(like.length);
-  const [isLiked, setIsLiked] = useState(false);
+  const [isLiked, setIsLiked] = useState(getLikedStatus());
 
   const handleLikeClick = async () => {
       setIsLiked(!isLiked);
@@ -27,6 +32,8 @@ const LikeButton = ({ like, postId, userId, groupId }) => {
           // if response is successful, adjust likes count
           if(response.status === 200 || response.status === 201) {
               setLikes(isLiked ? likes - 1 : likes + 1);
+              localStorage.setItem(`post_${postId}_liked`, JSON.stringify(!isLiked));
+
           }
           console.log("Like")
           console.log(response.data.message);
