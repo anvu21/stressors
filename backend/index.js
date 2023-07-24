@@ -182,6 +182,7 @@ app.get('/comments/:groupId', async (req, res) => {
 });
 
 app.post('/like',verifyToken,  async (req, res) => {//verifyToken ,
+  try{
   const { postId,group_id } = req.body;
   const { id: userId } = req.user;
   //const { group_id, userId} = req.body;
@@ -216,15 +217,21 @@ app.post('/like',verifyToken,  async (req, res) => {//verifyToken ,
       }
     }
   
-  });
+  
+}catch (err){
+
+  console.error(err);
+}
+});
 
 
 
 
   app.get('/likes/group/:groupId', async (req, res) => {
-    const { groupId } = req.params;
+    
     
     try {
+      const { groupId } = req.params;
       const result = await pool.query('SELECT Likes.* FROM Likes INNER JOIN Posts ON Likes.post_id = Posts.id WHERE Posts.group_id = $1', [groupId]);
       //console.log(result)
       if (result.rows.length === 0) {
@@ -240,8 +247,9 @@ app.post('/like',verifyToken,  async (req, res) => {//verifyToken ,
   });
 
 app.get('/profile/:username', async (req, res) => {
-  const { username } = req.params;
+  
   try {
+    const { username } = req.params;
     const profileResult = await pool.query('SELECT id, username, group_id, bio FROM users WHERE username = $1', [username]);    
     if (profileResult.rows.length === 0) {
       return res.status(404).json({ message: 'No user found with this username' });
@@ -259,6 +267,9 @@ app.get('/profile/:username', async (req, res) => {
     console.error(err);
     return res.status(500).json({ message: 'Internal server error' });
   }
+});
+app.get('/validateToken', verifyToken, (req, res) => {
+  res.status(200).send({ message: 'Token is valid' });
 });
 
 
