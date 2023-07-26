@@ -1,46 +1,126 @@
 import styles from './styles.module.css';
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import React, { useState, useEffect }  from 'react';
 import { Link } from 'react-router-dom';
-import Navbar from '../navbar/navbar';
+import axios from "axios";
+import Navbar from '../Navbar/Navbar';
 import { useParams } from 'react-router-dom';
 import actors from '../posts/actors';
-
+import Posts from '../posts/posts';
 
 const Profile = () => {
+  
+  let bio = localStorage.getItem("bio");
+  let groupId = localStorage.getItem("groupID");
+  let userId = localStorage.getItem("userID");
+
   const { username } = useParams();
   const [profile, setProfile] = useState(null);
   const [posts, setPosts] = useState([]);
+  const [loading, setLoading] = useState(true); 
 
-  useEffect(() => {
-    const fetchProfile = async () => {
-      try {
-        // actor profiles
-        const profiles = [...actors]
-          
-        const prof = profiles.find((profile) => profile.username === username);
-        if (prof) {
-          setProfile(prof);
-          setPosts([prof]);
-        }
-
-        // user profile
-        const response = await axios.get(`http://localhost:5000/profile/${username}`);
-        const { profile, posts } = response.data;
-        setProfile(profile);
-        setPosts(posts);
-      } catch (error) {
-        console.error(error);
-      }
+  const [comments, setComments] = useState([]);
+  const [commentText, setCommentText] = useState({});
+  
+    const handleCommentChange = ({ currentTarget: input }, postId) => {
+    const newCommentText = {
+      postId: postId,
+      comment_text: input.value,
     };
+  
+    setCommentText(newCommentText);
+    console.log(newCommentText);
+  };
+  
+  const handleAddComment = async (e , post__id) => {
+    //console.log('Post button clicked');
+    e.preventDefault();
+    //console.log("Comment text"+commentText)
+    let groupid =localStorage.getItem("groupID") 
+    const { comment_text } = commentText;
+    console.log(commentText)
+    try {
+      const response = await axios.post('http://localhost:5000/comment', { comment_text, group_id: groupid, postId: post__id}, {
+        headers: {
+          'auth-token': localStorage.getItem('token') 
+        }
+      });   
+      
+      setCommentText((prevCommentText) => ({
+        ...prevCommentText,
+        [post__id]: "",
+      }));
+      
+      setCommentText("");
 
+      console.log(response)
+      //alert(response.data.message);
+      fetchComments();
+      
+    } catch (error) {
+      console.error(error);
+      alert('Could not create comment');
+    }
+  };
+
+  const fetchComments = async () => {
+    try {
+      const response = await axios.get(`http://localhost:5000/comments/${groupId}`, {
+        headers: {
+          'auth-token': localStorage.getItem('token')
+        }
+      });
+      console.log(response)
+      const sortedComments = response.data.sort((a, b) => {
+        return new Date(b.created_at) - new Date(a.created_at);
+      });
+    
+      setComments(sortedComments);
+      console.log("comment fetch")
+      console.log(sortedComments);
+    } catch (error) {
+      console.error('Fetching commments failed:', error);
+    }
+  }
+  useEffect(() => {
     fetchProfile();
+    fetchComments();
   }, []);
+
+  const fetchProfile = async () => {
+    setLoading(true);
+    try {
+      // actor profiles
+      const profiles = [...actors]
+        
+      const prof = profiles.find((profile) => profile.username === username);
+      if (prof) {
+        setProfile(prof);
+        setPosts([prof]);
+      }
+
+      // user profile
+      const response = await axios.get(`http://localhost:5000/profile/${username}`);
+      const { profile, posts } = response.data;
+      setProfile(profile);
+
+      const sortedPosts = posts.sort((a, b) => {
+        return new Date(b.created_at) - new Date(a.created_at);
+      });
+      setPosts(sortedPosts);
+      setLoading(false);
+      
+      console.log(profile);
+      console.log(posts);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
 
   if (!profile) {
     return <div></div>;
   }
-  
+    
 
   
   return (
@@ -65,50 +145,44 @@ const Profile = () => {
    
 
 
-          {/** not done yet */}
+          {/** 
+           * post in main 
+              content: "test"
+              created_at: "2023-07-25T22:15:57.811Z"
+              group_id: 1
+              id: 37
+              imageUrl: "https://mountaintopanniepoon.s3.us-east-1.amazonaws.com/f946f593b2e378994883f206641e10da.jpeg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAW5BUIUZYUYV7G44L%2F20230725%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20230725T221740Z&X-Amz-Expires=3600&X-Amz-Signature=f08b0ce96bf3702acada95c30dab56ef83c94e1db34369804b0c47e66c474d54&X-Amz-SignedHeaders=host&x-id=GetObject"
+              image_url: "f946f593b2e378994883f206641e10da.jpeg"
+              up_down: "down"
+              updated_at: "2023-07-25T22:15:57.811Z"
+              user_id: 1
+              username: "test1"
+
+           * post in profile
+              content: "again"
+              created_at: "2023-07-25T22:15:57.811Z"
+              group_id: 1
+              id: 37
+              image_url: "f946f593b2e378994883f206641e10da.jpeg"
+              up_down: "down"
+              updated_at: "2023-07-25T22:15:57.811Z"
+              user_id: 1
+
+           * post.imageUrl=https://mountaintopanniepoon.s3.us-east-1.amazonaws.com{.jpeg} not included in posts databse
+           * post.image_url=(image).jpeg
+          */}
           <div className='mt-5 flex flex-col items-center'>
-          {posts.map((post, index) => (
-            <div className={`${styles.post_box} ${post.up_down === "up" ? styles.hi_post : post.up_down === "down" ? styles.lo_post : ""}`} key={post.id}>
-              <div className={styles.post_top}>
-                <Link to={`/profile/${profile.username}`} className={styles.char_btn}>
-                  <img className={styles.char_pic} src={post.prof_pic || "/avatar.png"} alt="Profile Picture"/>
-                  <div className={styles.char_name}>{profile.username}</div>
-                </Link>
-                
-                <div className={styles.dates}>
-                  <div>{new Date(post.created_at).toLocaleDateString()}</div>
-                </div>
-                <div className={styles.content}>
-                  {post.content}
-                </div>
-              </div>
-    
-              <div className={styles.photo_pos}>
-                <img className={styles.photo} src={post.image_url} alt="No photo"/>
-              </div>
-                      
-              <div className={styles.react_bar}>                
-
-                <button className={styles.reply_btn} >
-                  <svg className={styles.reply_icon} version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 122.88 114.318">
-                    <path d="M122.88,35.289L87.945,70.578v-17.58c-22.091-4.577-39.542,0.468-52.796,17.271 c2.301-34.558,25.907-51.235,52.795-52.339L87.945,0L122.88,35.289L122.88,35.289z"/><path d="M6.908,23.746h35.626c-4.587,3.96-8.71,8.563-12.264,13.815H13.815v62.943h80.603V85.831l13.814-13.579v35.159 c0,3.814-3.093,6.907-6.907,6.907H6.908c-3.815,0-6.908-3.093-6.908-6.907V30.653C0,26.838,3.093,23.746,6.908,23.746L6.908,23.746 z"/>
-                  </svg>
-                  <div className={styles.reply_text}>
-                    Share
-                  </div>
-                </button>
-
-                <button className={styles.reply_btn}>
-                  <svg className={styles.reply_icon} version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-                    <path d="M160.156,415.641l-160-159.125l160-160.875v96h128c123.688,0,224,100.313,224,224c0-53-43-96-96-96h-256V415.641z"/>
-                  </svg>              
-                  <div className={styles.reply_text}>
-                    Reply
-                  </div>
-                </button>
-              </div>
-            </div>
-          ))}
+          <Posts            
+            posts={posts}
+            userId={profile.id}
+            groupId={profile.groupId}
+            loading={loading}
+            commentText={commentText}
+            handleCommentChange={handleCommentChange}
+            handleAddComment={handleAddComment}
+            comments={comments}            
+            //allGroupLikes={allGroupLikes}
+          />
           </div>
         </div>
       </div>

@@ -1,16 +1,31 @@
 import styles from './styles.module.css';
-import React from 'react';
-import LikeButton from './like';
+import React, { useState, useEffect }  from 'react';
 import { Link } from 'react-router-dom';
+import axios from "axios";
+import LikeButton from './like';
+import LoadingAnimation from './loadingBar';
+import actors from './actors';
 
-const PostItem = ({ post, handleShareClick, handleReplyClick, commentText, handleCommentChange, handleAddComment, comments, allGroupLikes }) => {  const formatPostDate = (createdAt) => {
+//import CommentList from './comments/commentList';
+//import CommentBar from './comments/commentBar';
+
+const Posts = ({ userId, groupId, posts, loading, commentText, handleCommentChange, handleAddComment, comments, allGroupLikes, }) => {  
+
+  let username = localStorage.getItem("name");
+
+  const handleReplyClick = () => {
+    console.log('Reply button clicked');
+  };
+  const handleShareClick = () => {
+    console.log('Share button clicked');
+  };
+
+  const formatPostDate = (createdAt) => {
     const postDate = new Date(createdAt);
     const currentDate = new Date();
     //const postLikes = allGroupLikes.filter(like => like.post_id === post.id);
     const timeDiff = Math.abs(currentDate - postDate);
     const hoursDiff = Math.floor(timeDiff / (1000 * 60 * 60));
-    let groupId = localStorage.getItem("groupID");
-
     
     if (hoursDiff < 24) {
       return `${hoursDiff} hours ago`;
@@ -18,14 +33,28 @@ const PostItem = ({ post, handleShareClick, handleReplyClick, commentText, handl
       return postDate.toLocaleDateString();
     }
   };
+
+  const [visiblePosts, setVisiblePosts] = useState(10); // Number of initially visible posts
+  const postsPerPage = 10;
+  const handleLoadMore = () => {
+    setVisiblePosts(prevVisiblePosts => prevVisiblePosts + postsPerPage);
+    console.log('+10 posts');
+  };
+
   return (
-    <div>
+    <div className='flex flex-col items-center'>
+      {loading ? (
+        <div> 
+          <LoadingAnimation />
+        </div>
+      ) : (
+      posts.slice(0, visiblePosts).map((post, index) => (
         <div className={`${styles.post_box} ${post.up_down === "up" ? styles.hi_post : post.up_down === "down" ? styles.lo_post : ""}`} key={post.id}>
           <div className={styles.post_top}>
             <Link to={`/profile/${post.username}`} className={styles.char_btn}>
               {/** user profile pic placeholder "/avatar.png" */}
               <img className={styles.char_pic} src={post.prof_pic || "/avatar.png"} alt="Profile Picture"/>
-              <div className={styles.char_name}>{post.username}</div>
+              <div className={styles.char_name}>{post.username || username}</div>
             </Link>
             
             <div className={styles.dates}>
@@ -36,14 +65,18 @@ const PostItem = ({ post, handleShareClick, handleReplyClick, commentText, handl
             </div>
           </div>
 
-          <div className={styles.photo_pos}>
-            <img className={styles.photo} src={post.imageUrl||post.image_url} alt="No photo"/>
+          <div className={styles.photo_pos}>  {/** */}
+            <img className={styles.photo} src={post.imageUrl||post.image_url||`/uploads`} alt="No photo"/>
           </div>
+          
 
           {/** reply & share no function yet */}
           <div className={styles.react_bar}>                
-          <LikeButton like={allGroupLikes.filter(like => like.post_id === post.id)}
+          <LikeButton 
+          //like={allGroupLikes.filter(like => like.post_id === post.id)}
+            post={post}
             postId={post.id} // Assuming `post.id` is your `postId`
+            userId={userId}
             groupId={localStorage.getItem("groupID")}
           />
 
@@ -66,10 +99,10 @@ const PostItem = ({ post, handleShareClick, handleReplyClick, commentText, handl
             </button>
           </div>
 
-        
+          
           <div className={styles.posts_bot}>
             <div className={styles.comment_bar}>
-              <Link to={`/profile/${post.username}`} className={styles.profile_icon_pos}>
+              <Link to={`/profile/${post.username || username}`} className={styles.profile_icon_pos}>
                 <img className={styles.profile_icon} src="/avatar.png" alt="Avatar"/>
               </Link>
               <div className={styles.comment_input_pos}>
@@ -105,12 +138,15 @@ const PostItem = ({ post, handleShareClick, handleReplyClick, commentText, handl
                   
                 </div>
               ))}
-              
             </div>
           </div>
         </div>
-     
+      ))
+      )}
+      <div className='w-full flex justify-center'>      
+        <button className={styles.load} onClick={handleLoadMore}>Load More</button>
+      </div>
     </div>
   );
 }
-export default PostItem;
+export default Posts;

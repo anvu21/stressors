@@ -1,49 +1,58 @@
 import styles from './styles.module.css';
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import React, { useState, useEffect }  from 'react';
+import { Link } from 'react-router-dom';
+import axios from "axios";
 
-const LikeButton = ({ like, postId, userId, groupId }) => {
-  
-  const getLikedStatus = () => {
-    const likedStatus = localStorage.getItem(`post_${postId}_liked`);
-    return likedStatus ? JSON.parse(likedStatus) : false;
-  };
+const LikeButton = ({ post, postId, groupId, userId }) => {
+  const [isLiked, setIsLiked] = useState(false);
+  const [numLikes, setNumLikes] = useState(0);
 
-  const [likes, setLikes] = useState(like.length);
-  const [isLiked, setIsLiked] = useState(getLikedStatus());
+  useEffect(() => {
+    fetchLikes();
+  }, []);
 
   const handleLikeClick = async () => {
-      setIsLiked(!isLiked);
-      console.log(postId, userId, groupId);
-      const likeData = {
-          postId: postId, 
-          userId: userId,
-          group_id: groupId 
-      };
+    setIsLiked(!isLiked);
+    console.log(postId, userId, groupId);
+    const likeData = {
+      postId: postId, 
+      userid: userId,
+      group_id: groupId, 
+    };
 
-      try {
-          const response = await axios.post('http://localhost:5000/like', likeData, {
-              headers: {
-                  'auth-token': localStorage.getItem('token'),
-                  'Content-Type': 'application/json'
-              }
-          });
-
-          // if response is successful, adjust likes count
-          if(response.status === 200 || response.status === 201) {
-              setLikes(isLiked ? likes - 1 : likes + 1);
-              localStorage.setItem(`post_${postId}_liked`, JSON.stringify(!isLiked));
-
-          }
-          console.log("Like")
-          console.log(response.data.message);
-      } catch (error) {
-          console.error('Failed to like/unlike:', error);
+    try {
+      const response = await axios.post('http://localhost:5000/like', likeData, {
+        headers: {
+          'auth-token': localStorage.getItem('token'),
+          'Content-Type': 'application/json'
+        }
+      });
+      // if response is successful, adjust likes count
+      if(response.status === 200 || response.status === 201) {
+        setNumLikes((prevLikes) => (isLiked ? prevLikes - 1 : prevLikes + 1));
       }
+      console.log("Like")
+      console.log(response.data.message);
+    } catch (error) {
+      console.error('Failed to like/unlike:', error);
+    }
   };
-  
-    return (
-      <button
+
+  const fetchLikes = async () => {
+    try {
+      const response = await axios.get(`http://localhost:5000/likes/group/${groupId}`);      
+      const likes = response.data;
+      setNumLikes(likes.filter((like) => like.post_id === postId).length);
+      setIsLiked(likes.some((like) => like.post_id === postId));
+
+      console.log("Like fetch")
+      console.log(response);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  return (
+    <button
         className={styles.reply_btn}
         onClick={handleLikeClick}
       >
@@ -71,11 +80,10 @@ const LikeButton = ({ like, postId, userId, groupId }) => {
         <div className={styles.reply_text}>
           Like
         </div>
-        <div className={styles.num_likes}>{likes}</div>
+        <div className={styles.num_likes}>{numLikes}</div>
         
       </button>
-  
-    );
-  };
-  
+  );
+};
+
 export default LikeButton;
