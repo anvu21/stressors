@@ -58,7 +58,7 @@ const PostBar = () => {
       setData({ text: "", up_down: "" });
       setFile(null);
       document.getElementById('imagePreview').src = "";
-      fetchPosts();
+      //fetchPosts();
     } catch (error) {
       console.error(error);
       alert('Could not create post');

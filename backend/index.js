@@ -8,13 +8,16 @@ const PORT=process.env.PORT ||5000;
 const verifyToken = require('./verifyToken');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
-
 const imagesRouter = require('./routes/images');
+const http = require('http');
 
 //middleware
 app.use(cors());
 app.use('/images', imagesRouter);
-
+const WebSocket = require('ws');
+const server = http.createServer(app);
+const wss = new WebSocket.Server({ noServer: true });
+const url = require('url');
 app.use(express.json())
 //app.use(express.static("./client/build"))
 
@@ -34,9 +37,9 @@ const jwtSecret = process.env.JWT_SECRET || 'your-secret-key'; // This should be
 
 app.post('/signup', async (req, res) => {
   const { username, password, groupId, bio } = req.body;
-  console.log(req.body);
-  console.log(password);
-  console.log(groupId);
+  //console.log(req.body);
+  //console.log(password);
+  //console.log(groupId);
 
   if (!username || !password || !groupId) {
     return res.status(400).json({ message: 'Username, password, and group id are required' });
@@ -83,7 +86,7 @@ app.post('/signin', async (req, res) => {
     const userName= user.rows[0].username;
     const bio= user.rows[0].bio;
     const groupId = user.rows[0].group_id;
-    console.log(userName)
+    //console.log(userName)
     const token = jwt.sign({ id: userId ,group_id: groupId}, jwtSecret, { expiresIn: '1h' });
 
     return res.status(200).json({ message: 'User authenticated successfully', userId, token, userName,bio,groupId });
@@ -102,7 +105,7 @@ app.post('/post', verifyToken, async (req, res) => {
   let group_id = req.body.group_id
   //let image_url = 'e'
   let up_down = req.body.up_down
-  console.log(group_id)
+  //console.log(group_id)
   if (!text && !image_url) {
     return res.status(400).json({ message: 'Post must contain either text or image url' });
   }
@@ -271,6 +274,65 @@ app.get('/profile/:username', async (req, res) => {
 app.get('/validateToken', verifyToken, (req, res) => {
   res.status(200).send({ message: 'Token is valid' });
 });
+
+
+
+
+wss.on('connection', function connection(ws) {
+  ws.on('message', function incoming(data) {
+    const { sender_id, group_id, content, shared_post_id } = JSON.parse(data);
+    const query = 'INSERT INTO messages (group_id, sender_id, content, shared_post_id) VALUES ($1, $2, $3, $4)';
+    const values = [group_id, sender_id, content, shared_post_id];
+
+    pool.query(query, values, (error, result) => {
+      if (error) {
+        console.error('Error executing query', error.stack);
+        ws.send(JSON.stringify({ error: 'Could not save message' }));
+      } else {
+        wss.clients.forEach(client => {
+          if (client.readyState === WebSocket.OPEN) {
+            client.send(data);
+          }
+        });
+      }
+    });
+  });
+
+  ws.on('close', function close() {
+    console.log('disconnected');
+  });
+});
+
+server.on('upgrade', function upgrade(request, socket, head) {
+  const pathname = url.parse(request.url).pathname;
+
+  if (pathname === '/ws') {
+    const token = request.headers['sec-websocket-protocol'];
+    if (!token) {
+      socket.write('HTTP/1.1 401 Unauthorized\r\n\r\n');
+      socket.destroy();
+      return;
+    }
+
+    try {
+      jwt.verify(token, 'your-secret-key');
+    } catch (err) {
+      socket.write('HTTP/1.1 403 Forbidden\r\n\r\n');
+      socket.destroy();
+      return;
+    }
+
+    wss.handleUpgrade(request, socket, head, function done(ws) {
+      wss.emit('connection', ws, request);
+    });
+  } else {
+    socket.destroy();
+  }
+});
+
+server.listen(8080);
+
+
 
 
 app.listen(PORT,()=>{

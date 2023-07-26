@@ -3,13 +3,41 @@ import React, { useState, useEffect, useRef } from 'react';
 
 const ChatWindow = ({ conversation }) => {
   const [message, setMessage] = useState('');
-  const [messages, setMessages] = useState([
-    // temp messages
-    { id: 1, content: 'Hello, how are you?', sender: 'John Doe', timestamp: '10:30 AM' },
-    { id: 2, content: "I'm doing well, thanks!", sender: 'You', timestamp: '10:32 AM' },
-  ]);
-
+  const [messages, setMessages] = useState([]);
+  const websocket = useRef(null);
   const chatWindowRef = useRef(null);
+
+  useEffect(() => {
+    if (conversation) {
+      const token = localStorage.getItem('token')
+      // Create a new WebSocket connection when the conversation changes
+      websocket.current = new WebSocket(`ws://localhost:8080/ws`, token);
+
+      websocket.current.onopen = () => {
+        console.log('WebSocket connection opened.');
+      };
+
+      websocket.current.onmessage = (event) => {
+        const incomingMessage = JSON.parse(event.data);
+        setMessages((prevMessages) => [...prevMessages, incomingMessage]);
+      };
+
+      websocket.current.onerror = (error) => {
+        console.error('WebSocket error: ', error);
+      };
+
+      websocket.current.onclose = () => {
+        console.log('WebSocket connection closed.');
+      };
+    }
+
+    // Close the WebSocket connection when the component is unmounted or the conversation changes
+    return () => {
+      if (websocket.current) {
+        websocket.current.close();
+      }
+    };
+  }, [conversation]);
 
   useEffect(() => {
     if (chatWindowRef.current) {
@@ -27,84 +55,18 @@ const ChatWindow = ({ conversation }) => {
     const newMessage = {
       id: messages.length + 1,
       content: message,
-      sender: 'You', // For simplicity, assume the user always sends the messages
+      sender: 'You',
       timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
     };
+
+    if (websocket.current) {
+      websocket.current.send(JSON.stringify(newMessage));
+    }
 
     setMessages([...messages, newMessage]);
     setMessage('');
   };
-
-  {/**  
-  const [messages, setMessages] = useState([]);
-  const [MessageText, setMessageText] = useState({});
   
-  useEffect(() => {
-    fetchMessages();
-  }, [conversation]);
-
-  const handleMessageChange = ({ currentTarget: input }) => {
-    setMessageText({ ...MessageText, [input.name]: input.value });
-    console.log(newMessageText);
-  };
-  
-  const handleAddMessage = async (e) => {
-    e.preventDefault();
-    if (messageText.trim() === '') return;
-
-    let groupid = localStorage.getItem("groupID") 
-    const { message_text } = MessageText;
-    console.log(MessageText)
-    
-    try {
-      const response = await axios.post('http://localhost:5000/message', { message_text, group_id: groupid}, {
-        headers: {
-          'auth-token': localStorage.getItem('token') 
-        }
-      });   
-      
-      setMessageText((prevMessageText) => ({
-        ...prevMessageText,
-      }));
-      
-      console.log(response)
-      //alert(response.data.message);
-      fetchMessages();
-      
-    } catch (error) {
-      console.error(error);
-      alert('Could not create message');
-    }
-  };
-
-  const fetchMessages = async () => {
-    try {
-      const response = await axios.get(`http://localhost:5000/messages/${groupId}`, {
-        headers: {
-          'auth-token': localStorage.getItem('token')
-        }
-      });
-      console.log(response)
-      const sortedMessages = response.data.sort((a, b) => {
-        return new Date(b.created_at) - new Date(a.created_at);
-      });
-    
-      setMessages(sortedMessages);
-      console.log("message fetch")
-      console.log(sortedMessages);
-    } catch (error) {
-      console.error('Fetching commments failed:', error);
-    }
-  }
-
-  const chatWindowRef = useRef(null);
-  useEffect(() => {
-    if (chatWindowRef.current) {
-      chatWindowRef.current.scrollTop = chatWindowRef.current.scrollHeight;
-    }
-  }, [messages]);
-
-*/}
   return (
     <div className="h-full p-4">
       {conversation ? (
