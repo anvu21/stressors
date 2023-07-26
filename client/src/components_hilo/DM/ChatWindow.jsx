@@ -1,68 +1,93 @@
 import styles from './styles.module.css';
-import React, { useState, useEffect, useRef } from 'react';
-
+import React, { useState, useEffect, useRef,useMemo  } from 'react';
+import io from 'socket.io-client';
 const ChatWindow = ({ conversation }) => {
   const [message, setMessage] = useState('');
   const [messages, setMessages] = useState([]);
-  const websocket = useRef(null);
+  const socket  = useRef(null);
   const chatWindowRef = useRef(null);
+
+  const conversationId = useMemo(() => {
+    if (!conversation) return null;
+
+    const userId = localStorage.getItem('name');
+    const receiverId = conversation.username;
+    return [userId, receiverId].sort().join(':');
+}, [conversation]);
 
   useEffect(() => {
     if (conversation) {
-      const token = localStorage.getItem('token')
-      // Create a new WebSocket connection when the conversation changes
-      websocket.current = new WebSocket(`ws://localhost:8080/ws`, token);
+    console.log(conversation)
+    console.log(conversationId)
+    // set the current reference to the socket connection
+    socket.current = io('http://localhost:8080', {
+      path: '/ws',
+      query: { token: localStorage.getItem('token') }
+    });
 
-      websocket.current.onopen = () => {
-        console.log('WebSocket connection opened.');
-      };
+        // Join the conversation room
+        socket.current.emit('join conversation', conversationId);
 
-      websocket.current.onmessage = (event) => {
-        const incomingMessage = JSON.parse(event.data);
-        setMessages((prevMessages) => [...prevMessages, incomingMessage]);
-      };
+    socket.current.on('old messages', (oldMessages) => {
+      // Transform oldMessages to match the structure of the messages state
+      const transformedMessages = oldMessages.map(message => ({
+        id: message.id,
+        content: message.content,
+        sender: message.sender_name,
+        receiver_name: conversation.username,
+        timestamp: new Date(message.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+      }));
+    
+      // Set the messages state to the transformed old messages
+      setMessages(transformedMessages);
+    });
+  
+    socket.current.on('chat message', (msg) => {
+      console.log('received a message:', msg);
+      socket.current.emit('fetch old messages', { group_id: localStorage.getItem('groupID'), receiver_name: conversation.username });
 
-      websocket.current.onerror = (error) => {
-        console.error('WebSocket error: ', error);
-      };
+    });
+  
+    socket.current.on('connect_error', (err) => {
+      console.error('connection error:', err.message);
+    });
+  
+    socket.current.emit('fetch old messages', { group_id: localStorage.getItem('groupID'), receiver_name: conversation.username, user_id: localStorage.getItem('userID') });
 
-      websocket.current.onclose = () => {
-        console.log('WebSocket connection closed.');
-      };
-    }
-
-    // Close the WebSocket connection when the component is unmounted or the conversation changes
     return () => {
-      if (websocket.current) {
-        websocket.current.close();
+      if (socket.current) {
+        socket.current.close();
       }
     };
-  }, [conversation]);
-
+}
+}, [conversation,conversationId]);
+  
   useEffect(() => {
     if (chatWindowRef.current) {
       chatWindowRef.current.scrollTop = chatWindowRef.current.scrollHeight;
     }
   }, [messages]);
-
+  
   const handleMessageChange = (e) => {
     setMessage(e.target.value);
   };
-
+  
   const handleSendMessage = () => {
     if (message.trim() === '') return;
-
+  
     const newMessage = {
-      id: messages.length + 1,
+      conversationId,
+      group_id: localStorage.getItem('groupID'),
       content: message,
-      sender: 'You',
+      sender_id: localStorage.getItem('name'),
+      receiver_name: conversation.username,
       timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
     };
-
-    if (websocket.current) {
-      websocket.current.send(JSON.stringify(newMessage));
+  
+    if (socket.current) {
+      socket.current.emit('chat message', JSON.stringify(newMessage));
     }
-
+  
     setMessages([...messages, newMessage]);
     setMessage('');
   };

@@ -14,12 +14,20 @@ const http = require('http');
 //middleware
 app.use(cors());
 app.use('/images', imagesRouter);
-const WebSocket = require('ws');
-const server = http.createServer(app);
-const wss = new WebSocket.Server({ noServer: true });
-const url = require('url');
+
 app.use(express.json())
 //app.use(express.static("./client/build"))
+const server = require('http').createServer(app);
+const io = require('socket.io')(server, {
+  cors: {
+    origin: "*",  //Allow all origins
+    methods: ["GET", "POST"],
+    allowedHeaders: ["my-custom-header"],
+    credentials: true
+  },
+  path: '/ws',
+  serveClient: false
+});
 
 if (process.env.NODE_ENV === 'production'){
   //server static conetent
@@ -53,7 +61,7 @@ app.post('/signup', async (req, res) => {
 
     const userId = result.rows[0].id;
 
-    const token = jwt.sign({ id: userId ,group_id: groupId}, jwtSecret, { expiresIn: '1h' });
+    const token = jwt.sign({ id: userId ,group_id: groupId}, jwtSecret, { expiresIn: '2h' });
 
     return res.status(201).json({ message: 'User created successfully', userId, groupId, token });
 
@@ -87,7 +95,7 @@ app.post('/signin', async (req, res) => {
     const bio= user.rows[0].bio;
     const groupId = user.rows[0].group_id;
     //console.log(userName)
-    const token = jwt.sign({ id: userId ,group_id: groupId}, jwtSecret, { expiresIn: '1h' });
+    const token = jwt.sign({ id: userId ,group_id: groupId}, jwtSecret, { expiresIn: '2h' });
 
     return res.status(200).json({ message: 'User authenticated successfully', userId, token, userName,bio,groupId });
 
@@ -275,63 +283,136 @@ app.get('/validateToken', verifyToken, (req, res) => {
   res.status(200).send({ message: 'Token is valid' });
 });
 
+app.get('/groupUsers/:group_id/:username', verifyToken, (req, res) => {
+  // get the group_id and username from the request parameters
+  const { group_id, username } = req.params;
 
+  // run a query to get all users in the group excluding the given username
+  const query = `SELECT username FROM users WHERE (group_id = $1 OR group_id = 100) AND username != $2`;
+  const values = [group_id, username];
 
-
-wss.on('connection', function connection(ws) {
-  ws.on('message', function incoming(data) {
-    const { sender_id, group_id, content, shared_post_id } = JSON.parse(data);
-    const query = 'INSERT INTO messages (group_id, sender_id, content, shared_post_id) VALUES ($1, $2, $3, $4)';
-    const values = [group_id, sender_id, content, shared_post_id];
-
-    pool.query(query, values, (error, result) => {
-      if (error) {
-        console.error('Error executing query', error.stack);
-        ws.send(JSON.stringify({ error: 'Could not save message' }));
-      } else {
-        wss.clients.forEach(client => {
-          if (client.readyState === WebSocket.OPEN) {
-            client.send(data);
-          }
-        });
-      }
-    });
-  });
-
-  ws.on('close', function close() {
-    console.log('disconnected');
+  pool.query(query, values, (error, result) => {
+    if (error) {
+      console.error('Error executing query', error.stack);
+      res.status(500).json({ error: 'Failed to get users for the group' });
+    } else {
+      // send the result as the response
+      res.status(200).json(result.rows);
+    }
   });
 });
 
-server.on('upgrade', function upgrade(request, socket, head) {
-  const pathname = url.parse(request.url).pathname;
 
-  if (pathname === '/ws') {
-    const token = request.headers['sec-websocket-protocol'];
-    if (!token) {
-      socket.write('HTTP/1.1 401 Unauthorized\r\n\r\n');
-      socket.destroy();
-      return;
-    }
 
-    try {
-      jwt.verify(token, 'your-secret-key');
-    } catch (err) {
-      socket.write('HTTP/1.1 403 Forbidden\r\n\r\n');
-      socket.destroy();
-      return;
-    }
+io.use((socket, next) => {
+  const token = socket.handshake.query.token;
+  if (!token) {
+    next(new Error('401 Unauthorized'));
+    return;
+  }
 
-    wss.handleUpgrade(request, socket, head, function done(ws) {
-      wss.emit('connection', ws, request);
-    });
-  } else {
-    socket.destroy();
+  try {
+    // verify and decode the token
+    const decoded = jwt.verify(token, 'your-secret-key');
+    // attach decoded to socket
+    socket.decoded = decoded;
+    next();
+  } catch (err) {
+    next(new Error('403 Forbidden'));
   }
 });
 
-server.listen(8080);
+io.on('connection', (socket) => {
+  console.log('a user connected');
 
+  const user = socket.decoded;
+  const userId = user.id;
+  socket.on('join conversation', (conversationId) => {
+    socket.join(conversationId);
+  });
+  socket.on('chat message', async (data) => {
+    
+    const { conversationId,group_id, content, receiver_name } = JSON.parse(data);
+    const user = socket.decoded;
+    //console.log('User:', user);
+    const sender_id = user.id;
+
+    try {
+      // Query to find the receiver's id based on the receiver_name
+      const receiverQuery = 'SELECT id FROM users WHERE username = $1';
+      const receiverResult = await pool.query(receiverQuery, [receiver_name]);
+
+      if (receiverResult.rows.length > 0) {
+        const receiver_id = receiverResult.rows[0].id;
+
+        // Now that we have the receiver_id, we can insert the new message into the messages table
+        const query = 'INSERT INTO messages (group_id, sender_id, content, receiver_id) VALUES ($1, $2, $3, $4)';
+        const values = [group_id, sender_id, content, receiver_id];
+
+        await pool.query(query, values);
+
+        io.to(conversationId).emit('chat message', data); 
+            } else {
+        // If the receiver was not found in the database, we can't insert the message
+        socket.emit('chat message', JSON.stringify({ error: 'Receiver not found' }));
+      }
+    } catch (error) {
+      console.error('Error executing query', error.stack);
+      socket.emit('chat message', JSON.stringify({ error: 'Could not save message' }));
+    }
+  });
+
+  socket.on('fetch old messages', async (data) => {
+    const { group_id,receiver_name,user_id } = data;
+
+    try {
+          // First, get the receiver's ID from the username
+      const userQuery = `SELECT id FROM users WHERE username = $1`;
+      const userResult = await pool.query(userQuery, [receiver_name]);
+      // Query to find old messages based on the group_id
+      if (userResult.rows.length > 0) {
+        const receiver_id = userResult.rows[0].id;
+  
+        // Now, use the receiver's ID to fetch the messages
+        const messagesQuery = `
+        SELECT messages.*, users.username AS sender_name 
+        FROM messages 
+        JOIN users ON messages.sender_id = users.id
+        WHERE messages.group_id = $1 AND 
+          ((messages.receiver_id = $2 AND messages.sender_id = $3) OR 
+           (messages.receiver_id = $3 AND messages.sender_id = $2))
+        ORDER BY timestamp DESC
+      `;
+        const messagesResult = await pool.query(messagesQuery, [group_id, receiver_id,user_id]);
+  
+        if (messagesResult.rows.length > 0) {
+          const oldMessages = messagesResult.rows;
+          // Send the old messages back to the client
+          socket.emit('old messages', oldMessages);
+        } else {
+          // If there are no old messages for this group_id, we can send an empty array
+          socket.emit('old messages', []);
+        }
+      } else {
+        console.error('No user with username', receiver_name);
+        socket.emit('chat message', JSON.stringify({ error: 'No user found with given username' }));
+      }
+    } catch (error) {
+      console.error('Error executing query', error.stack);
+      socket.emit('chat message', JSON.stringify({ error: 'Could not fetch old messages' }));
+    }
+  });
+
+
+
+  socket.on('disconnect', () => {
+    console.log('user disconnected');
+  });
+});
+
+server.listen(8080, () => {
+  console.log('listening on *:8080');
+});
 
 
 
