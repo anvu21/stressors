@@ -6,6 +6,7 @@ CREATE TABLE messages (
   sender_id INT NOT NULL,
   content TEXT NOT NULL,
   shared_post_id INT,
+  receiver_id INT NOT NULL,
   timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   FOREIGN KEY (shared_post_id) REFERENCES posts (id)
 );
