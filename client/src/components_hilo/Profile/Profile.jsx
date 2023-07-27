@@ -20,8 +20,40 @@ const Profile = () => {
 
   const [comments, setComments] = useState([]);
   const [commentText, setCommentText] = useState({});
+
+  useEffect(() => {
+    validateToken();
+    fetchProfile();
+    fetchComments();
+  }, []);
+
+  const validateToken = async () => {
+    const requestOptions = {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'auth-token': localStorage.getItem('token'),
+      },
+    };
   
-    const handleCommentChange = ({ currentTarget: input }, postId) => {
+    try {
+      const response = await fetch('http://localhost:5000/validateToken', requestOptions);
+  
+      if (!response.ok) {
+        // If the server responds with a status code outside of the 200 range
+        localStorage.removeItem('token');
+        window.location.href = '/login'; // Redirects to the login page
+        return null;
+      }
+      
+      return true; // If we reach this point, the token is valid
+    } catch (error) {
+      console.error(`An error occurred: ${error}`);
+      return null;
+    }
+  };
+
+  const handleCommentChange = ({ currentTarget: input }, postId) => {
     const newCommentText = {
       postId: postId,
       comment_text: input.value,
@@ -81,24 +113,25 @@ const Profile = () => {
       console.error('Fetching commments failed:', error);
     }
   }
-  useEffect(() => {
-    fetchProfile();
-    fetchComments();
-  }, []);
 
   const fetchProfile = async () => {
     setLoading(true);
     try {
-      // actor profiles
-      const profiles = [...actors]
-        
-      const prof = profiles.find((profile) => profile.username === username);
+
+      // temporary actor profile and posts
+      const prof = actors.find((profile) => profile.username === username);
       if (prof) {
         setProfile(prof);
-        setPosts([prof]);
+      } 
+      const profilePosts = actors.filter((post) => post.username === username);
+      if (profilePosts) {
+        const sortedPosts = profilePosts.sort((a, b) => {
+          return new Date(b.created_at) - new Date(a.created_at);
+        });
+        setPosts(sortedPosts);
       }
-
-      // user profile
+      
+      // user profile and posts fetch
       const response = await axios.get(`http://localhost:5000/profile/${username}`);
       const { profile, posts } = response.data;
       setProfile(profile);
@@ -106,13 +139,17 @@ const Profile = () => {
       const sortedPosts = posts.sort((a, b) => {
         return new Date(b.created_at) - new Date(a.created_at);
       });
+      
       setPosts(sortedPosts);
       setLoading(false);
-      
+
+      console.log("profile and post fetch");
       console.log(profile);
       console.log(posts);
+      
     } catch (error) {
       console.error(error);
+      setLoading(false);
     }
   };
 
@@ -120,7 +157,7 @@ const Profile = () => {
   if (!profile) {
     return <div></div>;
   }
-    
+  
 
   
   return (

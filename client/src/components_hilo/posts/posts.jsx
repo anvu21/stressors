@@ -1,5 +1,5 @@
 import styles from './styles.module.css';
-import React, { useState, useEffect }  from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import axios from "axios";
 import LikeButton from './like';
@@ -13,9 +13,26 @@ const Posts = ({ userId, groupId, posts, loading, commentText, handleCommentChan
 
   let username = localStorage.getItem("name");
 
-  const handleReplyClick = () => {
+  const [focusedPostId, setFocusedPostId] = useState(null); // State variable to track the ID of the post with the focused comment input bar
+  
+  /** reply btn puts user into comment input bar */
+  const handleReplyClick = (postId) => {
+    setFocusedPostId(prevFocusedPostId => (prevFocusedPostId === postId ? null : postId));
     console.log('Reply button clicked');
   };
+  useEffect(() => {
+    if (focusedPostId !== null && commentInputRefs[focusedPostId]) {
+      commentInputRefs[focusedPostId].focus();
+    }
+  }, [focusedPostId]);
+
+  const commentInputRefs = {}; // Object to hold refs for all comment input bars
+
+  // Function to set the ref for a specific post ID
+  const setCommentInputRef = (postId, ref) => {
+    commentInputRefs[postId] = ref;
+  };
+
   const handleShareClick = () => {
     console.log('Share button clicked');
   };
@@ -89,7 +106,7 @@ const Posts = ({ userId, groupId, posts, loading, commentText, handleCommentChan
               </div>
             </button>
 
-            <button className={styles.reply_btn} onClick={() => handleReplyClick(index)}>
+            <button className={styles.reply_btn} onClick={() => handleReplyClick(post.id)}>
               <svg className={styles.reply_icon} version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
                 <path d="M160.156,415.641l-160-159.125l160-160.875v96h128c123.688,0,224,100.313,224,224c0-53-43-96-96-96h-256V415.641z"/>
               </svg>              
@@ -111,6 +128,7 @@ const Posts = ({ userId, groupId, posts, loading, commentText, handleCommentChan
                 placeholder="Add a comment"
                 value={commentText.postId === post.id ? commentText.comment_text : ""}
                 onChange={(event) => handleCommentChange(event, post.id)}
+                ref={(ref) => setCommentInputRef(post.id, ref)} // Set the ref for the comment input bar of the specific post
                 className={styles.comment_input}
                 >
                 </textarea>

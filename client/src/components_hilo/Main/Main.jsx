@@ -16,10 +16,40 @@ const Main = () => {
   let userId = localStorage.getItem("userID");
  
   const [posts, setPosts] = useState([...actors]);
+  const [data, setData] = useState({ text: "", up_down: "" });
   const [loading, setLoading] = useState(true); 
 
+  useEffect(() => {
+    validateToken();
+    fetchPosts();
+    fetchComments();
+    //fetchLikesForGroup();
+  }, []);
 
-  const [data, setData] = useState({ text: "", up_down: "" });
+  const fetchPosts = async () => {
+    setLoading(true);
+
+    try {
+      const response = await axios.get(`http://localhost:5000/images/posts/${groupId}`, {
+        headers: {
+          'auth-token': localStorage.getItem('token')
+        }
+      });
+      const fetchedPosts = response.data;
+      const combinedPosts = [...actors, ...fetchedPosts];
+      const sortedPosts = combinedPosts.sort((a, b) => {
+        return new Date(b.created_at) - new Date(a.created_at);
+      });
+    
+      setPosts(sortedPosts);
+      console.log(sortedPosts)
+      setLoading(false);
+
+    } catch (error) {
+      console.error('Fetching posts failed:', error);
+      setLoading(false);
+    }
+  };
 
   const handleChange = ({ currentTarget: input }) => {
     setData({ ...data, [input.name]: input.value });
@@ -69,45 +99,18 @@ const Main = () => {
           'Content-Type': 'multipart/form-data'
         }
       });
-        
+
       setData({ text: "", up_down: "" });
-      setFile(null);
+      setFile(null);    
       fetchPosts();
       document.getElementById('imagePreview').src = "";
-      
-      console.log(response.data.imageUrl);
-      
+      console.log(response);
+       
     } catch (error) {
       console.error(error);
       alert('Could not create post');
     }
   };
-  const fetchLikesForGroup = async () => {
-    try {
-      let groupId = localStorage.getItem("groupID"); // replace this with your actual group id logic
-      const response = await fetch(`http://localhost:5000/likes/group/${groupId}`);
-      const data = await response.json();
-      if (response.ok && Array.isArray(data)) {
-        setAllGroupLikes(data);
-    } else {
-        console.log(data.message);
-        setAllGroupLikes([]);
-    }
-      console.log('Fetched likes data:', data);  // Add this line
-      
-    } catch (error) {
-      console.error("An error occurred:", error);
-      setAllGroupLikes([]);
-    }
-  };
-  const [allGroupLikes, setAllGroupLikes] = useState([]);
-
-  useEffect(() => {
-    validateToken();
-    fetchPosts();
-    fetchComments();
-    fetchLikesForGroup();
-  }, []);
 
   const validateToken = async () => {
     const requestOptions = {
@@ -134,19 +137,19 @@ const Main = () => {
       return null;
     }
   };
+
   const [isHiActive, setIsHiActive] = useState(false);
   const [isLoActive, setIsLoActive] = useState(false);
 
   const handleHiClick = () => {
-    console.log("Hi")
     setData({ ...data, up_down: "up" });
+    console.log("Hi")
     setIsHiActive(true);
     setIsLoActive(false);
   };
-  
   const handleLoClick = () => {
-    console.log("low")
     setData({ ...data, up_down: "down" });
+    console.log("low")
     setIsHiActive(false);
     setIsLoActive(true);
   };
@@ -158,39 +161,7 @@ const Main = () => {
   const [isImageHoveredLo, setIsImageHoveredLo] = useState(false);
   const defaultLo = "Lo.png";
   const hoverLo = "lo_red.png";
-
-  useEffect(() => {
-    fetchComments();
-    //fetchLikesForGroup();
-    fetchPosts();
-  }, []);
   
-  const fetchPosts = async () => {
-    setLoading(true);
-
-    try {
-      const response = await axios.get(`http://localhost:5000/images/posts/${groupId}`, {
-        headers: {
-          'auth-token': localStorage.getItem('token')
-        }
-      });
-      const fetchedPosts = response.data;
-
-      const combinedPosts = [...actors, ...fetchedPosts];
-
-      const sortedPosts = combinedPosts.sort((a, b) => {
-        return new Date(b.created_at) - new Date(a.created_at);
-      });
-    
-      setPosts(sortedPosts);
-      console.log(sortedPosts)
-      setLoading(false);
-
-    } catch (error) {
-      console.error('Fetching posts failed:', error);
-      setLoading(false);
-    }
-  };
 
   const [comments, setComments] = useState([]);
   const [commentText, setCommentText] = useState({});
@@ -283,6 +254,7 @@ const Main = () => {
     <div>
       <div className={styles.screen}> 
         <Navbar />   
+        {/** User profile box */}
         <div className={styles.user_box}>
           {/** profile not editable by user yet */}
           <Link to={`/profile/${username}`}>
@@ -298,6 +270,7 @@ const Main = () => {
           </div>
         </div>
         
+        {/** Post input bar */}
         <div className="w-[600px] min-h-[50px] flex-col items-center bg-gray-300 rounded-lg">
           <div className='w-full h-full flex items-center px-3 py-2'>
             <img src={"/avatar.png"} alt="Avatar" className="w-8 h-8 rounded-full mr-2" />
@@ -351,7 +324,8 @@ const Main = () => {
             <img id="imagePreview" className="max-h-[400px] mb-1"/>
           </div>
         </div>
-
+        
+        {/** Post List */}
         <Posts            
           posts={posts}
           userId={userId}
