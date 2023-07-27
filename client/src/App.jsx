@@ -22,9 +22,11 @@ function App() {
           <Route path="/login" element={<Login />}/>
           <Route path="/signup" element={<Signup />} />
           <Route path="/" element={<Navigate replace to="/login" />} />
-          
+  
           <Route path="/profile/:username" element={<Profile />}/>
           <Route path="/messages" element={<DM />} />
+          <Route path="/*" element={<Navigate replace to="/main" />} />
+
         </Routes>
       </BrowserRouter>
 
