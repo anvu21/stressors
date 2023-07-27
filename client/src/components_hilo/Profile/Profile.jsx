@@ -209,7 +209,8 @@ const Profile = () => {
            * post.image_url=(image).jpeg
           */}
           <div className='mt-5 flex flex-col items-center'>
-          <Posts            
+          <Posts    
+            username={username}        
             posts={posts}
             userId={profile.id}
             groupId={profile.groupId}

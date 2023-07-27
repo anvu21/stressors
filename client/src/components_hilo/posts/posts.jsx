@@ -9,9 +9,7 @@ import actors from './actors';
 //import CommentList from './comments/commentList';
 //import CommentBar from './comments/commentBar';
 
-const Posts = ({ userId, groupId, posts, loading, commentText, handleCommentChange, handleAddComment, comments, allGroupLikes, }) => {  
-
-  let username = localStorage.getItem("name");
+const Posts = ({ username, userId, groupId, posts, loading, commentText, handleCommentChange, handleAddComment, comments, allGroupLikes, }) => {  
 
   const [focusedPostId, setFocusedPostId] = useState(null); // State variable to track the ID of the post with the focused comment input bar
   
@@ -68,7 +66,7 @@ const Posts = ({ userId, groupId, posts, loading, commentText, handleCommentChan
       posts.slice(0, visiblePosts).map((post, index) => (
         <div className={`${styles.post_box} ${post.up_down === "up" ? styles.hi_post : post.up_down === "down" ? styles.lo_post : ""}`} key={post.id}>
           <div className={styles.post_top}>
-            <Link to={`/profile/${post.username}`} className={styles.char_btn}>
+            <Link to={`/profile/${post.username || username}`} className={styles.char_btn}>
               {/** user profile pic placeholder "/avatar.png" */}
               <img className={styles.char_pic} src={post.prof_pic || "/avatar.png"} alt="Profile Picture"/>
               <div className={styles.char_name}>{post.username || username}</div>
@@ -147,7 +145,7 @@ const Posts = ({ userId, groupId, posts, loading, commentText, handleCommentChan
               .map((comment) => (
                 <div className={styles.comment_each}>
                   <div className='h-full flex'>
-                    <Link to={`/profile/${post.username}`} className={styles.profile_icon_pos}>
+                    <Link to={`/profile/${comment.username || username}`} className={styles.profile_icon_pos}>
                       <img className={styles.profile_icon} src="/avatar.png" alt="Avatar"/>
                     </Link>
                   </div>

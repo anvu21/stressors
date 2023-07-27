@@ -273,7 +273,9 @@ const Main = () => {
         {/** Post input bar */}
         <div className="w-[600px] min-h-[50px] flex-col items-center bg-gray-300 rounded-lg">
           <div className='w-full h-full flex items-center px-3 py-2'>
-            <img src={"/avatar.png"} alt="Avatar" className="w-8 h-8 rounded-full mr-2" />
+            <Link to={`/profile/${username}`}>
+              <img src={"/avatar.png"} alt="Avatar" className="w-8 h-8 rounded-full mr-2" />
+            </Link>
             <input
               type="text"
               placeholder="Start a post"
@@ -326,7 +328,8 @@ const Main = () => {
         </div>
         
         {/** Post List */}
-        <Posts            
+        <Posts      
+          username={username}
           posts={posts}
           userId={userId}
           groupId={groupId}
