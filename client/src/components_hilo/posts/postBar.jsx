@@ -48,7 +48,7 @@ const PostBar = () => {
     formData.append('up_down', data.up_down);
   
     try {
-      const response = await axios.post('http://localhost:5000/images/upload', formData, {
+      const response = await axios.post(`${import.meta.env.VITE_APP_API_URL}/images/upload`, formData, {
         headers: {
           'auth-token': localStorage.getItem('token'),
           'Content-Type': 'multipart/form-data'

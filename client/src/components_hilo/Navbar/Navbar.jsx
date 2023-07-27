@@ -11,9 +11,9 @@ const Navbar = () => {
   return (
     <nav className={styles.top_nav}>
       <div className={styles.nav_contain}>
-        <button className={styles.logo_pos}>
-          <img className={styles.logo} src="/HiLo Logo.png" href="/" alt="Logo"/>
-        </button> 
+        <a className={styles.logo_pos} href="/">
+          <img className={styles.logo} src="/HiLo Logo.png"  alt="Logo"/>
+        </a> 
 
         <div className={styles.nav_items}>
           <a className={styles.nav_item} href="/">Home</a>
