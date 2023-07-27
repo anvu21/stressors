@@ -2,7 +2,6 @@ import styles from './styles.module.css';
 import React, { useState, useEffect }  from 'react';
 import { Link } from 'react-router-dom';
 import axios from "axios";
-
 import Navbar from '../Navbar/Navbar';
 //import PostBar from '../posts/postBar';
 import Posts from '../posts/posts';
@@ -18,6 +17,49 @@ const Main = () => {
   const [posts, setPosts] = useState([...actors]);
   const [data, setData] = useState({ text: "", up_down: "" });
   const [loading, setLoading] = useState(true); 
+
+  const handlePost = async (e) => {
+    e.preventDefault();
+    let groupid = localStorage.getItem("groupID") 
+
+    if (data.text === "") {
+      alert('Post must contain text');
+      return;
+    }
+    if (data.up_down === "") {
+      alert("Please select an up or down arrow");
+      return;
+    }
+    if (!file) {
+      alert('Please select an image');
+      return;
+    }
+  
+    const formData = new FormData();
+    formData.append('image', file);
+    formData.append('text', data.text);
+    formData.append('group_id', groupid);
+    formData.append('up_down', data.up_down);
+  
+    try {
+      const response = await axios.post('http://localhost:5000/images/upload', formData, {
+        headers: {
+          'auth-token': localStorage.getItem('token'),
+          'Content-Type': 'multipart/form-data'
+        }
+      });
+
+      setData({ text: "", up_down: "" });
+      setFile(null);    
+      document.getElementById('imagePreview').src = "";
+      console.log(response);
+      fetchPosts();
+      
+    } catch (error) {
+      console.error(error);
+      alert('Could not create post');
+    }
+  };
 
   useEffect(() => {
     validateToken();
@@ -69,48 +111,6 @@ const Main = () => {
     preview.src = URL.createObjectURL(e.target.files[0]);
   };
 
-  const handlePost = async (e) => {
-    e.preventDefault();
-    let groupid = localStorage.getItem("groupID") 
-
-    if (data.text === "") {
-      alert('Post must contain text');
-      return;
-    }
-    if (data.up_down === "") {
-      alert("Please select an up or down arrow");
-      return;
-    }
-    if (!file) {
-      alert('Please select an image');
-      return;
-    }
-  
-    const formData = new FormData();
-    formData.append('image', file);
-    formData.append('text', data.text);
-    formData.append('group_id', groupid);
-    formData.append('up_down', data.up_down);
-  
-    try {
-      const response = await axios.post('http://localhost:5000/images/upload', formData, {
-        headers: {
-          'auth-token': localStorage.getItem('token'),
-          'Content-Type': 'multipart/form-data'
-        }
-      });
-
-      setData({ text: "", up_down: "" });
-      setFile(null);    
-      fetchPosts();
-      document.getElementById('imagePreview').src = "";
-      console.log(response);
-       
-    } catch (error) {
-      console.error(error);
-      alert('Could not create post');
-    }
-  };
 
   const validateToken = async () => {
     const requestOptions = {

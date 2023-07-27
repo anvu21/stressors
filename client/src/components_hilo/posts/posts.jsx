@@ -41,8 +41,12 @@ const Posts = ({ username, userId, groupId, posts, loading, commentText, handleC
     //const postLikes = allGroupLikes.filter(like => like.post_id === post.id);
     const timeDiff = Math.abs(currentDate - postDate);
     const hoursDiff = Math.floor(timeDiff / (1000 * 60 * 60));
-    
-    if (hoursDiff < 24) {
+    const minutesDiff = Math.floor(timeDiff / (1000 * 60));
+
+    if (minutesDiff < 60) {
+      return `${minutesDiff} minutes ago`;
+    } 
+    else if (hoursDiff < 24) {
       return `${hoursDiff} hours ago`;
     } else {
       return postDate.toLocaleDateString();
