@@ -364,7 +364,7 @@ io.on('connection', (socket) => {
 
   socket.on('fetch old messages', async (data) => {
     const { group_id,receiver_name,user_id } = data;
-
+    console.log(group_id,receiver_name,user_id);
     try {
           // First, get the receiver's ID from the username
       const userQuery = `SELECT id FROM users WHERE username = $1`;
@@ -384,13 +384,18 @@ io.on('connection', (socket) => {
         ORDER BY timestamp DESC
       `;
         const messagesResult = await pool.query(messagesQuery, [group_id, receiver_id,user_id]);
-  
+        console.log("Message Row"+messagesResult.rows)
+        console.log("Message length"+messagesResult.rows.length)
+
         if (messagesResult.rows.length > 0) {
           const oldMessages = messagesResult.rows;
           // Send the old messages back to the client
+          console.log("Old message")
+
           socket.emit('old messages', oldMessages);
         } else {
           // If there are no old messages for this group_id, we can send an empty array
+          console.log("No old messages")
           socket.emit('old messages', []);
         }
       } else {
