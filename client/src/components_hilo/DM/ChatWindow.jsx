@@ -110,8 +110,8 @@ const ChatWindow = ({ conversation }) => {
                     <div
                       className={`${
                         msg.sender === user
-                          ? 'bg-cyan-500 text-white rounded-t-lg rounded-bl-lg items-end'
-                          : 'bg-gray-200 rounded-t-lg rounded-br-lg items-start'
+                          ? 'bg-cyan-500 text-white rounded-t-lg rounded-bl-lg items-end break-all'
+                          : 'bg-gray-200 rounded-t-lg rounded-br-lg items-start break-all'
                       } py-2 px-4 max-w-lg`}
                     >
                       {msg.content}

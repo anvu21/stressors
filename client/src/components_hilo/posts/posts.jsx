@@ -31,7 +31,9 @@ const Posts = ({ username, userId, groupId, posts, loading, commentText, handleC
     commentInputRefs[postId] = ref;
   };
 
+  // share not done yet
   const handleShareClick = () => {
+    window.location.href = '/messages'; // Redirects to the login page
     console.log('Share button clicked');
   };
 

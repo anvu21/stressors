@@ -127,7 +127,8 @@ const Main = () => {
       if (!response.ok) {
         // If the server responds with a status code outside of the 200 range
         localStorage.removeItem('token');
-        navigate('/login'); // Redirects to the login page
+        //navigate('/login'); // Redirects to the login page
+        window.location.href = '/login'; // Redirects to the login page
         return null;
       }
       
@@ -227,7 +228,7 @@ const Main = () => {
     }
   }
 
-
+  
   return (
     <div>
       <div className={styles.screen}> 
