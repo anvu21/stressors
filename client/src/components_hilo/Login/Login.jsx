@@ -13,7 +13,7 @@ const Login = () => {
 	const handleSubmit = async (e) => {
 	  e.preventDefault();
 	  try {
-		const url = "http://localhost:5000/signin";
+		const url = `${import.meta.env.VITE_APP_API_URL}/signin`;
 		const { data: res } = await axios.post(url, data);
 		console.log(res)
 		if (res.status === 401) {

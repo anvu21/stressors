@@ -25,7 +25,7 @@ const DM = () => {
     };
   
     try {
-      const response = await fetch('http://localhost:5000/validateToken', requestOptions);
+      const response = await fetch(`${import.meta.env.VITE_APP_API_URL}/validateToken`, requestOptions);
   
       if (!response.ok) {
         // If the server responds with a status code outside of the 200 range

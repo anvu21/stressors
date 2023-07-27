@@ -23,7 +23,7 @@ const Signup = () => {
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		try {
-		  const url = "http://localhost:5000/signup";
+		  const url = `${import.meta.env.VITE_APP_API_URL}/signup`;
 		  const { data: res } = await axios.post(url, data);
 		  navigate("/login");
 		  console.log(res.message);

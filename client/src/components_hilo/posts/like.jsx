@@ -21,7 +21,7 @@ const LikeButton = ({ post, postId, groupId, userId }) => {
     };
 
     try {
-      const response = await axios.post('http://localhost:5000/like', likeData, {
+      const response = await axios.post(`${import.meta.env.VITE_APP_API_URL}/like`, likeData, {
         headers: {
           'auth-token': localStorage.getItem('token'),
           'Content-Type': 'application/json'
@@ -40,7 +40,7 @@ const LikeButton = ({ post, postId, groupId, userId }) => {
 
   const fetchLikes = async () => {
     try {
-      const response = await axios.get(`http://localhost:5000/likes/group/${groupId}`);      
+      const response = await axios.get(`${import.meta.env.VITE_APP_API_URL}/likes/group/${groupId}`);      
       const likes = response.data;
       setNumLikes(likes.filter((like) => like.post_id === postId).length);
       setIsLiked(likes.some((like) => like.post_id === postId));

@@ -14,7 +14,7 @@ const ChatList = ({ selectedConversation, onSelectConversation }) => {
     const token = localStorage.getItem('token');
     const group_id = localStorage.getItem('groupID');
     const username = localStorage.getItem('name');
-    fetch(`http://localhost:5000/groupUsers/${group_id}/${username}`, {
+    fetch(`${import.meta.env.VITE_APP_API_URL}/groupUsers/${group_id}/${username}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',

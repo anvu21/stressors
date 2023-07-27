@@ -21,7 +21,7 @@ const ChatWindow = ({ conversation }) => {
     console.log(conversation)
     console.log(conversationId)
     // set the current reference to the socket connection
-    socket.current = io('http://localhost:8080', {
+    socket.current = io(`${import.meta.env.VITE_APP_SOCKET_URL}`, {
       path: '/ws',
       query: { token: localStorage.getItem('token') }
     });
