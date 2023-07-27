@@ -44,7 +44,7 @@ const ChatWindow = ({ conversation }) => {
   
     socket.current.on('chat message', (msg) => {
       console.log('received a message:', msg);
-      socket.current.emit('fetch old messages', { group_id: localStorage.getItem('groupID'), receiver_name: conversation.username });
+      socket.current.emit('fetch old messages', { group_id: localStorage.getItem('groupID'), receiver_name: conversation.username, user_id: localStorage.getItem('userID') });
 
     });
   

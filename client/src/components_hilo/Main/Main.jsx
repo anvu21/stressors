@@ -17,6 +17,84 @@ const Main = () => {
   const [posts, setPosts] = useState([...actors]);
   const [data, setData] = useState({ text: "", up_down: "" });
   const [loading, setLoading] = useState(true); 
+  const [comments, setComments] = useState([]);
+  const [commentText, setCommentText] = useState({});
+
+  useEffect(() => {
+    validateToken();
+    fetchPosts();
+    fetchComments();
+    //fetchLikesForGroup();
+  }, []);
+
+  const validateToken = async () => {
+    const requestOptions = {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'auth-token': localStorage.getItem('token'),
+      },
+    };
+  
+    try {
+      const response = await fetch('http://localhost:5000/validateToken', requestOptions);
+  
+      if (!response.ok) {
+        // If the server responds with a status code outside of the 200 range
+        localStorage.removeItem('token');
+        navigate('/login'); // Redirects to the login page
+        return null;
+      }
+      
+      return true; // If we reach this point, the token is valid
+    } catch (error) {
+      console.error(`An error occurred: ${error}`);
+      return null;
+    }
+  };
+
+  /** Posts */
+  const handleChange = ({ currentTarget: input }) => {
+    setData({ ...data, [input.name]: input.value });
+    console.log(data);
+  };
+
+  const [isHiActive, setIsHiActive] = useState(false);
+  const [isLoActive, setIsLoActive] = useState(false);
+
+  const handleHiClick = () => {
+    setData({ ...data, up_down: "up" });
+    console.log("Hi")
+    setIsHiActive(true);
+    setIsLoActive(false);
+  };
+  const handleLoClick = () => {
+    setData({ ...data, up_down: "down" });
+    console.log("low")
+    setIsHiActive(false);
+    setIsLoActive(true);
+  };
+  
+  const [isImageHoveredHi, setIsImageHoveredHi] = useState(false);
+  const defaultHi = "Hi.png";
+  const hoverHi = "hi_green.png";  
+
+  const [isImageHoveredLo, setIsImageHoveredLo] = useState(false);
+  const defaultLo = "Lo.png";
+  const hoverLo = "lo_red.png";
+
+  const handleCamera = () => {
+    document.getElementById('fileInput').click();
+  };
+
+  const [file, setFile] = useState(null);
+  const handleFileChange = (e) => {
+    setFile(e.target.files[0]);
+  
+    // show a preview of the image
+    let preview = document.getElementById('imagePreview');
+    preview.src = URL.createObjectURL(e.target.files[0]);
+  };
 
   const handlePost = async (e) => {
     e.preventDefault();
@@ -61,13 +139,6 @@ const Main = () => {
     }
   };
 
-  useEffect(() => {
-    validateToken();
-    fetchPosts();
-    fetchComments();
-    //fetchLikesForGroup();
-  }, []);
-
   const fetchPosts = async () => {
     setLoading(true);
 
@@ -84,7 +155,7 @@ const Main = () => {
       });
     
       setPosts(sortedPosts);
-      console.log(sortedPosts)
+      console.log(sortedPosts);
       setLoading(false);
 
     } catch (error) {
@@ -93,79 +164,8 @@ const Main = () => {
     }
   };
 
-  const handleChange = ({ currentTarget: input }) => {
-    setData({ ...data, [input.name]: input.value });
-    console.log(data);
-  };
 
-  const handleCamera = () => {
-    document.getElementById('fileInput').click();
-  };
-
-  const [file, setFile] = useState(null);
-  const handleFileChange = (e) => {
-    setFile(e.target.files[0]);
-  
-    // show a preview of the image
-    let preview = document.getElementById('imagePreview');
-    preview.src = URL.createObjectURL(e.target.files[0]);
-  };
-
-
-  const validateToken = async () => {
-    const requestOptions = {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        'auth-token': localStorage.getItem('token'),
-      },
-    };
-  
-    try {
-      const response = await fetch('http://localhost:5000/validateToken', requestOptions);
-  
-      if (!response.ok) {
-        // If the server responds with a status code outside of the 200 range
-        localStorage.removeItem('token');
-        navigate('/login'); // Redirects to the login page
-        return null;
-      }
-      
-      return true; // If we reach this point, the token is valid
-    } catch (error) {
-      console.error(`An error occurred: ${error}`);
-      return null;
-    }
-  };
-
-  const [isHiActive, setIsHiActive] = useState(false);
-  const [isLoActive, setIsLoActive] = useState(false);
-
-  const handleHiClick = () => {
-    setData({ ...data, up_down: "up" });
-    console.log("Hi")
-    setIsHiActive(true);
-    setIsLoActive(false);
-  };
-  const handleLoClick = () => {
-    setData({ ...data, up_down: "down" });
-    console.log("low")
-    setIsHiActive(false);
-    setIsLoActive(true);
-  };
-  
-  const [isImageHoveredHi, setIsImageHoveredHi] = useState(false);
-  const defaultHi = "Hi.png";
-  const hoverHi = "hi_green.png";  
-
-  const [isImageHoveredLo, setIsImageHoveredLo] = useState(false);
-  const defaultLo = "Lo.png";
-  const hoverLo = "lo_red.png";
-  
-
-  const [comments, setComments] = useState([]);
-  const [commentText, setCommentText] = useState({});
-    
+  /** Comments */
   const handleCommentChange = ({ currentTarget: input }, postId) => {
     const newCommentText = {
       postId: postId,
@@ -226,6 +226,8 @@ const Main = () => {
       console.error('Fetching commments failed:', error);
     }
   }
+
+
 
 /** 
   const fetchLikesForGroup = async () => {

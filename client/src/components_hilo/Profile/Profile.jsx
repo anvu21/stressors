@@ -25,6 +25,7 @@ const Profile = () => {
     validateToken();
     fetchProfile();
     fetchComments();
+    fetchPosts();
   }, []);
 
   const validateToken = async () => {
@@ -123,14 +124,7 @@ const Profile = () => {
       if (prof) {
         setProfile(prof);
       } 
-      const profilePosts = actors.filter((post) => post.username === username);
-      if (profilePosts) {
-        const sortedPosts = profilePosts.sort((a, b) => {
-          return new Date(b.created_at) - new Date(a.created_at);
-        });
-        setPosts(sortedPosts);
-      }
-      
+
       // user profile and posts fetch
       const response = await axios.get(`http://localhost:5000/profile/${username}`);
       const { profile, posts } = response.data;
@@ -140,7 +134,7 @@ const Profile = () => {
         return new Date(b.created_at) - new Date(a.created_at);
       });
       
-      setPosts(sortedPosts);
+      //setPosts(sortedPosts);
       setLoading(false);
 
       console.log("profile and post fetch");
@@ -152,7 +146,39 @@ const Profile = () => {
       setLoading(false);
     }
   };
+  /** posts not from profile posts */
+  const fetchPosts = async () => {
+    setLoading(true);
 
+    try {
+      const profilePosts = actors.filter((post) => post.username === username);
+      if (profilePosts.length > 0) {
+        const sortedPosts = profilePosts.sort((a, b) => {
+          return new Date(b.created_at) - new Date(a.created_at);
+        });
+        setPosts(sortedPosts);
+        setLoading(false);
+        return; // Exit the function here, since data is already available.
+      }
+      const response = await axios.get(`http://localhost:5000/images/posts/${groupId}`, {
+        headers: {
+          'auth-token': localStorage.getItem('token')
+        }
+      });
+      const fetchedPosts = response.data;
+      const sortedPosts = fetchedPosts.sort((a, b) => {
+        return new Date(b.created_at) - new Date(a.created_at);
+      });
+    
+      setPosts(sortedPosts);
+      console.log(sortedPosts)
+      setLoading(false);
+
+    } catch (error) {
+      console.error('Fetching posts failed:', error);
+      setLoading(false);
+    }
+  };
 
   if (!profile) {
     return <div></div>;
