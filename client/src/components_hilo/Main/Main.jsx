@@ -42,7 +42,7 @@ const Main = () => {
     formData.append('up_down', data.up_down);
   
     try {
-      const response = await axios.post('http://localhost:5000/images/upload', formData, {
+      const response = await axios.post(`${import.meta.env.VITE_APP_API_URL}/images/upload`, formData, {
         headers: {
           'auth-token': localStorage.getItem('token'),
           'Content-Type': 'multipart/form-data'
@@ -72,7 +72,7 @@ const Main = () => {
     setLoading(true);
 
     try {
-      const response = await axios.get(`http://localhost:5000/images/posts/${groupId}`, {
+      const response = await axios.get(`${import.meta.env.VITE_APP_API_URL}/images/posts/${groupId}`, {
         headers: {
           'auth-token': localStorage.getItem('token')
         }
@@ -122,7 +122,7 @@ const Main = () => {
     };
   
     try {
-      const response = await fetch('http://localhost:5000/validateToken', requestOptions);
+      const response = await fetch(`${import.meta.env.VITE_APP_API_URL}/validateToken`, requestOptions);
   
       if (!response.ok) {
         // If the server responds with a status code outside of the 200 range
@@ -184,7 +184,7 @@ const Main = () => {
     const { comment_text } = commentText;
     console.log(commentText)
     try {
-      const response = await axios.post('http://localhost:5000/comment', { comment_text, group_id: groupid, postId: post__id}, {
+      const response = await axios.post(`${import.meta.env.VITE_APP_API_URL}/comment`, { comment_text, group_id: groupid, postId: post__id}, {
         headers: {
           'auth-token': localStorage.getItem('token') 
         }
@@ -209,7 +209,7 @@ const Main = () => {
 
   const fetchComments = async () => {
     try {
-      const response = await axios.get(`http://localhost:5000/comments/${groupId}`, {
+      const response = await axios.get(`${import.meta.env.VITE_APP_API_URL}/comments/${groupId}`, {
         headers: {
           'auth-token': localStorage.getItem('token')
         }
@@ -227,29 +227,7 @@ const Main = () => {
     }
   }
 
-/** 
-  const fetchLikesForGroup = async () => {
-    try {
-      let groupId = localStorage.getItem("groupID"); // replace this with your actual group id logic
-      const response = await fetch(`http://localhost:5000/likes/group/${groupId}`);
-      const data = await response.json();
-      console.log("like fetch")
-      console.log(data);
-      if (response.ok && Array.isArray(data)) {
-        setAllGroupLikes(data);
-      } else {
-          console.log(data.message);
-          setAllGroupLikes([]);
-      }
-      console.log('Fetched likes data:', data);  // Add this line
-      
-    } catch (error) {
-      console.error("An error occurred:", error);
-      setAllGroupLikes([]);
-    }
-  };
-  const [allGroupLikes, setAllGroupLikes] = useState([]);
-*/
+
   return (
     <div>
       <div className={styles.screen}> 

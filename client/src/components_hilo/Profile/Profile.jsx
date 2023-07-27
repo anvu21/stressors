@@ -37,7 +37,7 @@ const Profile = () => {
     };
   
     try {
-      const response = await fetch('http://localhost:5000/validateToken', requestOptions);
+      const response = await fetch(`${import.meta.env.VITE_APP_API_URL}/validateToken`, requestOptions);
   
       if (!response.ok) {
         // If the server responds with a status code outside of the 200 range
@@ -71,7 +71,7 @@ const Profile = () => {
     const { comment_text } = commentText;
     console.log(commentText)
     try {
-      const response = await axios.post('http://localhost:5000/comment', { comment_text, group_id: groupid, postId: post__id}, {
+      const response = await axios.post(`${import.meta.env.VITE_APP_API_URL}/comment`, { comment_text, group_id: groupid, postId: post__id}, {
         headers: {
           'auth-token': localStorage.getItem('token') 
         }
@@ -96,7 +96,7 @@ const Profile = () => {
 
   const fetchComments = async () => {
     try {
-      const response = await axios.get(`http://localhost:5000/comments/${groupId}`, {
+      const response = await axios.get(`${import.meta.env.VITE_APP_API_URL}/comments/${groupId}`, {
         headers: {
           'auth-token': localStorage.getItem('token')
         }
@@ -132,7 +132,7 @@ const Profile = () => {
       }
       
       // user profile and posts fetch
-      const response = await axios.get(`http://localhost:5000/profile/${username}`);
+      const response = await axios.get(`${import.meta.env.VITE_APP_API_URL}/profile/${username}`);
       const { profile, posts } = response.data;
       setProfile(profile);
 
