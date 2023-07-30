@@ -10,6 +10,7 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const imagesRouter = require('./routes/images');
 const http = require('http');
+require("dotenv").config();
 
 //middleware
 app.use(cors());
@@ -39,7 +40,7 @@ app.get('/register', function(req, res) {
 });
 //create
 
-const jwtSecret = process.env.JWT_SECRET || 'your-secret-key'; // This should be in an environment variable in production
+const jwtSecret = process.env.JWT_SECRET_KEY  // This should be in an environment variable in production
 
 
 
@@ -313,7 +314,7 @@ io.use((socket, next) => {
 
   try {
     // verify and decode the token
-    const decoded = jwt.verify(token, 'your-secret-key');
+    const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
     // attach decoded to socket
     socket.decoded = decoded;
     next();
