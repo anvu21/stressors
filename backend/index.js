@@ -37,8 +37,8 @@ if (process.env.NODE_ENV === 'production'){
 //routes
 app.get('/register', function(req, res) {
     res.send("It works!");
-});
-//create
+});  
+//createrr
 
 const jwtSecret = process.env.JWT_SECRET_KEY  // This should be in an environment variable in production
 
