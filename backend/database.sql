@@ -1,15 +1,6 @@
 
 
-CREATE TABLE messages (
-  id SERIAL PRIMARY KEY,
-  group_id INT NOT NULL,
-  sender_id INT NOT NULL,
-  content TEXT NOT NULL,
-  shared_post_id INT,
-  receiver_id INT NOT NULL,
-  timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  FOREIGN KEY (shared_post_id) REFERENCES posts (id)
-);
+
 
 CREATE TABLE Users (
     id SERIAL PRIMARY KEY,
@@ -53,4 +44,15 @@ CREATE TABLE Likes (
     FOREIGN KEY (user_id) REFERENCES Users(id) ON DELETE CASCADE,
     FOREIGN KEY (post_id) REFERENCES Posts(id) ON DELETE SET NULL,
     FOREIGN KEY (comment_id) REFERENCES Comments(id) ON DELETE SET NULL
+);
+
+CREATE TABLE messages (
+  id SERIAL PRIMARY KEY,
+  group_id INT NOT NULL,
+  sender_id INT NOT NULL,
+  content TEXT NOT NULL,
+  shared_post_id INT,
+  receiver_id INT NOT NULL,
+  timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (shared_post_id) REFERENCES posts (id)
 );
