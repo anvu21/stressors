@@ -30,10 +30,7 @@ const io = require('socket.io')(server, {
   serveClient: false
 });
 
-if (process.env.NODE_ENV === 'production'){
-  //server static conetent
-  app.use(express.static(path.join(__dirname, "client/build")))
-}
+
 //routes
 app.get('/register', function(req, res) {
     res.send("It works!");
