@@ -3,15 +3,15 @@
 @import 'tailwindcss/utilities';
 
 .top_nav {
-    @apply w-full h-14 bg-white border-b border-slate-300 fixed top-0 z-50 px-10 flex justify-center;
+    @apply w-full h-14 bg-white border-b border-slate-300 fixed top-0 z-50 flex justify-center;
 }
 
 .nav_contain {
-    @apply w-[1200px] flex;
+    @apply container mx-auto px-10 flex items-center;
 }
 
 .nav_items {
-    @apply w-96 h-full ml-36 absolute py-5 flex justify-center items-center;
+    @apply h-full relative ml-auto flex justify-center items-center;
 }
 
 .nav_active {
@@ -23,11 +23,11 @@
 }
 
 .logout {
-    @apply absolute ml-[1100px] mt-3 hover:underline;
+    @apply relative ml-auto hover:underline;
 }
 
 .logo_pos {
-    @apply w-20 absolute mr-[1100px];
+    @apply w-20 relative;
 }
 
 .logo {

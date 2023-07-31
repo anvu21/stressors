@@ -149,7 +149,7 @@ const Profile = () => {
   /** posts not from profile posts */
   const fetchPosts = async () => {
     setLoading(true);
-
+    
     try {
       const profilePosts = actors.filter((post) => post.username === username);
       if (profilePosts.length > 0) {
@@ -158,7 +158,7 @@ const Profile = () => {
         });
         setPosts(sortedPosts);
         setLoading(false);
-        return; // Exit the function here, since data is already available.
+        return;
       }
       const response = await axios.get(`http://localhost:5000/images/posts/${groupId}`, {
         headers: {
@@ -166,7 +166,9 @@ const Profile = () => {
         }
       });
       const fetchedPosts = response.data;
-      const sortedPosts = fetchedPosts.sort((a, b) => {
+      const userPosts = fetchedPosts.filter((post) => post.username === username);
+
+      const sortedPosts = userPosts.sort((a, b) => {
         return new Date(b.created_at) - new Date(a.created_at);
       });
     

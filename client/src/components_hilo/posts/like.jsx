@@ -45,8 +45,8 @@ const LikeButton = ({ post, postId, groupId, userId }) => {
       setNumLikes(likes.filter((like) => like.post_id === postId).length);
       setIsLiked(likes.some((like) => like.post_id === postId));
 
-      console.log("Like fetch")
-      console.log(response);
+      //console.log("Like fetch")
+      //console.log(response);
     } catch (error) {
       console.error(error);
     }
