@@ -23,8 +23,8 @@ git push heroku HEAD:master
 SQL Section:
 \dt to list all relations 
 \q to quit sql
-heroku pg:psql -a lehigh-fcf (To go into database)
-cat database.sql | heroku pg:psql -a lehigh-fcf (catnate database.sql) into heroku database)
+heroku pg:psql -a mountaintop-program (To go into database)
+cat database.sql | heroku pg:psql -a mountaintop-program (catnate database.sql) into heroku database)
 cat recipe_index.sql | heroku pg:psql -a lehigh-fcf
 CREATE DATABASE FCF;
 

@@ -10,6 +10,7 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const imagesRouter = require('./routes/images');
 const http = require('http');
+require("dotenv").config();
 
 //middleware
 app.use(cors());
@@ -29,17 +30,14 @@ const io = require('socket.io')(server, {
   serveClient: false
 });
 
-if (process.env.NODE_ENV === 'production'){
-  //server static conetent
-  app.use(express.static(path.join(__dirname, "client/build")))
-}
+
 //routes
 app.get('/register', function(req, res) {
     res.send("It works!");
-});
-//create
+});  
+//createrr
 
-const jwtSecret = process.env.JWT_SECRET || 'your-secret-key'; // This should be in an environment variable in production
+const jwtSecret = process.env.JWT_SECRET_KEY  // This should be in an environment variable in production
 
 
 
@@ -313,7 +311,7 @@ io.use((socket, next) => {
 
   try {
     // verify and decode the token
-    const decoded = jwt.verify(token, 'your-secret-key');
+    const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
     // attach decoded to socket
     socket.decoded = decoded;
     next();
@@ -364,7 +362,7 @@ io.on('connection', (socket) => {
 
   socket.on('fetch old messages', async (data) => {
     const { group_id,receiver_name,user_id } = data;
-
+    console.log(group_id,receiver_name,user_id);
     try {
           // First, get the receiver's ID from the username
       const userQuery = `SELECT id FROM users WHERE username = $1`;
@@ -384,13 +382,18 @@ io.on('connection', (socket) => {
         ORDER BY timestamp DESC
       `;
         const messagesResult = await pool.query(messagesQuery, [group_id, receiver_id,user_id]);
-  
+        console.log("Message Row"+messagesResult.rows)
+        console.log("Message length"+messagesResult.rows.length)
+
         if (messagesResult.rows.length > 0) {
           const oldMessages = messagesResult.rows;
           // Send the old messages back to the client
+          console.log("Old message")
+
           socket.emit('old messages', oldMessages);
         } else {
           // If there are no old messages for this group_id, we can send an empty array
+          console.log("No old messages")
           socket.emit('old messages', []);
         }
       } else {
@@ -410,14 +413,14 @@ io.on('connection', (socket) => {
   });
 });
 
-server.listen(8080, () => {
-  console.log('listening on *:8080');
+server.listen(process.env.PORT||8080, () => {
+  console.log(`server start on port ${process.env.PORT || 8080}`);
 });
 
 
-
+/*
 app.listen(PORT,()=>{
     console.log(`server start on port ${PORT}`)
 
 
-})
+})*/
