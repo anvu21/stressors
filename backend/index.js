@@ -414,13 +414,13 @@ io.on('connection', (socket) => {
 });
 
 server.listen(process.env.PORT||8080, () => {
-  console.log('listening on *:8080');
+  console.log(`server start on port ${process.env.PORT || 8080}`);
 });
 
 
-
+/*
 app.listen(PORT,()=>{
     console.log(`server start on port ${PORT}`)
 
 
-})
+})*/
