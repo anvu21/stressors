@@ -4,6 +4,7 @@ const multer = require('multer');
 const { S3Client, PutObjectCommand,GetObjectCommand,DeleteObjectCommand   } = require("@aws-sdk/client-s3");
 const fs = require('fs');
 const cors = require('cors');
+const bcrypt = require('bcrypt');
 
 require("dotenv").config();
 const crypto = require('crypto');
@@ -85,19 +86,79 @@ router.post('/upload',verifyToken, upload.single('image'), async (req, res) => {
 
 });
 
+router.post('/profile/upload', upload.single('image'), async (req, res) => {
+  const file = req.file;
+  // Generate a random string for filename
+  let randomName = crypto.randomBytes(16).toString("hex");
+  // Preserve the file extension
+  let fileExtension = file.originalname.split(".").pop();
+  let newFileName = `${randomName}.${fileExtension}`;  
+  
+  //const fileBuffer = await sharp(file.buffer).resize({ height: 1920, width: 1080, fit: "contain" }).toBuffer()
+
+  
+
+  const uploadParams = {
+    Bucket: process.env.BUCKET_NAME,
+    Key: newFileName, 
+    Body: fs.createReadStream(file.path),
+    ContentType: req.file.mimetype // this will make the uploaded file publicly accessible. Adjust as necessary
+  };
+
+  try {
+    await s3.send(new PutObjectCommand(uploadParams));
+    //const fileUrl = `https://${uploadParams.Bucket}.s3.${process.env.BUCKET_REGION}.amazonaws.com/${uploadParams.Key}`;
+    //console.log(`File uploaded successfully. ${fileUrl}`);
+    res.status(200).send(`File uploaded successfully.`);
+
+    fs.unlink(file.path, (err) => {
+      if (err) {
+        console.error(err);
+      }
+      console.log(`Temp file deleted: ${file.path}`);
+    });
+  } catch (err) {
+    console.log('Error', err);
+    res.status(500).send(err);
+  }
+
+  
+
+  let image_url = newFileName
+
+  const { username, password, groupId, bio } = req.body;
+
+  
+  //console.log(group_id)
+  if (!username ) {
+    return res.status(400).json({ message: 'Signup must contain username' });
+  }
+  const saltRounds = 10;
+  const hashedPassword = await bcrypt.hash(password, saltRounds);  
+  try {
+    const result = await pool.query('INSERT INTO Users (username, password, group_id, created_at, updated_at,bio,profile_pic_url) VALUES ($1, $2, $3, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, $4, $5) RETURNING id', [username, hashedPassword, groupId,bio,image_url]);
+
+
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ message: 'Internal server error' });
+  }
+
+});
 
 router.get("/posts/:groupId", async (req, res) => {
   // Query inside the GET route
-  const { groupId } = req.params;
   try {
-    pool.query('SELECT posts.*, users.username FROM posts INNER JOIN users ON posts.user_id = users.id WHERE posts.group_id = $1  OR posts.group_id = 100', [groupId], async (error, results) => {
+    const { groupId } = req.params;
+    console.log(groupId);
+    pool.query('SELECT posts.*, users.username,users.profile_pic_url FROM posts INNER JOIN users ON posts.user_id = users.id WHERE posts.group_id = $1  OR posts.group_id = 100', [groupId], async (error, results) => {
     if (error) {
       console.error(error);
       res.status(500).send(error);
       return;
     }
     const posts = results.rows;
-    //console.log(posts)
+    console.log(posts)
 
     for (let post of posts) { 
       post.imageUrl = await getSignedUrl(
@@ -105,6 +166,14 @@ router.get("/posts/:groupId", async (req, res) => {
         new GetObjectCommand({
           Bucket: process.env.BUCKET_NAME,
           Key: post.image_url // Assuming 'imageName' is a column in your table
+        }),
+        { expiresIn: 3600 }
+      );
+      post.profile_pic_url = await getSignedUrl(
+        s3,
+        new GetObjectCommand({
+          Bucket: process.env.BUCKET_NAME,
+          Key: post.profile_pic_url // Assuming 'imageName' is a column in your table
         }),
         { expiresIn: 3600 }
       );
