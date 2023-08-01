@@ -2,65 +2,8 @@
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
 
-
-.post_bar {
-    @apply w-[600px] min-h-[50px] relative bg-slate-300 rounded-lg shadow-sm flex-col items-center;
-}
-
-.profile_icon_pos {
-    @apply w-8 relative rounded-full overflow-hidden mx-3 bg-white;
-}
-
-.profile_icon {
-    @apply w-full object-cover;
-}
-
-.post_input_pos {
-    @apply relative flex-grow items-center;
-}
-
-.post_input {
-    @apply w-full h-full resize-none border border-slate-300 rounded-tr-lg rounded-br-lg pl-4 pr-[200px] py-3;
-}
-
-.send_pos {
-    @apply relative right-3;
-}
-
-.send {
-    @apply w-8 h-full fill-current text-neutral-500 hover:text-neutral-700;
-}
-
-.camera_pos {
-    @apply relative right-[60px];
-}
-
-.camera_icon {
-    @apply w-8 fill-current text-neutral-500 hover:text-neutral-700;
-}
-
-.post_img {
-    @apply max-w-[100px] relative;
-}
-
-.hi_pos {
-    @apply relative right-[110px];
-}
-
-.hi {
-    @apply w-6 fill-current;
-}
-
-.lo_pos {
-    @apply relative right-[150px];
-}
-
-.lo {
-    @apply w-5 fill-current;
-}
-
 .post_box {
-    @apply w-[600px] bg-white border border-slate-300 relative justify-center rounded-lg shadow-sm flex-col mt-3;
+    @apply sm:w-full md:w-[600px] bg-white border border-slate-300 relative justify-center rounded-lg shadow-sm flex-col mt-3;
 }
 
 .hi_post {
@@ -92,7 +35,7 @@
 }
 
 .content {
-    @apply w-full bg-white relative mt-12 left-0 flex text-sm text-black p-4 border-t border-b border-slate-300;
+    @apply w-full bg-white relative mt-12 left-0 flex text-sm text-black p-4 border-t border-b border-slate-300 break-words;
 }
 
 .photo_pos {
@@ -100,7 +43,7 @@
 }
 
 .photo {
-    @apply relative max-h-[400px] min-w-[350px];
+    @apply relative max-h-[400px];
 }
 
 .react_bar {
@@ -164,7 +107,7 @@
 }
 
 .comment_text {
-    @apply text-xs;
+    @apply text-xs break-all;
 }
 
 .send_pos {

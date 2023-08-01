@@ -6,6 +6,7 @@ const ChatWindow = ({ conversation }) => {
   const [messages, setMessages] = useState([]);
   const socket  = useRef(null);
   const chatWindowRef = useRef(null);
+  const user = localStorage.getItem('name');
 
   const conversationId = useMemo(() => {
     if (!conversation) return null;
@@ -25,8 +26,8 @@ const ChatWindow = ({ conversation }) => {
       query: { token: localStorage.getItem('token') }
     });
 
-        // Join the conversation room
-        socket.current.emit('join conversation', conversationId);
+      // Join the conversation room
+      socket.current.emit('join conversation', conversationId);
 
     socket.current.on('old messages', (oldMessages) => {
       // Transform oldMessages to match the structure of the messages state
@@ -103,16 +104,16 @@ const ChatWindow = ({ conversation }) => {
             <div className="flex-grow overflow-y-auto" ref={chatWindowRef}>
               {/* Messages */}
               <div className="flex flex-col space-y-4 px-4">
-                {messages.map((msg) => (
+                {messages.slice().reverse().map((msg) => (
                   <div
                     key={msg.id}
-                    className={`flex flex-col items-${msg.sender === 'You' ? 'end' : 'start'}`}
+                    className={`flex flex-col items-${msg.sender === user ? 'end' : 'start'}`}
                   >
                     <div
                       className={`${
-                        msg.sender === 'You'
-                          ? 'bg-cyan-500 text-white rounded-t-lg rounded-bl-lg items-end'
-                          : 'bg-gray-200 rounded-t-lg rounded-br-lg items-start'
+                        msg.sender === user
+                          ? 'bg-cyan-500 text-white rounded-t-lg rounded-bl-lg items-end break-all'
+                          : 'bg-gray-200 rounded-t-lg rounded-br-lg items-start break-all'
                       } py-2 px-4 max-w-lg`}
                     >
                       {msg.content}

@@ -44,7 +44,7 @@ const Login = () => {
       <div className={styles.screen}>
 
         <button className={styles.logo_pos}>
-          <img className={styles.logo} src="HiLo Logo.png" alt="Logo"/>
+          <img className={styles.logo} src="/HiLo Logo.png" alt="Logo"/>
         </button> 
 
         <div className={styles.login_box}>

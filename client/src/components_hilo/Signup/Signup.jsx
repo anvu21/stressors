@@ -43,7 +43,7 @@ const Signup = () => {
     <div>
       <div className={styles.screen}>
         <button className={styles.logo_pos}>
-          <img className={styles.logo} src="HiLo Logo.png" alt="Logo"/>
+          <img className={styles.logo} src="/HiLo Logo.png" alt="Logo"/>
         </button> 
 
         <div className={styles.signup_box}>

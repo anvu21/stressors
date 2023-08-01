@@ -23,3 +23,38 @@
 }
 
 
+.post_bar {
+    @apply w-[600px] min-h-[50px] flex-col items-center bg-gray-300 rounded-lg;
+}
+
+.post_bar_top {
+    @apply w-full h-full flex items-center px-3 py-2;
+}
+
+.profile_icon {
+    @apply w-8 h-8 rounded-full mr-2;
+}
+
+.post_input {
+    @apply flex-grow py-2 px-4 bg-white rounded-lg resize-none focus:outline-none;
+}
+
+.p {
+    @apply p-1;
+}
+
+.send_camera {
+    @apply w-8 h-8 fill-current text-neutral-500 hover:text-neutral-700;
+}
+
+.hilo {
+    @apply w-5 h-8 m-1;
+}
+
+.post_bar_bot {
+    @apply flex justify-center items-center;
+}
+
+.post_img {
+    @apply max-h-[400px] mb-1;
+}
