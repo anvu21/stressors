@@ -250,10 +250,10 @@ const Main = () => {
         </div>
         
         {/** Post input bar */}
-        <div className="w-[600px] min-h-[50px] flex-col items-center bg-gray-300 rounded-lg">
-          <div className='w-full h-full flex items-center px-3 py-2'>
+        <div className={styles.post_bar}>
+          <div className={styles.post_bar_top}>
             <Link to={`/profile/${username}`}>
-              <img src="/avatar.png" alt="Avatar" className="w-8 h-8 rounded-full mr-2" />
+              <img src="/avatar.png" alt="Avatar" className={styles.profile_icon} />
             </Link>
             <input
               type="text"
@@ -301,8 +301,8 @@ const Main = () => {
             </button>
           </div>
           
-          <div className='flex justify-center items-center'>
-            <img id="imagePreview" className="max-h-[400px] mb-1"/>
+          <div className={styles.post_bar_bot}>
+            <img id="imagePreview" className={styles.post_img}/>
           </div>
         </div>
         

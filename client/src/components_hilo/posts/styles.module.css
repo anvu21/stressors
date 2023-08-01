@@ -3,7 +3,7 @@
 @import 'tailwindcss/utilities';
 
 .post_box {
-    @apply sm:w-full md:w-[600px] bg-white border border-slate-300 relative justify-center rounded-lg shadow-sm flex-col mt-3;
+    @apply w-[600px] bg-white border border-slate-300 relative justify-center rounded-lg shadow-sm flex-col mt-3;
 }
 
 .hi_post {

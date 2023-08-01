@@ -3,7 +3,7 @@ import React, { useState, useEffect }  from 'react';
 import { Link } from 'react-router-dom';
 import axios from "axios";
 
-const Navbar = () => {
+const Navbar = ({  }) => {
   const [notifications, setNotifications] = useState([]);
 
   const handleLogout = () => {
@@ -24,8 +24,8 @@ const Navbar = () => {
           </a>
           <a className={styles.nav_item} href="/messages" onClick={() => setOpen(!open)}>
             Message
-            {notifications.length > 0 && (
-              <div className={styles.notify}>{notifications.length}</div>
+            {notifications > 0 && (
+              <div className={styles.notify}>{notifications}</div>
             )}
           </a>
 

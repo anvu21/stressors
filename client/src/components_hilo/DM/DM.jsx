@@ -5,7 +5,7 @@ import Navbar from '../Navbar/Navbar';
 import ChatList from './ChatList';
 import ChatWindow from './ChatWindow';
 
-const DM = () => {
+const DM = ({  }) => {
   const [selectedConversation, setSelectedConversation] = useState(null);
 
   const handleConversationSelect = (conversation) => {
@@ -52,7 +52,9 @@ const DM = () => {
           />
         </div>
         <div className="w-3/4">
-          <ChatWindow conversation={selectedConversation} />
+          <ChatWindow 
+            conversation={selectedConversation} 
+          />
         </div>
       </div>
     </div>

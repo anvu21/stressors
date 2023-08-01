@@ -38,13 +38,26 @@ const Signup = () => {
 		}
 	};
 	  
+  const handleCamera = () => {
+    document.getElementById('fileInput').click();
+  };
+
+  const [file, setFile] = useState(null);
+  const handleFileChange = (e) => {
+    setFile(e.target.files[0]);
+  
+    // show a preview of the image
+    let preview = document.getElementById('imagePreview');
+    preview.src = URL.createObjectURL(e.target.files[0]);
+  };
+
   
   return (
     <div>
       <div className={styles.screen}>
-        <button className={styles.logo_pos}>
+        <div className={styles.logo_pos}>
           <img className={styles.logo} src="/HiLo Logo.png" alt="Logo"/>
-        </button> 
+        </div> 
 
         <div className={styles.signup_box}>
           <div className={styles.signup_text}>Create a new account</div>
@@ -86,6 +99,20 @@ const Signup = () => {
               className={styles.bio}
             ></textarea>
             
+            {/** upload image code from main */}
+            <input 
+              type="file" 
+              id="fileInput" 
+              style={{ display: "none" }} // hide the input
+              onChange={handleFileChange} // call the function to handle the file when it changes
+            />
+            <button className={styles.upload_text} onClick={handleCamera}>
+              Upload an Image
+            </button>
+            <div className={styles.image}>
+              <img id="imagePreview" className="object-cover w-full h-full rounded-full"/>
+            </div>
+
             {error && <div className={styles.error_msg}>{error}</div>}
             
             <button type="submit" className={styles.signup_btn_pos}>

@@ -3,11 +3,11 @@
 @import 'tailwindcss/utilities';
 
 .screen {
-    @apply min-h-[1000px] relative bg-gray-200 flex justify-center p-5;
+    @apply w-full min-h-[1000px] relative bg-gray-200 flex flex-col items-center p-5;
 }
 
 .logo_pos {
-    @apply w-44 absolute;
+    @apply w-44 relative;
 }
 
 .logo {
@@ -15,7 +15,7 @@
 }
 
 .login_box {
-    @apply min-w-[400px] h-[400px] mt-32 relative bg-gray-100 border border-neutral-300 rounded-lg shadow-sm flex flex-col items-center;
+    @apply min-w-[400px] min-h-[400px] mt-5 relative bg-gray-100 border border-neutral-300 rounded-lg shadow-sm flex flex-col items-center;
 }
 
 .login_text {
@@ -43,7 +43,7 @@
 }
 
 .acct_btn_pos {
-    @apply w-2/4 h-12 relative mt-3 flex;
+    @apply w-2/4 h-12 relative m-3 flex;
 }
 
 .acct_btn {
@@ -51,7 +51,7 @@
 }
 
 .error_msg {
-	width: 370px;
+	width: 300px;
 	padding: 15px;
 	margin: 5px 0;
 	font-size: 14px;

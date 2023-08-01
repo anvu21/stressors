@@ -145,7 +145,7 @@ const Profile = () => {
       setPosts(sortedPosts);
       setLoading(false);
 
-      console.log("profile and post fetch");
+      console.log("profile fetch");
       console.log(profile);
       console.log(posts);
       
@@ -154,11 +154,12 @@ const Profile = () => {
       setLoading(false);
     }
   };
-  /** posts not from profile posts 
+/**  
   const fetchPosts = async () => {
     setLoading(true);
     
     try {
+      // temporary posts for actors
       const profilePosts = actors.filter((post) => post.username === username);
       if (profilePosts.length > 0) {
         const sortedPosts = profilePosts.sort((a, b) => {
@@ -168,27 +169,28 @@ const Profile = () => {
         setLoading(false);
         return;
       }
-      const response = await axios.get(`http://localhost:5000/images/posts/${groupId}`, {
+      // user posts
+      const response = await axios.get(`http://localhost:5000/images/users/${username}`, {
         headers: {
           'auth-token': localStorage.getItem('token')
         }
       });
       const fetchedPosts = response.data;
-      const userPosts = fetchedPosts.filter((post) => post.username === username);
+      //const userPosts = fetchedPosts.filter((post) => post.username === username);
 
-      const sortedPosts = userPosts.sort((a, b) => {
+      const sortedPosts = fetchedPosts.sort((a, b) => {
         return new Date(b.created_at) - new Date(a.created_at);
       });
     
       setPosts(sortedPosts);
-      console.log(sortedPosts)
+      console.log("profile posts", sortedPosts)
       setLoading(false);
 
     } catch (error) {
       console.error('Fetching posts failed:', error);
       setLoading(false);
     }
-  };*/
+  }; */
 
   if (!profile) {
     return <div>No user found with this username</div>;
