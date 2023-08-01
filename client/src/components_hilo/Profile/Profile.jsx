@@ -25,7 +25,7 @@ const Profile = () => {
     validateToken();
     fetchProfile();
     fetchComments();
-    fetchPosts();
+    //fetchPosts();
   }, []);
 
   const validateToken = async () => {
@@ -127,14 +127,13 @@ const Profile = () => {
 
       // user profile and posts fetch
       const response = await axios.get(`${import.meta.env.VITE_APP_API_URL}/profile/${username}`);
-      const { profile, posts } = response.data;
-      setProfile(profile);
-
+      const { profile, posts } = response.data;  
       const sortedPosts = posts.sort((a, b) => {
         return new Date(b.created_at) - new Date(a.created_at);
       });
-      
-      //setPosts(sortedPosts);
+
+      setProfile(profile);
+      setPosts(sortedPosts);
       setLoading(false);
 
       console.log("profile and post fetch");
@@ -146,7 +145,7 @@ const Profile = () => {
       setLoading(false);
     }
   };
-  /** posts not from profile posts */
+  /** posts not from profile posts 
   const fetchPosts = async () => {
     setLoading(true);
     
@@ -180,7 +179,7 @@ const Profile = () => {
       console.error('Fetching posts failed:', error);
       setLoading(false);
     }
-  };
+  };*/
 
   if (!profile) {
     return <div></div>;
@@ -191,7 +190,7 @@ const Profile = () => {
   return (
     <div>
       <div className={styles.screen}>
-        <Navbar /> 
+
         <div key={profile.id}>
           <div className={styles.container}>
             <div className={styles.bg_img}>

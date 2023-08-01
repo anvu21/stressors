@@ -1,7 +1,10 @@
 import styles from './styles.module.css';
-import React from 'react';
+import React, { useState, useEffect }  from 'react';
+import { Link } from 'react-router-dom';
+import axios from "axios";
 
 const Navbar = () => {
+  const [notifications, setNotifications] = useState([]);
 
   const handleLogout = () => {
 		localStorage.removeItem("token");
@@ -16,8 +19,15 @@ const Navbar = () => {
         </a> 
 
         <div className={styles.nav_items}>
-          <a className={styles.nav_item} href="/">Home</a>
-          <a className={styles.nav_item} href="/messages">Message</a>
+          <a className={styles.nav_item} href="/">
+            Home
+          </a>
+          <a className={styles.nav_item} href="/messages" onClick={() => setOpen(!open)}>
+            Message
+            {notifications.length > 0 && (
+              <div className={styles.notify}>{notifications.length}</div>
+            )}
+          </a>
 
           {/*
           <a className={styles.nav_item} href="/thing1">Thing 2</a>

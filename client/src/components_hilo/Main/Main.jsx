@@ -232,7 +232,7 @@ const Main = () => {
   return (
     <div>
       <div className={styles.screen}> 
-        <Navbar />   
+  
         {/** User profile box */}
         <div className={styles.user_box}>
           {/** profile not editable by user yet */}

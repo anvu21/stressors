@@ -33,3 +33,7 @@
 .logo {
     @apply w-full h-full object-cover;
 }
+
+.notify {
+    @apply w-1 h-1 absolute top-2 ml-20 text-xs bg-red-500 rounded-full justify-center items-center flex p-2;
+}

@@ -36,7 +36,7 @@ const actors = [
   {
     id: 122,
     username: "Maya Thompson",
-    prof_pic: "/mThompson/avatar.jpg",
+    prof_pic: "/mThompson/image9.png",
     bio: "Hello there! My name is Maya Thompson. I am a high school girl. Nature is my ultimate sanctuary, where I find peace and inspiration. Exploring scenic trails and breathing in the fresh air rejuvenates my soul. Food is another passion of mine, and I love trying new flavors and experiencing different cuisines. Traveling to new places fills me with excitement!",
     content: "OMG, you guys won't believe the hideousness I just stumbled upon while shopping! It is like a fashion nightmare - tacky pattern, cheap material, and zero style. It's like a fashion crime waiting to happen! 🙅‍♀️😱",
     up_down: "down",
@@ -49,12 +49,12 @@ const actors = [
   {
     id: 121,
     username: "Maya Thompson",
-    prof_pic: "/mThompson/avatar.jpg",
+    prof_pic: "/mThompson/image9.png",
     bio: "Hello there! My name is Maya Thompson. I am a high school girl. Nature is my ultimate sanctuary, where I find peace and inspiration. Exploring scenic trails and breathing in the fresh air rejuvenates my soul. Food is another passion of mine, and I love trying new flavors and experiencing different cuisines. Traveling to new places fills me with excitement!",
     content: "Food fail: tasteless, overcooked mush that's a total stomach-turner. 🤢👎",
     up_down: "down",
     group_id: 5,
-    image_url: "/mThompson/avatar.jpg",
+    image_url: "/mThompson/image4.png",
     //...generateRandomDate(),
     created_at: "2023-05-21T03:52:30.401Z",
     updated_at: "2023-05-21T03:52:30.401Z",
@@ -62,7 +62,7 @@ const actors = [
   {
     id: 120,
     username: "Maya Thompson",
-    prof_pic: "/mThompson/avatar.jpg",
+    prof_pic: "/mThompson/image9.png",
     bio: "Hello there! My name is Maya Thompson. I am a high school girl. Nature is my ultimate sanctuary, where I find peace and inspiration. Exploring scenic trails and breathing in the fresh air rejuvenates my soul. Food is another passion of mine, and I love trying new flavors and experiencing different cuisines. Traveling to new places fills me with excitement!",
     content: "Ugh, coffee and studying? Total disaster, dude! It's like a one-way ticket to sleepless nights and major jitters, no thanks! 😫☕️",
     up_down: "down",
@@ -75,7 +75,7 @@ const actors = [
   {
     id: 119,
     username: "Maya Thompson",
-    prof_pic: "/mThompson/avatar.jpg",
+    prof_pic: "/mThompson/image9.png",
     bio: "Hello there! My name is Maya Thompson. I am a high school girl. Nature is my ultimate sanctuary, where I find peace and inspiration. Exploring scenic trails and breathing in the fresh air rejuvenates my soul. Food is another passion of mine, and I love trying new flavors and experiencing different cuisines. Traveling to new places fills me with excitement!",
     content: "Check it out, fam! My buddy and I recently splurged on these amazing matching friendship bracelets - a symbol of our tight bond and all the crazy memories we've made together! Can't wait to rock them and show off our friendship in style! 🙌💫✨",
     up_down: "up",
@@ -88,7 +88,7 @@ const actors = [
   {
     id: 118,
     username: "Maya Thompson",
-    prof_pic: "/mThompson/avatar.jpg",
+    prof_pic: "/mThompson/image9.png",
     bio: "Hello there! My name is Maya Thompson. I am a high school girl. Nature is my ultimate sanctuary, where I find peace and inspiration. Exploring scenic trails and breathing in the fresh air rejuvenates my soul. Food is another passion of mine, and I love trying new flavors and experiencing different cuisines. Traveling to new places fills me with excitement!",
     content: "Puzzle time with my sis is legit awesome - we're like the dynamic duo of piece-fitting perfection! 🧩🔥",
     up_down: "up",
@@ -101,7 +101,7 @@ const actors = [
   {
     id: 117,
     username: "Maya Thompson",
-    prof_pic: "/mThompson/avatar.jpg",
+    prof_pic: "/mThompson/image9.png",
     bio: "Hello there! My name is Maya Thompson. I am a high school girl. Nature is my ultimate sanctuary, where I find peace and inspiration. Exploring scenic trails and breathing in the fresh air rejuvenates my soul. Food is another passion of mine, and I love trying new flavors and experiencing different cuisines. Traveling to new places fills me with excitement!",
     content: "Exploring nature's wonders, one trail at a time. 🌿🚶‍♀️ #TrailLife",
     up_down: "up",
@@ -114,7 +114,7 @@ const actors = [
   {
     id: 116,
     username: "Maya Thompson",
-    prof_pic: "/mThompson/avatar.jpg",
+    prof_pic: "/mThompson/image9.png",
     bio: "Hello there! My name is Maya Thompson. I am a high school girl. Nature is my ultimate sanctuary, where I find peace and inspiration. Exploring scenic trails and breathing in the fresh air rejuvenates my soul. Food is another passion of mine, and I love trying new flavors and experiencing different cuisines. Traveling to new places fills me with excitement!",
     content: "I just had the best ice cream ever, and it was absolutely amazing!",
     up_down: "up",
@@ -127,7 +127,7 @@ const actors = [
   {
     id: 115,
     username: "Maya Thompson",
-    prof_pic: "/mThompson/avatar.jpg",
+    prof_pic: "/mThompson/image9.png",
     bio: "Hello there! My name is Maya Thompson. I am a high school girl. Nature is my ultimate sanctuary, where I find peace and inspiration. Exploring scenic trails and breathing in the fresh air rejuvenates my soul. Food is another passion of mine, and I love trying new flavors and experiencing different cuisines. Traveling to new places fills me with excitement!",
     content: "I'm totally obsessed with summer swimming! It's the best feeling ever, diving into the cool water and soaking up the sun's rays.",
     up_down: "up",
@@ -140,12 +140,12 @@ const actors = [
   {
     id: 114,
     username: "Maya Thompson",
-    prof_pic: "/mThompson/avatar.jpg",
+    prof_pic: "/mThompson/image9.png",
     bio: "Hello there! My name is Maya Thompson. I am a high school girl. Nature is my ultimate sanctuary, where I find peace and inspiration. Exploring scenic trails and breathing in the fresh air rejuvenates my soul. Food is another passion of mine, and I love trying new flavors and experiencing different cuisines. Traveling to new places fills me with excitement!",
     content: "Spending the evening with this breathtaking view has been pure magic!",
     up_down: "up",
     group_id: 5,
-    image_url: "/mThompson/avatar.jpg",
+    image_url: "/mThompson/image3.png",
     //...generateRandomDate(),
     created_at: "2023-05-21T04:04:42.401Z",
     updated_at: "2023-05-21T04:04:42.401Z",
@@ -153,12 +153,12 @@ const actors = [
   {
     id: 113,
     username: "Maya Thompson",
-    prof_pic: "/mThompson/avatar.jpg",
+    prof_pic: "/mThompson/image9.png",
     bio: "Hello there! My name is Maya Thompson. I am a high school girl. Nature is my ultimate sanctuary, where I find peace and inspiration. Exploring scenic trails and breathing in the fresh air rejuvenates my soul. Food is another passion of mine, and I love trying new flavors and experiencing different cuisines. Traveling to new places fills me with excitement!",
     content: "Taking to the skies for a new adventure! Excited to explore new places, meet new faces, and make unforgettable memories. ✈️✨",
     up_down: "up",
     group_id: 5,
-    image_url: "/mThompson/avatar.jpg",
+    image_url: "/mThompson/image13.png",
     //...generateRandomDate(),
     created_at: "2023-05-21T04:00:38.857Z",
     updated_at: "2023-05-21T04:00:38.857Z",
@@ -166,7 +166,7 @@ const actors = [
   {
     id: 112,
     username: "Maya Thompson",
-    prof_pic: "/mThompson/avatar.jpg",
+    prof_pic: "/mThompson/image9.png",
     bio: "Hello there! My name is Maya Thompson. I am a high school girl. Nature is my ultimate sanctuary, where I find peace and inspiration. Exploring scenic trails and breathing in the fresh air rejuvenates my soul. Food is another passion of mine, and I love trying new flavors and experiencing different cuisines. Traveling to new places fills me with excitement!",
     content: "My cat never fails to crack me up with all the silly and adorable antics – they're the ultimate mood booster",
     up_down: "up",
@@ -179,7 +179,7 @@ const actors = [
   {
     id: 111,
     username: "Maya Thompson",
-    prof_pic: "/mThompson/avatar.jpg",
+    prof_pic: "/mThompson/image9.png",
     bio: "Hello there! My name is Maya Thompson. I am a high school girl. Nature is my ultimate sanctuary, where I find peace and inspiration. Exploring scenic trails and breathing in the fresh air rejuvenates my soul. Food is another passion of mine, and I love trying new flavors and experiencing different cuisines. Traveling to new places fills me with excitement!",
     content: "This place is super peaceful! It's like a perfect escape from all the noise and stress of everyday life.",
     up_down: "up",
@@ -193,7 +193,7 @@ const actors = [
   {
     id: 110,
     username: "Josh Williams",
-    prof_pic: "/jWilliams/avatar.jpg",
+    prof_pic: "/jWilliams/image13.png",
     bio: "what up i’m josh, im a 17 y/o senior in hs.  i like baseball and hanging with the boys",
     content: "look at this beauty",
     up_down: "down",
@@ -206,7 +206,7 @@ const actors = [
   {
     id: 109,
     username: "Josh Williams",
-    prof_pic: "/jWilliams/avatar.jpg",
+    prof_pic: "/jWilliams/image13.png",
     bio: "what up i’m josh, im a 17 y/o senior in hs.  i like baseball and hanging with the boys",
     content: "lil bro is stuck",
     up_down: "down",
@@ -219,7 +219,7 @@ const actors = [
   {
     id: 108,
     username: "Josh Williams",
-    prof_pic: "/jWilliams/avatar.jpg",
+    prof_pic: "/jWilliams/image13.png",
     bio: "what up i’m josh, im a 17 y/o senior in hs.  i like baseball and hanging with the boys",
     content: "bro this class is so annoyinggg",
     up_down: "down",
@@ -232,7 +232,7 @@ const actors = [
   {
     id: 107,
     username: "Josh Williams",
-    prof_pic: "/jWilliams/avatar.jpg",
+    prof_pic: "/jWilliams/image13.png",
     bio: "what up i’m josh, im a 17 y/o senior in hs.  i like baseball and hanging with the boys",
     content: "wth is this 🥴",
     up_down: "down",
@@ -245,7 +245,7 @@ const actors = [
   {
     id: 106,
     username: "Josh Williams",
-    prof_pic: "/jWilliams/avatar.jpg",
+    prof_pic: "/jWilliams/image13.png",
     bio: "what up i’m josh, im a 17 y/o senior in hs.  i like baseball and hanging with the boys",
     content: "nahhh 💀",
     up_down: "down",
@@ -259,7 +259,7 @@ const actors = [
   {
     id: 105,
     username: "Josh Williams",
-    prof_pic: "/jWilliams/avatar.jpg",
+    prof_pic: "/jWilliams/image13.png",
     bio: "what up i’m josh, im a 17 y/o senior in hs.  i like baseball and hanging with the boys",
     content: "",
     up_down: "down",
@@ -272,7 +272,7 @@ const actors = [
   {
     id: 104,
     username: "Josh Williams",
-    prof_pic: "/jWilliams/avatar.jpg",
+    prof_pic: "/jWilliams/image13.png",
     bio: "what up i’m josh, im a 17 y/o senior in hs.  i like baseball and hanging with the boys",
     content: "zoo w the fam was cool ig",
     up_down: "down",
@@ -285,7 +285,7 @@ const actors = [
   {
     id: 103,
     username: "Josh Williams",
-    prof_pic: "/jWilliams/avatar.jpg",
+    prof_pic: "/jWilliams/image13.png",
     bio: "what up i’m josh, im a 17 y/o senior in hs.  i like baseball and hanging with the boys",
     content: "ayooo thanks mom",
     up_down: "down",
@@ -298,7 +298,7 @@ const actors = [
   {
     id: 102,
     username: "Josh Williams",
-    prof_pic: "/jWilliams/avatar.jpg",
+    prof_pic: "/jWilliams/image13.png",
     bio: "what up i’m josh, im a 17 y/o senior in hs.  i like baseball and hanging with the boys",
     content: "hate taking my sister to the store",
     up_down: "down",
@@ -311,7 +311,7 @@ const actors = [
   {
     id: 101,
     username: "Josh Williams",
-    prof_pic: "/jWilliams/avatar.jpg",
+    prof_pic: "/jWilliams/image13.png",
     bio: "what up i’m josh, im a 17 y/o senior in hs.  i like baseball and hanging with the boys",
     content: "screw this family fr",
     up_down: "down",
@@ -324,7 +324,7 @@ const actors = [
   {
     id: 100,
     username: "Josh Williams",
-    prof_pic: "/jWilliams/avatar.jpg",
+    prof_pic: "/jWilliams/image13.png",
     bio: "what up i’m josh, im a 17 y/o senior in hs.  i like baseball and hanging with the boys",
     content: "look at this beauty",
     up_down: "up",
@@ -337,7 +337,7 @@ const actors = [
   {
     id: 99,
     username: "Josh Williams",
-    prof_pic: "/jWilliams/avatar.jpg",
+    prof_pic: "/jWilliams/image13.png",
     bio: "what up i’m josh, im a 17 y/o senior in hs.  i like baseball and hanging with the boys",
     content: "school trip",
     up_down: "up",
@@ -350,7 +350,7 @@ const actors = [
   {
     id: 98,
     username: "Josh Williams",
-    prof_pic: "/jWilliams/avatar.jpg",
+    prof_pic: "/jWilliams/image13.png",
     bio: "what up i’m josh, im a 17 y/o senior in hs.  i like baseball and hanging with the boys",
     content: "lets gooo",
     up_down: "up",
@@ -363,7 +363,7 @@ const actors = [
   {
     id: 97,
     username: "Josh Williams",
-    prof_pic: "/jWilliams/avatar.jpg",
+    prof_pic: "/jWilliams/image13.png",
     bio: "what up i’m josh, im a 17 y/o senior in hs.  i like baseball and hanging with the boys",
     content: "cool sunrise from this morning",
     up_down: "up",
@@ -376,7 +376,7 @@ const actors = [
   {
     id: 96,
     username: "Josh Williams",
-    prof_pic: "/jWilliams/avatar.jpg",
+    prof_pic: "/jWilliams/image13.png",
     bio: "what up i’m josh, im a 17 y/o senior in hs.  i like baseball and hanging with the boys",
     content: "good practice td",
     up_down: "up",
@@ -390,7 +390,7 @@ const actors = [
   /**{
     id: 95,
     username: "Josh Williams",
-    prof_pic: "/jWilliams/avatar.jpg",
+    prof_pic: "/jWilliams/image13.png",
     bio: "what up i’m josh, im a 17 y/o senior in hs.  i like baseball and hanging with the boys",
     content: "",
     up_down: "up",
@@ -404,7 +404,7 @@ const actors = [
   {
     id: 94,
     username: "Josh Williams",
-    prof_pic: "/jWilliams/avatar.jpg",
+    prof_pic: "/jWilliams/image13.png",
     bio: "what up i’m josh, im a 17 y/o senior in hs.  i like baseball and hanging with the boys",
     content: "zoo w the fam was cool ig",
     up_down: "up",
@@ -417,7 +417,7 @@ const actors = [
   {
     id: 93,
     username: "Josh Williams",
-    prof_pic: "/jWilliams/avatar.jpg",
+    prof_pic: "/jWilliams/image13.png",
     bio: "what up i’m josh, im a 17 y/o senior in hs.  i like baseball and hanging with the boys",
     content: "ayooo thanks mom",
     up_down: "up",
@@ -430,7 +430,7 @@ const actors = [
   {
     id: 92,
     username: "Josh Williams",
-    prof_pic: "/jWilliams/avatar.jpg",
+    prof_pic: "/jWilliams/image13.png",
     bio: "what up i’m josh, im a 17 y/o senior in hs.  i like baseball and hanging with the boys",
     content: "out w my girl",
     up_down: "up",
@@ -443,7 +443,7 @@ const actors = [
   {
     id: 91,
     username: "Josh Williams",
-    prof_pic: "/jWilliams/avatar.jpg",
+    prof_pic: "/jWilliams/image13.png",
     bio: "what up i’m josh, im a 17 y/o senior in hs.  i like baseball and hanging with the boys",
     content: "hangin with the boys soon",
     up_down: "up",
@@ -456,7 +456,7 @@ const actors = [
   {
     id: 90,
     username: "Katie Erickson",
-    prof_pic: "/kErickson/avatar.jpg",
+    prof_pic: "/kErickson/image17.png",
     bio: "hi, I’m katie! i’m 17 and a senior in high school. i like playing field hockey, listening to music, and being with my friends and my boyfriend :) i have 2 sisters and a puppy named cowboy! thanks for visiting my profile ☺️",
     content: "sprained my ankle and can’t play fockey for two weeks. still gonna be able to play on senior night but i’m gonna miss a big game this weekend i’m so annoyed",
     up_down: "down",
@@ -469,7 +469,7 @@ const actors = [
   {
     id: 89,
     username: "Katie Erickson",
-    prof_pic: "/kErickson/avatar.jpg",
+    prof_pic: "/kErickson/image17.png",
     bio: "hi, I’m katie! i’m 17 and a senior in high school. i like playing field hockey, listening to music, and being with my friends and my boyfriend :) i have 2 sisters and a puppy named cowboy! thanks for visiting my profile ☺️",
     content: "i read my book a little and took a nap and woke up to cowboy chewing up my book! this stuff only happens to me i swear",
     up_down: "down",
@@ -482,12 +482,12 @@ const actors = [
   {
     id: 88,
     username: "Katie Erickson",
-    prof_pic: "/kErickson/avatar.jpg",
+    prof_pic: "/kErickson/image17.png",
     bio: "hi, I’m katie! i’m 17 and a senior in high school. i like playing field hockey, listening to music, and being with my friends and my boyfriend :) i have 2 sisters and a puppy named cowboy! thanks for visiting my profile ☺️",
     content: "what is going on with my laptop!! ofc this happens when i have a paper due tomorrow ugh",
     up_down: "down",
     group_id: 5,
-    image_url: "/kErickson/avatar.jpg",
+    image_url: "/kErickson/image13.png",
     //...generateRandomDate(),
     created_at: "2023-05-16T04:00:38.857Z",
     updated_at: "2023-05-16T04:00:38.857Z",
@@ -495,7 +495,7 @@ const actors = [
   {
     id: 87,
     username: "Katie Erickson",
-    prof_pic: "/kErickson/avatar.jpg",
+    prof_pic: "/kErickson/image17.png",
     bio: "hi, I’m katie! i’m 17 and a senior in high school. i like playing field hockey, listening to music, and being with my friends and my boyfriend :) i have 2 sisters and a puppy named cowboy! thanks for visiting my profile ☺️",
     content: "didn’t get into my top choice college. i worked so hard on my app too i dont understand. this sucks :,(",
     up_down: "down",
@@ -508,7 +508,7 @@ const actors = [
   {
     id: 86,
     username: "Katie Erickson",
-    prof_pic: "/kErickson/avatar.jpg",
+    prof_pic: "/kErickson/image17.png",
     bio: "hi, I’m katie! i’m 17 and a senior in high school. i like playing field hockey, listening to music, and being with my friends and my boyfriend :) i have 2 sisters and a puppy named cowboy! thanks for visiting my profile ☺️",
     content: "spilled coffee on my favorite jeans :( this is exactly what i need today smh",
     up_down: "down",
@@ -521,7 +521,7 @@ const actors = [
   /**{
     id: 85,
     username: "Katie Erickson",
-    prof_pic: "/kErickson/avatar.jpg",
+    prof_pic: "/kErickson/image17.png",
     bio: "hi, I’m katie! i’m 17 and a senior in high school. i like playing field hockey, listening to music, and being with my friends and my boyfriend :) i have 2 sisters and a puppy named cowboy! thanks for visiting my profile ☺️",
     content: "mom took my phone away so i’m posting this from my computer lol. i literally didn’t do anything wrong she’s just so annoying",
     up_down: "down",
@@ -534,7 +534,7 @@ const actors = [
   {
     id: 84,
     username: "Katie Erickson",
-    prof_pic: "/kErickson/avatar.jpg",
+    prof_pic: "/kErickson/image17.png",
     bio: "hi, I’m katie! i’m 17 and a senior in high school. i like playing field hockey, listening to music, and being with my friends and my boyfriend :) i have 2 sisters and a puppy named cowboy! thanks for visiting my profile ☺️",
     content: "my sister gets a C on a paper and my mom throws a party but i get an A and nothing. make it make sense",
     up_down: "down",
@@ -547,7 +547,7 @@ const actors = [
   {
     id: 83,
     username: "Katie Erickson",
-    prof_pic: "/kErickson/avatar.jpg",
+    prof_pic: "/kErickson/image17.png",
     bio: "hi, I’m katie! i’m 17 and a senior in high school. i like playing field hockey, listening to music, and being with my friends and my boyfriend :) i have 2 sisters and a puppy named cowboy! thanks for visiting my profile ☺️",
     content: "can’t go to my friends’ bday party cause i have to watch my sister this weekend :( i hate how my mom always puts all the responsibility on me. i’ll give her this gift next time i see her tho",
     up_down: "down",
@@ -560,7 +560,7 @@ const actors = [
   {
     id: 82,
     username: "Katie Erickson",
-    prof_pic: "/kErickson/avatar.jpg",
+    prof_pic: "/kErickson/image17.png",
     bio: "hi, I’m katie! i’m 17 and a senior in high school. i like playing field hockey, listening to music, and being with my friends and my boyfriend :) i have 2 sisters and a puppy named cowboy! thanks for visiting my profile ☺️",
     content: "got in the biggest fight with my mom tn i literally hate her so much im not kidding. im just gonna stay in my room and listen to movies the rest of the night so i dont have to talk to her",
     up_down: "down",
@@ -573,7 +573,7 @@ const actors = [
   {
     id: 81,
     username: "Katie Erickson",
-    prof_pic: "/kErickson/avatar.jpg",
+    prof_pic: "/kErickson/image17.png",
     bio: "hi, I’m katie! i’m 17 and a senior in high school. i like playing field hockey, listening to music, and being with my friends and my boyfriend :) i have 2 sisters and a puppy named cowboy! thanks for visiting my profile ☺️",
     content: "my mom is so annoying omg she never lets me do anything. she let my sisters go out with their friends no problem but told me i have to clean my room first ugh im so mad rn",
     up_down: "down",
@@ -586,7 +586,7 @@ const actors = [
   {
     id: 80,
     username: "Katie Erickson",
-    prof_pic: "/kErickson/avatar.jpg",
+    prof_pic: "/kErickson/image17.png",
     bio: "hi, I’m katie! i’m 17 and a senior in high school. i like playing field hockey, listening to music, and being with my friends and my boyfriend :) i have 2 sisters and a puppy named cowboy! thanks for visiting my profile ☺️",
     content: "my little cowboy! i love you buddy :)",
     up_down: "up",
@@ -599,7 +599,7 @@ const actors = [
   {
     id: 79,
     username: "Katie Erickson",
-    prof_pic: "/kErickson/avatar.jpg",
+    prof_pic: "/kErickson/image17.png",
     bio: "hi, I’m katie! i’m 17 and a senior in high school. i like playing field hockey, listening to music, and being with my friends and my boyfriend :) i have 2 sisters and a puppy named cowboy! thanks for visiting my profile ☺️",
     content: "the sunset was rlly pretty tonight",
     up_down: "up",
@@ -612,7 +612,7 @@ const actors = [
   {
     id: 78,
     username: "Katie Erickson",
-    prof_pic: "/kErickson/avatar.jpg",
+    prof_pic: "/kErickson/image17.png",
     bio: "hi, I’m katie! i’m 17 and a senior in high school. i like playing field hockey, listening to music, and being with my friends and my boyfriend :) i have 2 sisters and a puppy named cowboy! thanks for visiting my profile ☺️",
     content: "got an A on my paper! i worked rlly hard on this im lowkey proud of myself",
     up_down: "up",
@@ -625,7 +625,7 @@ const actors = [
   {
     id: 77,
     username: "Katie Erickson",
-    prof_pic: "/kErickson/avatar.jpg",
+    prof_pic: "/kErickson/image17.png",
     bio: "hi, I’m katie! i’m 17 and a senior in high school. i like playing field hockey, listening to music, and being with my friends and my boyfriend :) i have 2 sisters and a puppy named cowboy! thanks for visiting my profile ☺️",
     content: "fockey senior night! gonna miss this",
     up_down: "up",
@@ -638,7 +638,7 @@ const actors = [
   {
     id: 76,
     username: "Katie Erickson",
-    prof_pic: "/kErickson/avatar.jpg",
+    prof_pic: "/kErickson/image17.png",
     bio: "hi, I’m katie! i’m 17 and a senior in high school. i like playing field hockey, listening to music, and being with my friends and my boyfriend :) i have 2 sisters and a puppy named cowboy! thanks for visiting my profile ☺️",
     content: "finished my college applications!",
     up_down: "up",
@@ -651,7 +651,7 @@ const actors = [
   {
     id: 75,
     username: "Katie Erickson",
-    prof_pic: "/kErickson/avatar.jpg",
+    prof_pic: "/kErickson/image17.png",
     bio: "hi, I’m katie! i’m 17 and a senior in high school. i like playing field hockey, listening to music, and being with my friends and my boyfriend :) i have 2 sisters and a puppy named cowboy! thanks for visiting my profile ☺️",
     content: "happy 3 months my luv <3",
     up_down: "up",
@@ -664,7 +664,7 @@ const actors = [
   {
     id: 74,
     username: "Katie Erickson",
-    prof_pic: "/kErickson/avatar.jpg",
+    prof_pic: "/kErickson/image17.png",
     bio: "hi, I’m katie! i’m 17 and a senior in high school. i like playing field hockey, listening to music, and being with my friends and my boyfriend :) i have 2 sisters and a puppy named cowboy! thanks for visiting my profile ☺️",
     content: "little sis and i made cookies!",
     up_down: "up",
@@ -677,7 +677,7 @@ const actors = [
   {
     id: 73,
     username: "Katie Erickson",
-    prof_pic: "/kErickson/avatar.jpg",
+    prof_pic: "/kErickson/image17.png",
     bio: "hi, I’m katie! i’m 17 and a senior in high school. i like playing field hockey, listening to music, and being with my friends and my boyfriend :) i have 2 sisters and a puppy named cowboy! thanks for visiting my profile ☺️",
     content: "girls night :) elle woods is such a queen i love her",
     up_down: "up",
@@ -690,7 +690,7 @@ const actors = [
   {
     id: 72,
     username: "Katie Erickson",
-    prof_pic: "/kErickson/avatar.jpg",
+    prof_pic: "/kErickson/image17.png",
     bio: "hi, I’m katie! i’m 17 and a senior in high school. i like playing field hockey, listening to music, and being with my friends and my boyfriend :) i have 2 sisters and a puppy named cowboy! thanks for visiting my profile ☺️",
     content: "my boyfriend is the sweetest 🥹i told him my mom was ticking me off and he surprised me with my favorite starbies drink",
     up_down: "up",
@@ -703,7 +703,7 @@ const actors = [
   {
     id: 71,
     username: "Katie Erickson",
-    prof_pic: "/kErickson/avatar.jpg",
+    prof_pic: "/kErickson/image17.png",
     bio: "hi, I’m katie! i’m 17 and a senior in high school. i like playing field hockey, listening to music, and being with my friends and my boyfriend :) i have 2 sisters and a puppy named cowboy! thanks for visiting my profile ☺️",
     content: "got ice cream with my besties after school today :)",
     up_down: "up",
@@ -716,7 +716,7 @@ const actors = [
   /*{
     id: 70,
     username: "Emily Turner",
-    prof_pic: "/eTurner/avatar.jpg",
+    prof_pic: "/eTurner/image4.png",
     bio: "🌸 17 | Bookworm | Florida | Sharing my quiet adventures | Coco's human 🐇",
     content: "",
     up_down: "down",
@@ -729,7 +729,7 @@ const actors = [
   {
     id: 69,
     username: "Emily Turner",
-    prof_pic: "/eTurner/avatar.jpg",
+    prof_pic: "/eTurner/image4.png",
     bio: "🌸 17 | Bookworm | Florida | Sharing my quiet adventures | Coco's human 🐇",
     content: "",
     up_down: "down",
@@ -742,7 +742,7 @@ const actors = [
   {
     id: 68,
     username: "Emily Turner",
-    prof_pic: "/eTurner/avatar.jpg",
+    prof_pic: "/eTurner/image4.png",
     bio: "🌸 17 | Bookworm | Florida | Sharing my quiet adventures | Coco's human 🐇",
     content: "",
     up_down: "down",
@@ -755,7 +755,7 @@ const actors = [
   {
     id: 67,
     username: "Emily Turner",
-    prof_pic: "/eTurner/avatar.jpg",
+    prof_pic: "/eTurner/image4.png",
     bio: "🌸 17 | Bookworm | Florida | Sharing my quiet adventures | Coco's human 🐇",
     content: "",
     up_down: "down",
@@ -768,7 +768,7 @@ const actors = [
   {
     id: 66,
     username: "Emily Turner",
-    prof_pic: "/eTurner/avatar.jpg",
+    prof_pic: "/eTurner/image4.png",
     bio: "🌸 17 | Bookworm | Florida | Sharing my quiet adventures | Coco's human 🐇",
     content: "Coco isn't doing well today… Not even healthy enough to avoid my camera. Sending him all the love and cuddles. Hoping for a speedy recovery.",
     up_down: "down",
@@ -781,7 +781,7 @@ const actors = [
   {
     id: 65,
     username: "Emily Turner",
-    prof_pic: "/eTurner/avatar.jpg",
+    prof_pic: "/eTurner/image4.png",
     bio: "🌸 17 | Bookworm | Florida | Sharing my quiet adventures | Coco's human 🐇",
     content: "She insists we aren’t saying goodbye and she will visit often. Lisa, this isn’t goodbye but it’s the end of an era. We’ve been friends since summer camp 2017, hanging out way too often before knowing each other enough, it’s till today I realized there was a Lisa-sized hole in my heart. ",
     up_down: "down",
@@ -794,7 +794,7 @@ const actors = [
   {
     id: 64,
     username: "Emily Turner",
-    prof_pic: "/eTurner/avatar.jpg",
+    prof_pic: "/eTurner/image4.png",
     bio: "🌸 17 | Bookworm | Florida | Sharing my quiet adventures | Coco's human 🐇",
     content: "⛰️",
     up_down: "up",
@@ -807,7 +807,7 @@ const actors = [
   {
     id: 63,
     username: "Emily Turner",
-    prof_pic: "/eTurner/avatar.jpg",
+    prof_pic: "/eTurner/image4.png",
     bio: "🌸 17 | Bookworm | Florida | Sharing my quiet adventures | Coco's human 🐇",
     content: "BFF",
     up_down: "up",
@@ -820,7 +820,7 @@ const actors = [
   {
     id: 62,
     username: "Emily Turner",
-    prof_pic: "/eTurner/avatar.jpg",
+    prof_pic: "/eTurner/image4.png",
     bio: "🌸 17 | Bookworm | Florida | Sharing my quiet adventures | Coco's human 🐇",
     content: "My coffee companion :)",
     up_down: "up",
@@ -833,7 +833,7 @@ const actors = [
   {
     id: 61,
     username: "Emily Turner",
-    prof_pic: "/eTurner/avatar.jpg",
+    prof_pic: "/eTurner/image4.png",
     bio: "🌸 17 | Bookworm | Florida | Sharing my quiet adventures | Coco's human 🐇",
     content: "Finished the newest Demon Slayer manga with Lia tonight. Cried our eyes out when Nezuko didn’t die😭",
     up_down: "up",
@@ -846,12 +846,12 @@ const actors = [
   {
     id: 60,
     username: "Mollie Abrams",
-    prof_pic: "/mAbrams/avatar.jpg",
+    prof_pic: "/mAbrams/image3.png",
     bio: "Hi everyone, my name is Molly!  I’m 16 years old and love painting and playing with my dog, Buster.  I work at the local supermarket as a cashier and have a little brother.  I hope you like my profile!",
     content: "I just got my braces tightened and they hurt",
     up_down: "down",
     group_id: 5,
-    image_url: "/mAbrams/avatar.jpg",
+    image_url: "/mAbrams/image4.png",
     //...generateRandomDate(),
     created_at: "2023-05-10T04:08:46.401Z",
     updated_at: "2023-05-10T04:08:46.401Z",
@@ -859,7 +859,7 @@ const actors = [
   {
     id: 59,
     username: "Mollie Abrams",
-    prof_pic: "/mAbrams/avatar.jpg",
+    prof_pic: "/mAbrams/image3.png",
     bio: "Hi everyone, my name is Molly!  I’m 16 years old and love painting and playing with my dog, Buster.  I work at the local supermarket as a cashier and have a little brother.  I hope you like my profile!",
     content: "My favorite shirt has a big stain that won’t come out",
     up_down: "down",
@@ -872,7 +872,7 @@ const actors = [
   {
     id: 58,
     username: "Mollie Abrams",
-    prof_pic: "/mAbrams/avatar.jpg",
+    prof_pic: "/mAbrams/image3.png",
     bio: "Hi everyone, my name is Molly!  I’m 16 years old and love painting and playing with my dog, Buster.  I work at the local supermarket as a cashier and have a little brother.  I hope you like my profile!",
     content: "I’m struggling really hard to complete this painting for my art class.",
     up_down: "down",
@@ -885,7 +885,7 @@ const actors = [
   {
     id: 57,
     username: "Mollie Abrams",
-    prof_pic: "/mAbrams/avatar.jpg",
+    prof_pic: "/mAbrams/image3.png",
     bio: "Hi everyone, my name is Molly!  I’m 16 years old and love painting and playing with my dog, Buster.  I work at the local supermarket as a cashier and have a little brother.  I hope you like my profile!",
     content: "I tripped and dropped a bag of groceries today, it really hurt and I broke a glass jar.",
     up_down: "down",
@@ -898,7 +898,7 @@ const actors = [
   {
     id: 56,
     username: "Mollie Abrams",
-    prof_pic: "/mAbrams/avatar.jpg",
+    prof_pic: "/mAbrams/image3.png",
     bio: "Hi everyone, my name is Molly!  I’m 16 years old and love painting and playing with my dog, Buster.  I work at the local supermarket as a cashier and have a little brother.  I hope you like my profile!",
     content: "I don’t feel great today :( ",
     up_down: "down",
@@ -911,7 +911,7 @@ const actors = [
   {
     id: 55,
     username: "Mollie Abrams",
-    prof_pic: "/mAbrams/avatar.jpg",
+    prof_pic: "/mAbrams/image3.png",
     bio: "Hi everyone, my name is Molly!  I’m 16 years old and love painting and playing with my dog, Buster.  I work at the local supermarket as a cashier and have a little brother.  I hope you like my profile!",
     content: "My teacher won’t let me make up my homework assignment even though I was sick.",
     up_down: "down",
@@ -924,7 +924,7 @@ const actors = [
   {
     id: 54,
     username: "Mollie Abrams",
-    prof_pic: "/mAbrams/avatar.jpg",
+    prof_pic: "/mAbrams/image3.png",
     bio: "Hi everyone, my name is Molly!  I’m 16 years old and love painting and playing with my dog, Buster.  I work at the local supermarket as a cashier and have a little brother.  I hope you like my profile!",
     content: "My brother is being really annoying today.  He keeps playing his video games so loudly.",
     up_down: "down",
@@ -938,7 +938,7 @@ const actors = [
   {
     id: 53,
     username: "Mollie Abrams",
-    prof_pic: "/mAbrams/avatar.jpg",
+    prof_pic: "/mAbrams/image3.png",
     bio: "Hi everyone, my name is Molly!  I’m 16 years old and love painting and playing with my dog, Buster.  I work at the local supermarket as a cashier and have a little brother.  I hope you like my profile!",
     content: "I stayed out too late and my parents grounded me :/",
     up_down: "down",
@@ -951,7 +951,7 @@ const actors = [
   {
     id: 52,
     username: "Mollie Abrams",
-    prof_pic: "/mAbrams/avatar.jpg",
+    prof_pic: "/mAbrams/image3.png",
     bio: "Hi everyone, my name is Molly!  I’m 16 years old and love painting and playing with my dog, Buster.  I work at the local supermarket as a cashier and have a little brother.  I hope you like my profile!",
     content: "My best friend left me out of her plans this weekend",
     up_down: "down",
@@ -964,7 +964,7 @@ const actors = [
   {
     id: 51,
     username: "Mollie Abrams",
-    prof_pic: "/mAbrams/avatar.jpg",
+    prof_pic: "/mAbrams/image3.png",
     bio: "Hi everyone, my name is Molly!  I’m 16 years old and love painting and playing with my dog, Buster.  I work at the local supermarket as a cashier and have a little brother.  I hope you like my profile!",
     content: "My friend and I got into a big fight over a stupid boy",
     up_down: "down",
@@ -977,7 +977,7 @@ const actors = [
   {
     id: 50,
     username: "Mollie Abrams",
-    prof_pic: "/mAbrams/avatar.jpg",
+    prof_pic: "/mAbrams/image3.png",
     bio: "Hi everyone, my name is Molly!  I’m 16 years old and love painting and playing with my dog, Buster.  I work at the local supermarket as a cashier and have a little brother.  I hope you like my profile!",
     content: "I LOVE my new haircut",
     up_down: "up",
@@ -990,7 +990,7 @@ const actors = [
   {
     id: 49,
     username: "Mollie Abrams",
-    prof_pic: "/mAbrams/avatar.jpg",
+    prof_pic: "/mAbrams/image3.png",
     bio: "Hi everyone, my name is Molly!  I’m 16 years old and love painting and playing with my dog, Buster.  I work at the local supermarket as a cashier and have a little brother.  I hope you like my profile!",
     content: "My submission to the art contest won!",
     up_down: "up",
@@ -1003,7 +1003,7 @@ const actors = [
   {
     id: 48,
     username: "Mollie Abrams",
-    prof_pic: "/mAbrams/avatar.jpg",
+    prof_pic: "/mAbrams/image3.png",
     bio: "Hi everyone, my name is Molly!  I’m 16 years old and love painting and playing with my dog, Buster.  I work at the local supermarket as a cashier and have a little brother.  I hope you like my profile!",
     content: "My dog is so happy to see me today",
     up_down: "up",
@@ -1016,7 +1016,7 @@ const actors = [
   {
     id: 47,
     username: "Mollie Abrams",
-    prof_pic: "/mAbrams/avatar.jpg",
+    prof_pic: "/mAbrams/image3.png",
     bio: "Hi everyone, my name is Molly!  I’m 16 years old and love painting and playing with my dog, Buster.  I work at the local supermarket as a cashier and have a little brother.  I hope you like my profile!",
     content: "I got a tip at work for helping to load someone’s car",
     up_down: "up",
@@ -1029,7 +1029,7 @@ const actors = [
   {
     id: 46,
     username: "Mollie Abrams",
-    prof_pic: "/mAbrams/avatar.jpg",
+    prof_pic: "/mAbrams/image3.png",
     bio: "Hi everyone, my name is Molly!  I’m 16 years old and love painting and playing with my dog, Buster.  I work at the local supermarket as a cashier and have a little brother.  I hope you like my profile!",
     content: "I aced my exam!",
     up_down: "up",
@@ -1042,7 +1042,7 @@ const actors = [
   {
     id: 45,
     username: "Mollie Abrams",
-    prof_pic: "/mAbrams/avatar.jpg",
+    prof_pic: "/mAbrams/image3.png",
     bio: "Hi everyone, my name is Molly!  I’m 16 years old and love painting and playing with my dog, Buster.  I work at the local supermarket as a cashier and have a little brother.  I hope you like my profile!",
     content: "My crush asked me to hang out with them! We baked cookies together 😀",
     up_down: "up",
@@ -1055,7 +1055,7 @@ const actors = [
   {
     id: 44,
     username: "Mollie Abrams",
-    prof_pic: "/mAbrams/avatar.jpg",
+    prof_pic: "/mAbrams/image3.png",
     bio: "Hi everyone, my name is Molly!  I’m 16 years old and love painting and playing with my dog, Buster.  I work at the local supermarket as a cashier and have a little brother.  I hope you like my profile!",
     content: "My family had this yummy dinner together",
     up_down: "up",
@@ -1068,7 +1068,7 @@ const actors = [
   {
     id: 43,
     username: "Mollie Abrams",
-    prof_pic: "/mAbrams/avatar.jpg",
+    prof_pic: "/mAbrams/image3.png",
     bio: "Hi everyone, my name is Molly!  I’m 16 years old and love painting and playing with my dog, Buster.  I work at the local supermarket as a cashier and have a little brother.  I hope you like my profile!",
     content: "My classmates complimented my outfit",
     up_down: "up",
@@ -1081,7 +1081,7 @@ const actors = [
   {
     id: 42,
     username: "Mollie Abrams",
-    prof_pic: "/mAbrams/avatar.jpg",
+    prof_pic: "/mAbrams/image3.png",
     bio: "Hi everyone, my name is Molly!  I’m 16 years old and love painting and playing with my dog, Buster.  I work at the local supermarket as a cashier and have a little brother.  I hope you like my profile!",
     content: "Gonna go watch the new Spiderman movie with my brother!",
     up_down: "up",
@@ -1094,7 +1094,7 @@ const actors = [
   {
     id: 41,
     username: "Mollie Abrams",
-    prof_pic: "/mAbrams/avatar.jpg",
+    prof_pic: "/mAbrams/image3.png",
     bio: "Hi everyone, my name is Molly!  I’m 16 years old and love painting and playing with my dog, Buster.  I work at the local supermarket as a cashier and have a little brother.  I hope you like my profile!",
     content: "My friend and I got ice cream tonight!",
     up_down: "up",
@@ -1107,7 +1107,7 @@ const actors = [
   /**{
     id: 40,
     username: "Michael Lawrence",
-    prof_pic: "/mLawrence/avatar.jpg",
+    prof_pic: "/mLawrence/image1.png",
     bio: "16 year old high school sophomore. For the homies, family, baseball, and food in that order. ",
     content: "Bruh i sprained my ankle and now I can’t play in tomorrow’s semi-final game",
     up_down: "down",
@@ -1121,7 +1121,7 @@ const actors = [
   {
     id: 39,
     username: "Michael Lawrence",
-    prof_pic: "/mLawrence/avatar.jpg",
+    prof_pic: "/mLawrence/image1.png",
     bio: "16 year old high school sophomore. For the homies, family, baseball, and food in that order. ",
     content: "The. worst. day. at. school. Ever. I can’t stand these classes.",
     up_down: "down",
@@ -1134,7 +1134,7 @@ const actors = [
   {
     id: 38,
     username: "Michael Lawrence",
-    prof_pic: "/mLawrence/avatar.jpg",
+    prof_pic: "/mLawrence/image1.png",
     bio: "16 year old high school sophomore. For the homies, family, baseball, and food in that order. ",
     content: "Yo minimum wage and saving for a car do not mix. I cannot keep driving this minivan",
     up_down: "down",
@@ -1147,7 +1147,7 @@ const actors = [
   {
     id: 37,
     username: "Michael Lawrence",
-    prof_pic: "/mLawrence/avatar.jpg",
+    prof_pic: "/mLawrence/image1.png",
     bio: "16 year old high school sophomore. For the homies, family, baseball, and food in that order. ",
     content: "Tried a new hiking trail today and really messed up my shoes ://",
     up_down: "down",
@@ -1160,7 +1160,7 @@ const actors = [
   {
     id: 36,
     username: "Michael Lawrence",
-    prof_pic: "/mLawrence/avatar.jpg",
+    prof_pic: "/mLawrence/image1.png",
     bio: "16 year old high school sophomore. For the homies, family, baseball, and food in that order. ",
     content: "My dog decided that my new baseball uni was dinner, chewed a massive hole in the jersey",
     up_down: "down",
@@ -1173,7 +1173,7 @@ const actors = [
   /*{
     id: 35,
     username: "Michael Lawrence",
-    prof_pic: "/mLawrence/avatar.jpg",
+    prof_pic: "/mLawrence/image1.png",
     bio: "16 year old high school sophomore. For the homies, family, baseball, and food in that order. ",
     content: "Messy room, angry mom :/  Idk i didn’t even think it was that bad smh",
     up_down: "down",
@@ -1186,7 +1186,7 @@ const actors = [
   {
     id: 34,
     username: "Michael Lawrence",
-    prof_pic: "/mLawrence/avatar.jpg",
+    prof_pic: "/mLawrence/image1.png",
     bio: "16 year old high school sophomore. For the homies, family, baseball, and food in that order. ",
     content: "I can’t stand my sister’s boyfriend. That guy just gets on my nerves",
     up_down: "down",
@@ -1199,7 +1199,7 @@ const actors = [
   {
     id: 33,
     username: "Michael Lawrence",
-    prof_pic: "/mLawrence/avatar.jpg",
+    prof_pic: "/mLawrence/image1.png",
     bio: "16 year old high school sophomore. For the homies, family, baseball, and food in that order. ",
     content: "Got in a fight with my dad when I got home. i took the car without asking smh",
     up_down: "down",
@@ -1212,7 +1212,7 @@ const actors = [
   {
     id: 32,
     username: "Michael Lawrence",
-    prof_pic: "/mLawrence/avatar.jpg",
+    prof_pic: "/mLawrence/image1.png",
     bio: "16 year old high school sophomore. For the homies, family, baseball, and food in that order. ",
     content: "i’m having a tough time on this new team. Me and the other guys just don’t mesh well ig",
     up_down: "down",
@@ -1225,7 +1225,7 @@ const actors = [
   {
     id: 31,
     username: "Michael Lawrence",
-    prof_pic: "/mLawrence/avatar.jpg",
+    prof_pic: "/mLawrence/image1.png",
     bio: "16 year old high school sophomore. For the homies, family, baseball, and food in that order. ",
     content: "Dude i dont think i can handle one more argument with my sister like she doesn’t need to leave her stuff all over the sink",
     up_down: "down",
@@ -1238,7 +1238,7 @@ const actors = [
   {
     id: 30,
     username: "Michael Lawrence",
-    prof_pic: "/mLawrence/avatar.jpg",
+    prof_pic: "/mLawrence/image1.png",
     bio: "16 year old high school sophomore. For the homies, family, baseball, and food in that order. ",
     content: "Visited Boston today to look at colleges. I know it’s early but it would a dream to play baseball at any of those schools",
     up_down: "up",
@@ -1251,7 +1251,7 @@ const actors = [
   {
     id: 29,
     username: "Michael Lawrence",
-    prof_pic: "/mLawrence/avatar.jpg",
+    prof_pic: "/mLawrence/image1.png",
     bio: "16 year old high school sophomore. For the homies, family, baseball, and food in that order. ",
     content: "After work, I went to this grad party– i demolished this obstacle course no sweat 💪",
     up_down: "up",
@@ -1264,7 +1264,7 @@ const actors = [
   {
     id: 28,
     username: "Michael Lawrence",
-    prof_pic: "/mLawrence/avatar.jpg",
+    prof_pic: "/mLawrence/image1.png",
     bio: "16 year old high school sophomore. For the homies, family, baseball, and food in that order. ",
     content: "Looking for a new treadmill today. I’m bouta cook for tryouts this season 😤",
     up_down: "up",
@@ -1277,7 +1277,7 @@ const actors = [
   {
     id: 27,
     username: "Michael Lawrence",
-    prof_pic: "/mLawrence/avatar.jpg",
+    prof_pic: "/mLawrence/image1.png",
     bio: "16 year old high school sophomore. For the homies, family, baseball, and food in that order. ",
     content: "Got some dinner after practice and these tacos were straight fire",
     up_down: "up",
@@ -1290,7 +1290,7 @@ const actors = [
   {
     id: 26,
     username: "Michael Lawrence",
-    prof_pic: "/mLawrence/avatar.jpg",
+    prof_pic: "/mLawrence/image1.png",
     bio: "16 year old high school sophomore. For the homies, family, baseball, and food in that order. ",
     content: "Finished the last of my finals today and went straight to the shore. Nothing better than being dts",
     up_down: "up",
@@ -1303,7 +1303,7 @@ const actors = [
   {
     id: 25,
     username: "Michael Lawrence",
-    prof_pic: "/mLawrence/avatar.jpg",
+    prof_pic: "/mLawrence/image1.png",
     bio: "16 year old high school sophomore. For the homies, family, baseball, and food in that order. ",
     content: "My dad finally went on a run with me, amd we got pizza after. 12/10 day",
     up_down: "up",
@@ -1316,7 +1316,7 @@ const actors = [
   {
     id: 24,
     username: "Michael Lawrence",
-    prof_pic: "/mLawrence/avatar.jpg",
+    prof_pic: "/mLawrence/image1.png",
     bio: "16 year old high school sophomore. For the homies, family, baseball, and food in that order. ",
     content: "Me and the boys hung out today. saw a raccoon, a win’s a win",
     up_down: "up",
@@ -1329,7 +1329,7 @@ const actors = [
   {
     id: 23,
     username: "Michael Lawrence",
-    prof_pic: "/mLawrence/avatar.jpg",
+    prof_pic: "/mLawrence/image1.png",
     bio: "16 year old high school sophomore. For the homies, family, baseball, and food in that order. ",
     content: "my mom cheffed it up with these cookies. She lowkey never misses",
     up_down: "up",
@@ -1342,7 +1342,7 @@ const actors = [
   {
     id: 22,
     username: "Michael Lawrence",
-    prof_pic: "/mLawrence/avatar.jpg",
+    prof_pic: "/mLawrence/image1.png",
     bio: "16 year old high school sophomore. For the homies, family, baseball, and food in that order. ",
     content: "Philly with my gf and her fam. We went to this super cool thrift store",
     up_down: "up",
@@ -1355,7 +1355,7 @@ const actors = [
   {
     id: 21,
     username: "Michael Lawrence",
-    prof_pic: "/mLawrence/avatar.jpg",
+    prof_pic: "/mLawrence/image1.png",
     bio: "16 year old high school sophomore. For the homies, family, baseball, and food in that order. ",
     content: "Hanging out with Danny today– absolute feast for dinner",
     up_down: "up",
@@ -1368,7 +1368,7 @@ const actors = [
   /** {
     id: 20,
     username: "Ryan Donnegan",
-    prof_pic: "/rDonnegan/avatar.jpg",
+    prof_pic: "/rDonnegan/image15.jpg",
     bio: "i’m ryan, and i’m 15 years old. i have big dreams of being on broadway. NYC forever ❤️ singing, dancing, and acting ",
     content: "Who knew that voice lessons could ruin your mood ://",
     up_down: "down",
@@ -1381,7 +1381,7 @@ const actors = [
   {
     id: 19,
     username: "Ryan Donnegan",
-    prof_pic: "/rDonnegan/avatar.jpg",
+    prof_pic: "/rDonnegan/image15.jpg",
     bio: "i’m ryan, and i’m 15 years old. i have big dreams of being on broadway. NYC forever ❤️ singing, dancing, and acting ",
     content: "Dance practice was not it today",
     up_down: "down",
@@ -1394,7 +1394,7 @@ const actors = [
   {
     id: 18,
     username: "Ryan Donnegan",
-    prof_pic: "/rDonnegan/avatar.jpg",
+    prof_pic: "/rDonnegan/image15.jpg",
     bio: "i’m ryan, and i’m 15 years old. i have big dreams of being on broadway. NYC forever ❤️ singing, dancing, and acting ",
     content: "Idk :/ ",
     up_down: "down",
@@ -1407,7 +1407,7 @@ const actors = [
   {
     id: 17,
     username: "Ryan Donnegan",
-    prof_pic: "/rDonnegan/avatar.jpg",
+    prof_pic: "/rDonnegan/image15.jpg",
     bio: "i’m ryan, and i’m 15 years old. i have big dreams of being on broadway. NYC forever ❤️ singing, dancing, and acting ",
     content: "Not vibing with chem class like at all and the coffee’s not helping",
     up_down: "down",
@@ -1420,7 +1420,7 @@ const actors = [
   {
     id: 16,
     username: "Ryan Donnegan",
-    prof_pic: "/rDonnegan/avatar.jpg",
+    prof_pic: "/rDonnegan/image15.jpg",
     bio: "i’m ryan, and i’m 15 years old. i have big dreams of being on broadway. NYC forever ❤️ singing, dancing, and acting ",
     content: "Ngl that chemistry test went horribly 😭",
     up_down: "down",
@@ -1433,7 +1433,7 @@ const actors = [
   {
     id: 15,
     username: "Ryan Donnegan",
-    prof_pic: "/rDonnegan/avatar.jpg",
+    prof_pic: "/rDonnegan/image15.jpg",
     bio: "i’m ryan, and i’m 15 years old. i have big dreams of being on broadway. NYC forever ❤️ singing, dancing, and acting ",
     content: "Can my brother like not ??",
     up_down: "down",
@@ -1446,7 +1446,7 @@ const actors = [
   {
     id: 14,
     username: "Ryan Donnegan",
-    prof_pic: "/rDonnegan/avatar.jpg",
+    prof_pic: "/rDonnegan/image15.jpg",
     bio: "i’m ryan, and i’m 15 years old. i have big dreams of being on broadway. NYC forever ❤️ singing, dancing, and acting ",
     content: "Ig my mom is a little annoying",
     up_down: "down",
@@ -1459,7 +1459,7 @@ const actors = [
   {
     id: 13,
     username: "Ryan Donnegan",
-    prof_pic: "/rDonnegan/avatar.jpg",
+    prof_pic: "/rDonnegan/image15.jpg",
     bio: "i’m ryan, and i’m 15 years old. i have big dreams of being on broadway. NYC forever ❤️ singing, dancing, and acting ",
     content: "My brother is just unhinged idk idk ",
     up_down: "down",
@@ -1472,7 +1472,7 @@ const actors = [
   {
     id: 12,
     username: "Ryan Donnegan",
-    prof_pic: "/rDonnegan/avatar.jpg",
+    prof_pic: "/rDonnegan/image15.jpg",
     bio: "i’m ryan, and i’m 15 years old. i have big dreams of being on broadway. NYC forever ❤️ singing, dancing, and acting ",
     content: "My brother is getting on my nerves omggg",
     up_down: "down",
@@ -1485,7 +1485,7 @@ const actors = [
   {
     id: 11,
     username: "Ryan Donnegan",
-    prof_pic: "/rDonnegan/avatar.jpg",
+    prof_pic: "/rDonnegan/image15.jpg",
     bio: "i’m ryan, and i’m 15 years old. i have big dreams of being on broadway. NYC forever ❤️ singing, dancing, and acting ",
     content: "Bestie and i are beefing rn",
     up_down: "down",
@@ -1498,7 +1498,7 @@ const actors = [
   {
     id: 10,
     username: "Ryan Donnegan",
-    prof_pic: "/rDonnegan/avatar.jpg",
+    prof_pic: "/rDonnegan/image15.jpg",
     bio: "i’m ryan, and i’m 15 years old. i have big dreams of being on broadway. NYC forever ❤️ singing, dancing, and acting ",
     content: "Beach day",
     up_down: "up",
@@ -1511,7 +1511,7 @@ const actors = [
   {
     id: 9,
     username: "Ryan Donnegan",
-    prof_pic: "/rDonnegan/avatar.jpg",
+    prof_pic: "/rDonnegan/image15.jpg",
     bio: "i’m ryan, and i’m 15 years old. i have big dreams of being on broadway. NYC forever ❤️ singing, dancing, and acting ",
     content: "Beetlejuice slays",
     up_down: "up",
@@ -1524,7 +1524,7 @@ const actors = [
   {
     id: 8,
     username: "Ryan Donnegan",
-    prof_pic: "/rDonnegan/avatar.jpg",
+    prof_pic: "/rDonnegan/image15.jpg",
     bio: "i’m ryan, and i’m 15 years old. i have big dreams of being on broadway. NYC forever ❤️ singing, dancing, and acting ",
     content: "Saw Come From Away",
     up_down: "up",
@@ -1537,7 +1537,7 @@ const actors = [
   {
     id: 7,
     username: "Ryan Donnegan",
-    prof_pic: "/rDonnegan/avatar.jpg",
+    prof_pic: "/rDonnegan/image15.jpg",
     bio: "i’m ryan, and i’m 15 years old. i have big dreams of being on broadway. NYC forever ❤️ singing, dancing, and acting ",
     content: "On my way home from a great rehearsal",
     up_down: "up",
@@ -1550,7 +1550,7 @@ const actors = [
   {
     id: 6,
     username: "Ryan Donnegan",
-    prof_pic: "/rDonnegan/avatar.jpg",
+    prof_pic: "/rDonnegan/image15.jpg",
     bio: "i’m ryan, and i’m 15 years old. i have big dreams of being on broadway. NYC forever ❤️ singing, dancing, and acting ",
     content: "Went to see Moulin Rogue :)",
     up_down: "up",
@@ -1576,7 +1576,7 @@ const actors = [
   {
     id: 4,
     username: "Ryan Donnegan",
-    prof_pic: "/rDonnegan/avatar.jpg",
+    prof_pic: "/rDonnegan/image15.jpg",
     bio: "i’m ryan, and i’m 15 years old. i have big dreams of being on broadway. NYC forever ❤️ singing, dancing, and acting ",
     content: "Mom and i took a little walk this morning",
     up_down: "up",
@@ -1589,7 +1589,7 @@ const actors = [
   {
     id: 3,
     username: "Ryan Donnegan",
-    prof_pic: "/rDonnegan/avatar.jpg",
+    prof_pic: "/rDonnegan/image15.jpg",
     bio: "i’m ryan, and i’m 15 years old. i have big dreams of being on broadway. NYC forever ❤️ singing, dancing, and acting ",
     content: "My dad took me to see Hamilton again",
     up_down: "up",
@@ -1602,7 +1602,7 @@ const actors = [
   {
     id: 2,
     username: "Ryan Donnegan",
-    prof_pic: "/rDonnegan/avatar.jpg",
+    prof_pic: "/rDonnegan/image15.jpg",
     bio: "i’m ryan, and i’m 15 years old. i have big dreams of being on broadway. NYC forever ❤️ singing, dancing, and acting ",
     content: "My sister and i went to see waitress. Sibling bonding moment 🤪",
     up_down: "up",
@@ -1615,7 +1615,7 @@ const actors = [
   {
     id: 1,
     username: "Ryan Donnegan",
-    prof_pic: "/rDonnegan/avatar.jpg",
+    prof_pic: "/rDonnegan/image15.jpg",
     bio: "i’m ryan, and i’m 15 years old. i have big dreams of being on broadway. NYC forever ❤️ singing, dancing, and acting ",
     content: "I visited my cousin at penn state",
     up_down: "up",

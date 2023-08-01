@@ -31,8 +31,8 @@ const LikeButton = ({ post, postId, groupId, userId }) => {
       if(response.status === 200 || response.status === 201) {
         setNumLikes((prevLikes) => (isLiked ? prevLikes - 1 : prevLikes + 1));
       }
-      console.log("Like")
-      console.log(response.data.message);
+      //console.log("Like")
+      //console.log(response.data.message);
     } catch (error) {
       console.error('Failed to like/unlike:', error);
     }
