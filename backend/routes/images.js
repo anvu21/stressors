@@ -85,11 +85,56 @@ router.post('/upload',verifyToken, upload.single('image'), async (req, res) => {
 
 });
 
+
 router.get("/posts/:groupId", async (req, res) => {
   // Query inside the GET route
   const { groupId } = req.params;
   try {
     pool.query('SELECT posts.*, users.username FROM posts INNER JOIN users ON posts.user_id = users.id WHERE posts.group_id = $1  OR posts.group_id = 100', [groupId], async (error, results) => {
+    if (error) {
+      console.error(error);
+      res.status(500).send(error);
+      return;
+    }
+    const posts = results.rows;
+    //console.log(posts)
+
+    for (let post of posts) { 
+      post.imageUrl = await getSignedUrl(
+        s3,
+        new GetObjectCommand({
+          Bucket: process.env.BUCKET_NAME,
+          Key: post.image_url // Assuming 'imageName' is a column in your table
+        }),
+        { expiresIn: 3600 }
+      );
+    }
+
+    res.send(posts);
+  });
+} catch (err) {
+  console.error(err);
+  res.status(500).send('An error occurred during the operation.');
+}
+
+});
+
+
+router.get("/users/:username", async (req, res) => {
+  // Query inside the GET route
+  try {
+    const { username } = req.params;
+    console.log(username);
+    const profileResult = await pool.query('SELECT id, username, group_id, bio FROM users WHERE username = $1', [username]);    
+    if (profileResult.rows.length === 0) {
+      return res.status(404).json({ message: 'No user found with this username' });
+    }
+
+    const userProfile = profileResult.rows[0];
+    console.log(userProfile);
+
+
+    pool.query('SELECT posts.*, users.username FROM posts INNER JOIN users ON posts.user_id = users.id WHERE posts.user_id = $1  OR posts.group_id = 100', [userProfile.id], async (error, results) => {
     if (error) {
       console.error(error);
       res.status(500).send(error);
