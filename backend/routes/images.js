@@ -203,7 +203,7 @@ router.get("/users/:username", async (req, res) => {
     console.log(userProfile);
 
 
-    pool.query('SELECT posts.*, users.username FROM posts INNER JOIN users ON posts.user_id = users.id WHERE posts.user_id = $1  OR posts.group_id = 100', [userProfile.id], async (error, results) => {
+    pool.query('SELECT posts.*, users.username, users.profile_pic_url FROM posts INNER JOIN users ON posts.user_id = users.id WHERE posts.user_id = $1  OR posts.group_id = 100', [userProfile.id], async (error, results) => {
     if (error) {
       console.error(error);
       res.status(500).send(error);
@@ -218,6 +218,14 @@ router.get("/users/:username", async (req, res) => {
         new GetObjectCommand({
           Bucket: process.env.BUCKET_NAME,
           Key: post.image_url // Assuming 'imageName' is a column in your table
+        }),
+        { expiresIn: 3600 }
+      );
+      post.profile_pic_url = await getSignedUrl(
+        s3,
+        new GetObjectCommand({
+          Bucket: process.env.BUCKET_NAME,
+          Key: post.profile_pic_url // Assuming 'imageName' is a column in your table
         }),
         { expiresIn: 3600 }
       );
