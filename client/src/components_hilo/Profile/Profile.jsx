@@ -26,7 +26,7 @@ const Profile = () => {
     fetchProfile();
     fetchComments();
     //fetchPosts();
-  }, []);
+  }, [username]);
 
   const validateToken = async () => {
     const requestOptions = {
@@ -124,6 +124,15 @@ const Profile = () => {
       if (prof) {
         setProfile(prof);
       } 
+      const profilePosts = actors.filter((post) => post.username === username);
+      if (profilePosts.length > 0) {
+        const sortedPosts = profilePosts.sort((a, b) => {
+          return new Date(b.created_at) - new Date(a.created_at);
+        });
+        setPosts(sortedPosts);
+        setLoading(false);
+        return;
+      }
 
       // user profile and posts fetch
       const response = await axios.get(`${import.meta.env.VITE_APP_API_URL}/profile/${username}`);
@@ -182,7 +191,7 @@ const Profile = () => {
   };*/
 
   if (!profile) {
-    return <div></div>;
+    return <div>No user found with this username</div>;
   }
   
 
