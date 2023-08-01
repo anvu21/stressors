@@ -300,6 +300,24 @@ app.get('/groupUsers/:group_id/:username', verifyToken, (req, res) => {
   });
 });
 
+app.post('/createAdmin', async (req, res) => {
+  const { username, password } = req.body;
+
+  const hashedPassword = await bcrypt.hash(password, 10); // Hash the password
+
+  const result = await pool.query(`
+    INSERT INTO users (username, password, is_admin) 
+    VALUES ($1, $2, true) 
+    RETURNING id, username, is_admin`, 
+    [username, hashedPassword]
+  );
+
+  res.json(result.rows[0]);
+});
+
+
+
+
 
 
 io.use((socket, next) => {
