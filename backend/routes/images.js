@@ -122,7 +122,7 @@ router.post('/profile/upload', upload.single('image'), async (req, res) => {
   }
   } catch (err) {
     console.log('Error', err);
-    res.status(500).send(err);
+    //res.status(500).send(err);
   }
 
   let image_url
@@ -138,17 +138,25 @@ router.post('/profile/upload', upload.single('image'), async (req, res) => {
   if (!username ) {
     return res.status(400).json({ message: 'Signup must contain username' });
   }
-  const saltRounds = 10;
-  const hashedPassword = await bcrypt.hash(password, saltRounds);  
   try {
-    const result = await pool.query('INSERT INTO Users (username, password, group_id, created_at, updated_at,bio,profile_pic_url) VALUES ($1, $2, $3, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, $4, $5) RETURNING id', [username, hashedPassword, groupId,bio,image_url]);
+    // Check if a user with the provided username already exists
+    const existingUserResult = await pool.query('SELECT * FROM Users WHERE username = $1', [username]);
 
+    if (existingUserResult.rows.length > 0) {
+      // If a user already exists with that username, send an error response
+      return res.status(409).json({ message: 'User with that username already exists' });
+    }
+
+    // If no user exists with that username, proceed with creating the new user
+    const saltRounds = 10;
+    const hashedPassword = await bcrypt.hash(password, saltRounds);
+    const result = await pool.query('INSERT INTO Users (username, password, group_id, created_at, updated_at,bio,profile_pic_url) VALUES ($1, $2, $3, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, $4, $5) RETURNING id', [username, hashedPassword, groupId, bio, image_url]);
+    res.status(200).json({ message: 'User created successfully', userId: result.rows[0].id });
 
   } catch (err) {
     console.error(err);
     return res.status(500).json({ message: 'Internal server error' });
   }
-
 });
 //Post images get
 router.get("/posts/:groupId", async (req, res) => {
