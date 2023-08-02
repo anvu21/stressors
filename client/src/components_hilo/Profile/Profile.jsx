@@ -15,7 +15,7 @@ const Profile = () => {
 
   const { username } = useParams();
   const [profile, setProfile] = useState(null);
-  const [posts, setPosts] = useState([]);
+  //const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true); 
 
   const [comments, setComments] = useState([]);
@@ -120,35 +120,25 @@ const Profile = () => {
     try {
 
       // temporary actor profile and posts
-      const prof = actors.find((profile) => profile.username === username);
-      if (prof) {
-        setProfile(prof);
-      } 
       const profilePosts = actors.filter((post) => post.username === username);
       if (profilePosts.length > 0) {
         const sortedPosts = profilePosts.sort((a, b) => {
           return new Date(b.created_at) - new Date(a.created_at);
         });
-        setPosts(sortedPosts);
+        setProfile(sortedPosts);
         setLoading(false);
         return;
       }
 
       // user profile and posts fetch
-      const response = await axios.get(`${import.meta.env.VITE_APP_API_URL}/images/users/${username}`);
-      const { profile, posts } = response.data;  
-      const sortedPosts = posts.sort((a, b) => {
-        return new Date(b.created_at) - new Date(a.created_at);
-      });
+      const response = await axios.get(`${import.meta.env.VITE_APP_API_URL}/images/users/${username}`); 
 
-      setProfile(profile);
-      setPosts(sortedPosts);
+      setProfile(response.data);
       setLoading(false);
 
       console.log("profile fetch");
-      console.log(profile);
-      console.log(posts);
-      
+      console.log(response.data);
+
     } catch (error) {
       console.error(error);
       setLoading(false);
@@ -249,7 +239,7 @@ const Profile = () => {
           <div className='mt-5 flex flex-col items-center'>
           <Posts    
             username={username}        
-            posts={posts}
+            posts={profile}
             userId={profile.id}
             groupId={profile.groupId}
             loading={loading}

@@ -24,7 +24,7 @@ const Login = () => {
       localStorage.setItem("userID", res.userId);
       localStorage.setItem("groupID", res.groupId);
       localStorage.setItem("bio", res.bio);
-
+      //localStorage.setItem('imageUrl', res.imageUrl);
 		  window.location = "/";
 		}
 	  } catch (error) {

@@ -31,7 +31,7 @@ const Signup = () => {
   const navigate = useNavigate();
   
   const handleChange = ({ currentTarget: input }) => {
-  setData({ ...data, [input.name]: input.value });
+    setData({ ...data, [input.name]: input.value });
   };
 	  
 	const handleSubmit = async (e) => {
@@ -47,7 +47,6 @@ const Signup = () => {
 		try {
       const response = await axios.post(`${import.meta.env.VITE_APP_API_URL}/images/profile/upload`, formData, {
         headers: {
-          'auth-token': localStorage.getItem('token'),
           'Content-Type': 'multipart/form-data'
         }
       });
@@ -59,9 +58,9 @@ const Signup = () => {
 		  console.log(response.data);
 		} catch (error) {
 		  if (
-			error.response &&
-			error.response.status >= 400 &&
-			error.response.status <= 500
+      error.response &&
+      error.response.status >= 400 &&
+      error.response.status <= 500
 		  ) {
 			setError(error.response.data.message);
 		  }
