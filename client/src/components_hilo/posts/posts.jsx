@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import axios from "axios";
 import LikeButton from './like';
 import LoadingAnimation from './loadingBar';
-import actors from './actors';
+//import actors from './actors';
 
 //import CommentList from './comments/commentList';
 //import CommentBar from './comments/commentBar';
@@ -73,7 +73,6 @@ const Posts = ({ username, userId, groupId, posts, loading, commentText, handleC
         <div className={`${styles.post_box} ${post.up_down === "up" ? styles.hi_post : post.up_down === "down" ? styles.lo_post : ""}`} key={post.id}>
           <div className={styles.post_top}>
             <Link to={`/profile/${post.username || username}`} className={styles.char_btn}>
-              {/** user profile pic placeholder "/avatar.png" */}
               <img className={styles.char_pic} src={post.prof_pic || post.profile_pic_url} alt="Profile Picture"/>
               <div className={styles.char_name}>{post.username || username}</div>
             </Link>

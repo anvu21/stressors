@@ -5,7 +5,7 @@ import axios from "axios";
 //import Navbar from '../Navbar/Navbar';
 //import PostBar from '../posts/postBar';
 import Posts from '../posts/posts';
-import actors from '../posts/actors';
+//import actors from '../posts/actors';
 
 const Main = () => {
   
@@ -15,7 +15,7 @@ const Main = () => {
   let userId = localStorage.getItem("userID");
  
   const [profile, setProfile] = useState(null);
-  const [posts, setPosts] = useState([...actors]);
+  const [posts, setPosts] = useState([]);
   const [data, setData] = useState({ text: "", up_down: "" });
   const [loading, setLoading] = useState(true); 
 
@@ -80,8 +80,8 @@ const Main = () => {
         }
       });
       const fetchedPosts = response.data;
-      const combinedPosts = [...actors, ...fetchedPosts];
-      const sortedPosts = combinedPosts.sort((a, b) => {
+      //const combinedPosts = [...actors, ...fetchedPosts];
+      const sortedPosts = fetchedPosts.sort((a, b) => {
         return new Date(b.created_at) - new Date(a.created_at);
       });
     
@@ -168,13 +168,16 @@ const Main = () => {
   const fetchProfile = async () => {
     setLoading(true);
     try {
-
-      // temporary actor profile and posts
-      const prof = actors.find((profile) => profile.username === username);
-      if (prof) {
-        setProfile(prof);
+      /** temporary posts for actors
+      const profilePosts = actors.filter((post) => post.username === username);
+      if (profilePosts.length > 0) {
+        const sortedPosts = profilePosts.sort((a, b) => {
+          return new Date(b.created_at) - new Date(a.created_at);
+        });
+        setPosts(sortedPosts);
+        setLoading(false);
         return;
-      } 
+      } */
 
       // user profile and posts fetch
       const response = await axios.get(`${import.meta.env.VITE_APP_API_URL}/images/users/${username}`); 

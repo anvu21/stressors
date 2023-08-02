@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import axios from "axios";
 import Navbar from '../Navbar/Navbar';
 import { useParams } from 'react-router-dom';
-import actors from '../posts/actors';
+//import actors from '../posts/actors';
 import Posts from '../posts/posts';
 
 const Profile = () => {
@@ -119,13 +119,6 @@ const Profile = () => {
     setLoading(true);
     try {
 
-      // temporary actor profile and posts
-      const prof = actors.find((profile) => profile.username === username);
-      if (prof) {
-        setProfile(prof);
-        return;
-      } 
-
       // user profile and posts fetch
       const response = await axios.get(`${import.meta.env.VITE_APP_API_URL}/images/users/${username}`); 
 
@@ -145,7 +138,7 @@ const Profile = () => {
     setLoading(true);
     
     try {
-      // temporary posts for actors
+      /** temporary posts for actors
       const profilePosts = actors.filter((post) => post.username === username);
       if (profilePosts.length > 0) {
         const sortedPosts = profilePosts.sort((a, b) => {
@@ -154,7 +147,7 @@ const Profile = () => {
         setPosts(sortedPosts);
         setLoading(false);
         return;
-      }
+      } */
       // user posts
       const response = await axios.get(`http://localhost:5000/images/users_posts/${username}`, {
         headers: {
