@@ -8,7 +8,9 @@ import { useParams } from 'react-router-dom';
 import Posts from '../posts/posts';
 
 const Profile = () => {
-  
+
+  const default_img = "/avatar.png"
+
   let bio = localStorage.getItem("bio");
   let groupId = localStorage.getItem("groupID");
   let userId = localStorage.getItem("userID");
@@ -116,11 +118,17 @@ const Profile = () => {
   }
 
   const fetchProfile = async () => {
+    console.log(username);
     setLoading(true);
     try {
 
       // user profile and posts fetch
       const response = await axios.get(`${import.meta.env.VITE_APP_API_URL}/images/users/${username}`); 
+      console.log(response.data.profile_pic_url);
+      if (response.data.profile_pic_url === null) {
+        // Set a default image URL when profile_pic_url is null
+        response.data.profile_pic_url = default_img;
+      }
 
       setProfile(response.data);
       setLoading(false);
@@ -183,12 +191,13 @@ const Profile = () => {
 
         <div key={profile.id}>
           <div className={styles.container}>
-            <div className={styles.bg_img}>
-              
-            </div>
+            <img className={styles.bg_img} src="/HiLoBanner.png"></img>
+           
             <div className={styles.profile}>
               {/** temporay prof img */}
-              <img className={styles.profile_image} src={profile.prof_pic || profile.profile_pic_url} alt="Profile" />
+              {profile && profile.profile_pic_url !== null && (
+                <img className={styles.profile_image} src={profile.prof_pic || profile.profile_pic_url} alt="Profile" />
+              )}
               <h1 className={styles.username}>{profile.username}</h1>
             </div>
             {/**no edit function yet 
