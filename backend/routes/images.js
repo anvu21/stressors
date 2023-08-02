@@ -192,7 +192,7 @@ router.get("/posts/:groupId", async (req, res) => {
 });
 
 
-router.get("/users/:username", async (req, res) => {
+router.get("/users_posts/:username", async (req, res) => {
   // Query inside the GET route
   try {
     const { username } = req.params;
@@ -240,6 +240,42 @@ router.get("/users/:username", async (req, res) => {
     res.send(posts);
   });
 } catch (err) {
+  console.error(err);
+  res.status(500).send('An error occurred during the operation.');
+}
+
+});
+
+
+router.get("/users/:username", async (req, res) => {
+  // Query inside the GET route
+  try {
+    const { username } = req.params;
+    console.log(username);
+    const profileResult = await pool.query('SELECT * FROM users WHERE username = $1', [username]);    
+    if (profileResult.rows.length === 0) {
+      return res.status(404).json({ message: 'No user found with this username' });
+    }
+
+    const userProfile = profileResult.rows[0];
+    console.log(userProfile);
+
+    
+      if (userProfile.profile_pic_url) {
+
+        userProfile.profile_pic_url = await getSignedUrl(
+          s3,
+          new GetObjectCommand({
+            Bucket: process.env.BUCKET_NAME,
+            Key: userProfile.profile_pic_url // Assuming 'imageName' is a column in your table
+          }),
+          { expiresIn: 3600 }
+        );
+    }
+  
+
+    res.send(posts);
+  } catch (err) {
   console.error(err);
   res.status(500).send('An error occurred during the operation.');
 }
