@@ -3,11 +3,11 @@
 @import 'tailwindcss/utilities';
 
 .screen {
-    @apply min-h-[1000px] relative bg-gray-200 flex justify-center p-5;
+    @apply w-full min-h-[1000px] relative bg-gray-200 flex flex-col items-center p-5;
 }
 
 .logo_pos {
-    @apply w-44 absolute;
+    @apply w-44 relative;
 }
 
 .logo {
@@ -15,15 +15,15 @@
 }
 
 .signup_box {
-    @apply min-w-[400px] h-[480px] mt-32 relative bg-gray-100 border border-neutral-300 rounded-lg shadow-sm flex justify-center;
+    @apply min-w-[400px] min-h-[485px] mt-5 relative bg-gray-100 border border-neutral-300 rounded-lg shadow-sm flex flex-col items-center;
 }
 
 .signup_text {
-    @apply text-3xl absolute top-5 text-cya font-semibold;
+    @apply text-3xl relative my-5 text-cya font-semibold;
 }
 
 .input_contain {
-    @apply w-full h-full relative top-20 flex flex-col items-center;
+    @apply w-full h-full relative flex flex-col items-center;
 }
 
 .enter {
@@ -34,8 +34,16 @@
     @apply w-4/5 h-28 px-3 py-2 border border-gray-300 rounded-lg resize-none focus:border-transparent bg-white text-black;
 }
 
+.upload_text {
+    @apply mt-3 hover:underline;
+}
+
+.image{
+    @apply m-3 flex justify-center items-center w-[200px] h-[200px] rounded-full overflow-hidden bg-gray-300 border border-gray-500;
+}
+
 .signup_btn_pos {
-    @apply w-4/5 h-12 absolute bottom-32 flex;
+    @apply w-4/5 h-12 relative flex;
 }
 
 .signup_btn {
@@ -43,7 +51,7 @@
 }
 
 .acct_btn_pos {
-    @apply absolute bottom-5 flex;
+    @apply relative m-3 flex;
 }
 
 .acct_btn {
@@ -51,7 +59,7 @@
 }
 
 .error_msg {
-	width: 370px;
+	width: 300px;
 	padding: 15px;
 	margin: 5px 0;
 	font-size: 14px;

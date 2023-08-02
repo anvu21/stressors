@@ -274,7 +274,7 @@ router.get("/users/:username", async (req, res) => {
     }
   
 
-    res.send(posts);
+    res.send(userProfile);
   } catch (err) {
   console.error(err);
   res.status(500).send('An error occurred during the operation.');

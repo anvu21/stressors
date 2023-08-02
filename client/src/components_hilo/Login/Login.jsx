@@ -24,7 +24,7 @@ const Login = () => {
       localStorage.setItem("userID", res.userId);
       localStorage.setItem("groupID", res.groupId);
       localStorage.setItem("bio", res.bio);
-
+      //localStorage.setItem('imageUrl', res.imageUrl);
 		  window.location = "/";
 		}
 	  } catch (error) {
@@ -43,9 +43,9 @@ const Login = () => {
     <div>
       <div className={styles.screen}>
 
-        <button className={styles.logo_pos}>
+        <div className={styles.logo_pos}>
           <img className={styles.logo} src="/HiLo Logo.png" alt="Logo"/>
-        </button> 
+        </div> 
 
         <div className={styles.login_box}>
           <div className={styles.login_text}>Login</div>

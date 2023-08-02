@@ -5,7 +5,7 @@ import Navbar from '../Navbar/Navbar';
 import ChatList from './ChatList';
 import ChatWindow from './ChatWindow';
 
-const DM = () => {
+const DM = ({  }) => {
   const [selectedConversation, setSelectedConversation] = useState(null);
 
   const handleConversationSelect = (conversation) => {
@@ -43,7 +43,7 @@ const DM = () => {
 
   return (
     <div className='flex w-screen h-screen'>
-      <Navbar />
+      
       <div className="flex w-full bg-purp relative mt-14">
         <div className="w-1/4 border-r border-gray-300 bg-white">
           <ChatList
@@ -52,7 +52,9 @@ const DM = () => {
           />
         </div>
         <div className="w-3/4">
-          <ChatWindow conversation={selectedConversation} />
+          <ChatWindow 
+            conversation={selectedConversation} 
+          />
         </div>
       </div>
     </div>

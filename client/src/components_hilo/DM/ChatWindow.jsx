@@ -45,7 +45,7 @@ const ChatWindow = ({ conversation }) => {
   
     socket.current.on('chat message', (msg) => {
       console.log('received a message:', msg);
-      socket.current.emit('fetch old messages', { group_id: localStorage.getItem('groupID'), receiver_name: conversation.username,user_id: localStorage.getItem('userID') });
+      socket.current.emit('fetch old messages', { group_id: localStorage.getItem('groupID'), receiver_name: conversation.username, user_id: localStorage.getItem('userID') });
 
     });
   
@@ -64,6 +64,7 @@ const ChatWindow = ({ conversation }) => {
 }, [conversation,conversationId]);
   
   useEffect(() => {
+  // Scroll to the bottom of the chat window when new messages are added
     if (chatWindowRef.current) {
       chatWindowRef.current.scrollTop = chatWindowRef.current.scrollHeight;
     }

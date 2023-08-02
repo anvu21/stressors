@@ -26,7 +26,7 @@ const Profile = () => {
     fetchProfile();
     fetchComments();
     fetchPosts();
-  }, []);
+  }, [username]);
 
   const validateToken = async () => {
     const requestOptions = {
@@ -123,34 +123,29 @@ const Profile = () => {
       const prof = actors.find((profile) => profile.username === username);
       if (prof) {
         setProfile(prof);
+        return;
       } 
 
       // user profile and posts fetch
-      const response = await axios.get(`${import.meta.env.VITE_APP_API_URL}/profile/${username}`);
-      const { profile, posts } = response.data;
-      setProfile(profile);
+      const response = await axios.get(`${import.meta.env.VITE_APP_API_URL}/images/users/${username}`); 
 
-      const sortedPosts = posts.sort((a, b) => {
-        return new Date(b.created_at) - new Date(a.created_at);
-      });
-      
-      //setPosts(sortedPosts);
+      setProfile(response.data);
       setLoading(false);
 
-      console.log("profile and post fetch");
-      console.log(profile);
-      console.log(posts);
-      
+      console.log("profile fetch");
+      console.log(response.data);
+
     } catch (error) {
       console.error(error);
       setLoading(false);
     }
   };
-  /** posts not from profile posts */
+ 
   const fetchPosts = async () => {
     setLoading(true);
     
     try {
+      // temporary posts for actors
       const profilePosts = actors.filter((post) => post.username === username);
       if (profilePosts.length > 0) {
         const sortedPosts = profilePosts.sort((a, b) => {
@@ -160,30 +155,31 @@ const Profile = () => {
         setLoading(false);
         return;
       }
-      const response = await axios.get(`http://localhost:5000/images/posts/${groupId}`, {
+      // user posts
+      const response = await axios.get(`http://localhost:5000/images/users_posts/${username}`, {
         headers: {
           'auth-token': localStorage.getItem('token')
         }
       });
       const fetchedPosts = response.data;
-      const userPosts = fetchedPosts.filter((post) => post.username === username);
+      //const userPosts = fetchedPosts.filter((post) => post.username === username);
 
-      const sortedPosts = userPosts.sort((a, b) => {
+      const sortedPosts = fetchedPosts.sort((a, b) => {
         return new Date(b.created_at) - new Date(a.created_at);
       });
     
       setPosts(sortedPosts);
-      console.log(sortedPosts)
+      console.log("profile posts", sortedPosts)
       setLoading(false);
 
     } catch (error) {
       console.error('Fetching posts failed:', error);
       setLoading(false);
     }
-  };
+  }; 
 
   if (!profile) {
-    return <div></div>;
+    return <div>No user found with this username</div>;
   }
   
 
@@ -191,7 +187,7 @@ const Profile = () => {
   return (
     <div>
       <div className={styles.screen}>
-        <Navbar /> 
+
         <div key={profile.id}>
           <div className={styles.container}>
             <div className={styles.bg_img}>
@@ -199,11 +195,11 @@ const Profile = () => {
             </div>
             <div className={styles.profile}>
               {/** temporay prof img */}
-              <img className={styles.profile_image} src={profile.prof_pic || "/avatar.png"} alt="Profile" />
+              <img className={styles.profile_image} src={profile.prof_pic || profile.profile_pic_url} alt="Profile" />
               <h1 className={styles.username}>{profile.username}</h1>
             </div>
-            {/**no edit function yet */}
-            <button className={styles.edit}>Edit Profile</button>
+            {/**no edit function yet 
+            <button className={styles.edit}>Edit Profile</button>*/}
             <h2 className="text-lg mt-5 ml-14">About Me</h2>
             <p className={styles.bio}>{profile.bio}</p>
           </div>
