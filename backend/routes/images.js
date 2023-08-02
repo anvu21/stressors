@@ -145,47 +145,50 @@ router.post('/profile/upload', upload.single('image'), async (req, res) => {
   }
 
 });
-
 router.get("/posts/:groupId", async (req, res) => {
-  // Query inside the GET route
   try {
     const { groupId } = req.params;
     console.log(groupId);
-    pool.query('SELECT posts.*, users.username,users.profile_pic_url FROM posts INNER JOIN users ON posts.user_id = users.id WHERE posts.group_id = $1  OR posts.group_id = 100', [groupId], async (error, results) => {
-    if (error) {
-      console.error(error);
-      res.status(500).send(error);
-      return;
-    }
-    const posts = results.rows;
-    console.log(posts)
+    pool.query('SELECT posts.*, users.username,users.profile_pic_url FROM posts INNER JOIN users ON posts.user_id = users.id WHERE posts.group_id = $1 OR posts.group_id = 100', [groupId], async (error, results) => {
+      if (error) {
+        console.error(error);
+        res.status(500).send(error);
+        return;
+      }
+      const posts = results.rows;
 
-    for (let post of posts) { 
-      post.imageUrl = await getSignedUrl(
-        s3,
-        new GetObjectCommand({
-          Bucket: process.env.BUCKET_NAME,
-          Key: post.image_url // Assuming 'imageName' is a column in your table
-        }),
-        { expiresIn: 3600 }
-      );
-      post.profile_pic_url = await getSignedUrl(
-        s3,
-        new GetObjectCommand({
-          Bucket: process.env.BUCKET_NAME,
-          Key: post.profile_pic_url // Assuming 'imageName' is a column in your table
-        }),
-        { expiresIn: 3600 }
-      );
-    }
+      for (let post of posts) {
+        // Check if post.image_url is not null or empty
+        if (post.image_url) {
+          post.imageUrl = await getSignedUrl(
+            s3,
+            new GetObjectCommand({
+              Bucket: process.env.BUCKET_NAME,
+              Key: post.image_url
+            }),
+            { expiresIn: 3600 }
+          );
+        }
 
-    res.send(posts);
-  });
-} catch (err) {
-  console.error(err);
-  res.status(500).send('An error occurred during the operation.');
-}
+        // Check if post.profile_pic_url is not null or empty
+        if (post.profile_pic_url) {
+          post.profile_pic_url = await getSignedUrl(
+            s3,
+            new GetObjectCommand({
+              Bucket: process.env.BUCKET_NAME,
+              Key: post.profile_pic_url
+            }),
+            { expiresIn: 3600 }
+          );
+        }
+      }
 
+      res.send(posts);
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('An error occurred during the operation.');
+  }
 });
 
 
@@ -203,7 +206,7 @@ router.get("/users/:username", async (req, res) => {
     console.log(userProfile);
 
 
-    pool.query('SELECT posts.*, users.username FROM posts INNER JOIN users ON posts.user_id = users.id WHERE posts.user_id = $1  OR posts.group_id = 100', [userProfile.id], async (error, results) => {
+    pool.query('SELECT posts.*, users.username, users.profile_pic_url FROM posts INNER JOIN users ON posts.user_id = users.id WHERE posts.user_id = $1  OR posts.group_id = 100', [userProfile.id], async (error, results) => {
     if (error) {
       console.error(error);
       res.status(500).send(error);
@@ -221,7 +224,18 @@ router.get("/users/:username", async (req, res) => {
         }),
         { expiresIn: 3600 }
       );
+      if (post.profile_pic_url) {
+
+      post.profile_pic_url = await getSignedUrl(
+        s3,
+        new GetObjectCommand({
+          Bucket: process.env.BUCKET_NAME,
+          Key: post.profile_pic_url // Assuming 'imageName' is a column in your table
+        }),
+        { expiresIn: 3600 }
+      );
     }
+  }
 
     res.send(posts);
   });
