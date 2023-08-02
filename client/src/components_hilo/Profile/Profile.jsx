@@ -135,7 +135,7 @@ const Profile = () => {
       }
 
       // user profile and posts fetch
-      const response = await axios.get(`${import.meta.env.VITE_APP_API_URL}/profile/${username}`);
+      const response = await axios.get(`${import.meta.env.VITE_APP_API_URL}/images/users/${username}`);
       const { profile, posts } = response.data;  
       const sortedPosts = posts.sort((a, b) => {
         return new Date(b.created_at) - new Date(a.created_at);

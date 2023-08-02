@@ -4,6 +4,9 @@ import { Link } from 'react-router-dom';
 import axios from "axios";
 
 const Navbar = ({  }) => {
+
+  let username = localStorage.getItem("name");
+
   const [notifications, setNotifications] = useState([]);
 
   const handleLogout = () => {
@@ -28,6 +31,9 @@ const Navbar = ({  }) => {
               <div className={styles.notify}>{notifications}</div>
             )}
           </a>
+          <Link to={`/profile/${username}`} className={styles.nav_item} >
+              Profile
+          </Link>
 
           {/*
           <a className={styles.nav_item} href="/thing1">Thing 2</a>

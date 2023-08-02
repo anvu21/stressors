@@ -5,6 +5,20 @@ import axios from "axios";
 
 const Signup = () => {
   
+  const [file, setFile] = useState(null);
+
+  const handleCamera = () => {
+    document.getElementById('fileInput').click();
+  };
+  
+  const handleFileChange = (e) => {
+    setFile(e.target.files[0]);
+  
+    // show a preview of the image
+    let preview = document.getElementById('imagePreview');
+    preview.src = URL.createObjectURL(e.target.files[0]);
+  };
+
 	const [data, setData] = useState({
 		
 		username: "",
@@ -22,11 +36,27 @@ const Signup = () => {
 	  
 	const handleSubmit = async (e) => {
 		e.preventDefault();
+
+    const formData = new FormData();
+    formData.append('image', file);
+    formData.append('username', data.username);
+    formData.append('password', data.password);
+    formData.append('groupId', data.groupId);
+    formData.append('bio', data.bio);
+    console.log(formData);
 		try {
-		  const url = `${import.meta.env.VITE_APP_API_URL}/signup`;
-		  const { data: res } = await axios.post(url, data);
+      const response = await axios.post(`${import.meta.env.VITE_APP_API_URL}/images/profile/upload`, formData, {
+        headers: {
+          'auth-token': localStorage.getItem('token'),
+          'Content-Type': 'multipart/form-data'
+        }
+      });
+		  
+      /**  const url = `${import.meta.env.VITE_APP_API_URL}/images/profile/upload`;
+		  const { data: res } = await axios.post(url, data);*/
+
 		  navigate("/login");
-		  console.log(res.message);
+		  console.log(response.data);
 		} catch (error) {
 		  if (
 			error.response &&
@@ -37,19 +67,6 @@ const Signup = () => {
 		  }
 		}
 	};
-	  
-  const handleCamera = () => {
-    document.getElementById('fileInput').click();
-  };
-
-  const [file, setFile] = useState(null);
-  const handleFileChange = (e) => {
-    setFile(e.target.files[0]);
-  
-    // show a preview of the image
-    let preview = document.getElementById('imagePreview');
-    preview.src = URL.createObjectURL(e.target.files[0]);
-  };
 
   
   return (
