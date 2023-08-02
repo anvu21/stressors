@@ -311,7 +311,128 @@ router.delete("/posts/:id", async (req, res) => {
   }
 });
 
+router.post('/fake_actor/signup', upload.single('image'), async (req, res) => {
+  const file = req.file;
+  // Generate a random string for filename
+  let randomName = crypto.randomBytes(16).toString("hex");
+  // Preserve the file extension
+  let fileExtension = file.originalname.split(".").pop();
+  let newFileName = `${randomName}.${fileExtension}`;  
+  
+  //const fileBuffer = await sharp(file.buffer).resize({ height: 1920, width: 1080, fit: "contain" }).toBuffer()
 
+  
+
+  const uploadParams = {
+    Bucket: process.env.BUCKET_NAME,
+    Key: newFileName, 
+    Body: fs.createReadStream(file.path),
+    ContentType: req.file.mimetype // this will make the uploaded file publicly accessible. Adjust as necessary
+  };
+
+  try {
+    await s3.send(new PutObjectCommand(uploadParams));
+    //const fileUrl = `https://${uploadParams.Bucket}.s3.${process.env.BUCKET_REGION}.amazonaws.com/${uploadParams.Key}`;
+    //console.log(`File uploaded successfully. ${fileUrl}`);
+    res.status(200).send(`File uploaded successfully.`);
+
+    fs.unlink(file.path, (err) => {
+      if (err) {
+        console.error(err);
+      }
+      console.log(`Temp file deleted: ${file.path}`);
+    });
+  } catch (err) {
+    console.log('Error', err);
+    res.status(500).send(err);
+  }
+
+  
+
+  let image_url = newFileName
+
+  const { username, password, groupId, bio } = req.body;
+
+  
+  //console.log(group_id)
+  if (!username ) {
+    return res.status(400).json({ message: 'Signup must contain username' });
+  }
+  const saltRounds = 10;
+  const hashedPassword = await bcrypt.hash(password, saltRounds);  
+  try {
+    const result = await pool.query('INSERT INTO Users (username, password, group_id, created_at, updated_at,bio,profile_pic_url) VALUES ($1, $2, $3, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, $4, $5) RETURNING id', [username, hashedPassword, groupId,bio,image_url]);
+
+
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ message: 'Internal server error' });
+  }
+
+});
+
+
+router.post('/fake_actor/post', upload.single('image'), async (req, res) => {
+  const file = req.file;
+  // Generate a random string for filename
+  let randomName = crypto.randomBytes(16).toString("hex");
+  // Preserve the file extension
+  let fileExtension = file.originalname.split(".").pop();
+  let newFileName = `${randomName}.${fileExtension}`;  
+  
+  //const fileBuffer = await sharp(file.buffer).resize({ height: 1920, width: 1080, fit: "contain" }).toBuffer()
+
+  
+
+  const uploadParams = {
+    Bucket: process.env.BUCKET_NAME,
+    Key: newFileName, 
+    Body: fs.createReadStream(file.path),
+    ContentType: req.file.mimetype // this will make the uploaded file publicly accessible. Adjust as necessary
+  };
+
+  try {
+    await s3.send(new PutObjectCommand(uploadParams));
+    //const fileUrl = `https://${uploadParams.Bucket}.s3.${process.env.BUCKET_REGION}.amazonaws.com/${uploadParams.Key}`;
+    //console.log(`File uploaded successfully. ${fileUrl}`);
+    res.status(200).send(`File uploaded successfully.`);
+
+    fs.unlink(file.path, (err) => {
+      if (err) {
+        console.error(err);
+      }
+      console.log(`Temp file deleted: ${file.path}`);
+    });
+  } catch (err) {
+    console.log('Error', err);
+    res.status(500).send(err);
+  }
+
+  
+  const { text } = req.body;
+  //const { id: userId } = req.user;
+  //console.log(req.body)
+  const { id: userId } = req.body;
+ //console.log(userId)
+  let group_id = req.body.group_id
+  let image_url = newFileName
+  let up_down = req.body.up_down
+  //console.log(group_id)
+  if (!text && !image_url) {
+    return res.status(400).json({ message: 'Post must contain either text or image url' });
+  }
+  
+  try {
+    const result = await pool.query('INSERT INTO Posts (user_id, content, up_down, group_id, image_url, created_at, updated_at) VALUES ($1, $2, $3, $4, $5, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP) RETURNING id', [userId, text, up_down, group_id, image_url] );
+
+    //return res.status(201).json({ message: 'Post created successfully', postId: result.rows[0].id });
+
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ message: 'Internal server error' });
+  }
+
+});
 
 
 module.exports = router;
