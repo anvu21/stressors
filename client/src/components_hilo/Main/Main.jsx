@@ -348,6 +348,7 @@ const Main = () => {
         
         {/** Post List */}
         <Posts      
+          profile={profile}
           username={username}
           posts={posts}
           userId={userId}

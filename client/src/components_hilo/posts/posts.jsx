@@ -9,7 +9,7 @@ import LoadingAnimation from './loadingBar';
 //import CommentList from './comments/commentList';
 //import CommentBar from './comments/commentBar';
 
-const Posts = ({ username, userId, groupId, posts, loading, commentText, handleCommentChange, handleAddComment, comments, allGroupLikes, }) => {  
+const Posts = ({ profile, username, userId, groupId, posts, loading, commentText, handleCommentChange, handleAddComment, comments, allGroupLikes, }) => {  
 
   const [focusedPostId, setFocusedPostId] = useState(null); // State variable to track the ID of the post with the focused comment input bar
   
@@ -123,7 +123,9 @@ const Posts = ({ username, userId, groupId, posts, loading, commentText, handleC
           <div className={styles.posts_bot}>
             <div className={styles.comment_bar}>
               <Link to={`/profile/${post.username || username}`} className={styles.profile_icon_pos}>
-                <img className={styles.profile_icon} src={post.profile_pic_url} alt="Avatar"/>
+                {profile && profile.profile_pic_url !== null && (
+                  <img className={styles.profile_icon} src={profile.profile_pic_url} alt="Avatar"/>
+                )}
               </Link>
               <div className={styles.comment_input_pos}>
                 <textarea 
@@ -151,7 +153,9 @@ const Posts = ({ username, userId, groupId, posts, loading, commentText, handleC
                 <div className={styles.comment_each}>
                   <div className='h-full flex'>
                     <Link to={`/profile/${comment.username || username}`} className={styles.profile_icon_pos}>
-                      <img className={styles.profile_icon} src={post.profile_pic_url} alt="Avatar"/>
+                      {profile && profile.profile_pic_url !== null && (
+                        <img className={styles.profile_icon} src={post.profile_pic_url || profile.profile_pic_url} alt="Avatar"/>
+                      )}
                     </Link>
                   </div>
                   <div className={styles.comment_name}>{comment.username}</div>
