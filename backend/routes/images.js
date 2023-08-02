@@ -212,7 +212,7 @@ router.get("/users_posts/:username", async (req, res) => {
     console.log(userProfile);
 
 
-    pool.query('SELECT posts.*, users.username, users.profile_pic_url FROM posts INNER JOIN users ON posts.user_id = users.id WHERE posts.user_id = $1  OR posts.group_id = 100', [userProfile.id], async (error, results) => {
+    pool.query('SELECT posts.*, users.username, users.profile_pic_url FROM posts INNER JOIN users ON posts.user_id = users.id WHERE posts.user_id = $1 ', [userProfile.id], async (error, results) => {
     if (error) {
       console.error(error);
       res.status(500).send(error);
