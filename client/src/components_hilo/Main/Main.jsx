@@ -185,9 +185,8 @@ const Main = () => {
       const response = await axios.get(`${import.meta.env.VITE_APP_API_URL}/images/users/${username}`); 
       console.log(response.data.profile_pic_url);
       if (response.data.profile_pic_url === null) {
-        
         // Set a default image URL when profile_pic_url is null
-        response.data.profile_pic_url = '/avatar.jpg';
+        response.data.profile_pic_url = default_img;
       }
 
       setProfile(response.data);
