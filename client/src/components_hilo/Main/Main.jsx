@@ -8,7 +8,9 @@ import Posts from '../posts/posts';
 //import actors from '../posts/actors';
 
 const Main = () => {
-  
+   
+  const default_img = "/avatar.png"
+
   let username = localStorage.getItem("name");
   let bio = localStorage.getItem("bio");
   let groupId = localStorage.getItem("groupID");

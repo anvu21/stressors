@@ -149,7 +149,7 @@ const Profile = () => {
         return;
       } */
       // user posts
-      const response = await axios.get(`http://localhost:5000/images/users_posts/${username}`, {
+      const response = await axios.get(`${import.meta.env.VITE_APP_API_URL}/images/users_posts/${username}`, { 
         headers: {
           'auth-token': localStorage.getItem('token')
         }
@@ -227,6 +227,7 @@ const Profile = () => {
           */}
           <div className='mt-5 flex flex-col items-center'>
           <Posts    
+            profile={profile}
             username={username}        
             posts={posts}
             userId={profile.id}
