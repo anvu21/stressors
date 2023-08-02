@@ -150,6 +150,7 @@ router.post('/profile/upload', upload.single('image'), async (req, res) => {
   }
 
 });
+//Post images get
 router.get("/posts/:groupId", async (req, res) => {
   try {
     const { groupId } = req.params;
@@ -196,7 +197,7 @@ router.get("/posts/:groupId", async (req, res) => {
   }
 });
 
-
+//users posts
 router.get("/users_posts/:username", async (req, res) => {
   // Query inside the GET route
   try {
@@ -251,7 +252,7 @@ router.get("/users_posts/:username", async (req, res) => {
 
 });
 
-
+//users info
 router.get("/users/:username", async (req, res) => {
   // Query inside the GET route
   try {
