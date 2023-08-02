@@ -74,7 +74,7 @@ const Posts = ({ username, userId, groupId, posts, loading, commentText, handleC
           <div className={styles.post_top}>
             <Link to={`/profile/${post.username || username}`} className={styles.char_btn}>
               {/** user profile pic placeholder "/avatar.png" */}
-              <img className={styles.char_pic} src={post.prof_pic || "/avatar.png"} alt="Profile Picture"/>
+              <img className={styles.char_pic} src={post.prof_pic || post.profile_pic_url} alt="Profile Picture"/>
               <div className={styles.char_name}>{post.username || username}</div>
             </Link>
             
@@ -124,7 +124,7 @@ const Posts = ({ username, userId, groupId, posts, loading, commentText, handleC
           <div className={styles.posts_bot}>
             <div className={styles.comment_bar}>
               <Link to={`/profile/${post.username || username}`} className={styles.profile_icon_pos}>
-                <img className={styles.profile_icon} src="/avatar.png" alt="Avatar"/>
+                <img className={styles.profile_icon} src={post.profile_pic_url} alt="Avatar"/>
               </Link>
               <div className={styles.comment_input_pos}>
                 <textarea 
@@ -152,7 +152,7 @@ const Posts = ({ username, userId, groupId, posts, loading, commentText, handleC
                 <div className={styles.comment_each}>
                   <div className='h-full flex'>
                     <Link to={`/profile/${comment.username || username}`} className={styles.profile_icon_pos}>
-                      <img className={styles.profile_icon} src="/avatar.png" alt="Avatar"/>
+                      <img className={styles.profile_icon} src={post.profile_pic_url} alt="Avatar"/>
                     </Link>
                   </div>
                   <div className={styles.comment_name}>{comment.username}</div>

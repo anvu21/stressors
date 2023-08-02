@@ -15,7 +15,7 @@ const Profile = () => {
 
   const { username } = useParams();
   const [profile, setProfile] = useState(null);
-  //const [posts, setPosts] = useState([]);
+  const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true); 
 
   const [comments, setComments] = useState([]);
@@ -25,7 +25,7 @@ const Profile = () => {
     validateToken();
     fetchProfile();
     fetchComments();
-    //fetchPosts();
+    fetchPosts();
   }, [username]);
 
   const validateToken = async () => {
@@ -120,15 +120,11 @@ const Profile = () => {
     try {
 
       // temporary actor profile and posts
-      const profilePosts = actors.filter((post) => post.username === username);
-      if (profilePosts.length > 0) {
-        const sortedPosts = profilePosts.sort((a, b) => {
-          return new Date(b.created_at) - new Date(a.created_at);
-        });
-        setProfile(sortedPosts);
-        setLoading(false);
+      const prof = actors.find((profile) => profile.username === username);
+      if (prof) {
+        setProfile(prof);
         return;
-      }
+      } 
 
       // user profile and posts fetch
       const response = await axios.get(`${import.meta.env.VITE_APP_API_URL}/images/users/${username}`); 
@@ -144,7 +140,7 @@ const Profile = () => {
       setLoading(false);
     }
   };
-/**  
+ 
   const fetchPosts = async () => {
     setLoading(true);
     
@@ -160,7 +156,7 @@ const Profile = () => {
         return;
       }
       // user posts
-      const response = await axios.get(`http://localhost:5000/images/users/${username}`, {
+      const response = await axios.get(`http://localhost:5000/images/users_posts/${username}`, {
         headers: {
           'auth-token': localStorage.getItem('token')
         }
@@ -180,7 +176,7 @@ const Profile = () => {
       console.error('Fetching posts failed:', error);
       setLoading(false);
     }
-  }; */
+  }; 
 
   if (!profile) {
     return <div>No user found with this username</div>;
@@ -199,11 +195,11 @@ const Profile = () => {
             </div>
             <div className={styles.profile}>
               {/** temporay prof img */}
-              <img className={styles.profile_image} src={profile.prof_pic || "/avatar.png"} alt="Profile" />
+              <img className={styles.profile_image} src={profile.prof_pic || profile.profile_pic_url} alt="Profile" />
               <h1 className={styles.username}>{profile.username}</h1>
             </div>
-            {/**no edit function yet */}
-            <button className={styles.edit}>Edit Profile</button>
+            {/**no edit function yet 
+            <button className={styles.edit}>Edit Profile</button>*/}
             <h2 className="text-lg mt-5 ml-14">About Me</h2>
             <p className={styles.bio}>{profile.bio}</p>
           </div>
@@ -239,7 +235,7 @@ const Profile = () => {
           <div className='mt-5 flex flex-col items-center'>
           <Posts    
             username={username}        
-            posts={profile}
+            posts={posts}
             userId={profile.id}
             groupId={profile.groupId}
             loading={loading}

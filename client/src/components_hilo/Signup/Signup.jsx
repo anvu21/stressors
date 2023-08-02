@@ -43,7 +43,7 @@ const Signup = () => {
     formData.append('password', data.password);
     formData.append('groupId', data.groupId);
     formData.append('bio', data.bio);
-    console.log(formData);
+    
 		try {
       const response = await axios.post(`${import.meta.env.VITE_APP_API_URL}/images/profile/upload`, formData, {
         headers: {

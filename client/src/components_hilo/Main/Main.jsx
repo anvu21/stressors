@@ -14,6 +14,7 @@ const Main = () => {
   let groupId = localStorage.getItem("groupID");
   let userId = localStorage.getItem("userID");
  
+  const [profile, setProfile] = useState(null);
   const [posts, setPosts] = useState([...actors]);
   const [data, setData] = useState({ text: "", up_down: "" });
   const [loading, setLoading] = useState(true); 
@@ -65,6 +66,7 @@ const Main = () => {
     validateToken();
     fetchPosts();
     fetchComments();
+    fetchProfile();
     //fetchLikesForGroup();
   }, []);
   
@@ -163,6 +165,37 @@ const Main = () => {
   const defaultLo = "/Lo.png";
   const hoverLo = "/lo_red.png";
   
+  const fetchProfile = async () => {
+    setLoading(true);
+    try {
+
+      // temporary actor profile and posts
+      const prof = actors.find((profile) => profile.username === username);
+      if (prof) {
+        setProfile(prof);
+        return;
+      } 
+
+      // user profile and posts fetch
+      const response = await axios.get(`${import.meta.env.VITE_APP_API_URL}/images/users/${username}`); 
+      console.log(response.data.profile_pic_url);
+      if (response.data.profile_pic_url === null) {
+        
+        // Set a default image URL when profile_pic_url is null
+        response.data.profile_pic_url = '/avatar.jpg';
+      }
+
+      setProfile(response.data);
+      setLoading(false);
+
+      console.log("profile fetch");
+      console.log(response.data);
+
+    } catch (error) {
+      console.error(error);
+      setLoading(false);
+    }
+  };
 
   const [comments, setComments] = useState([]);
   const [commentText, setCommentText] = useState({});
@@ -237,7 +270,9 @@ const Main = () => {
         <div className={styles.user_box}>
           {/** profile not editable by user yet */}
           <Link to={`/profile/${username}`}>
-            <img className={styles.user_pic} src="/avatar.png" alt="Profile Picture"/>
+            {profile && profile.profile_pic_url !== null && (
+              <img className={styles.user_pic} src={profile.profile_pic_url} alt="Profile Picture"/>
+            )}
           </Link>
           <div className="flex">
             <div className={styles.name}>
@@ -253,7 +288,9 @@ const Main = () => {
         <div className={styles.post_bar}>
           <div className={styles.post_bar_top}>
             <Link to={`/profile/${username}`}>
-              <img src="/avatar.png" alt="Avatar" className={styles.profile_icon} />
+              {profile && profile.profile_pic_url !== null && (
+                <img src={profile.profile_pic_url} alt="Avatar" className={styles.profile_icon} />
+              )}
             </Link>
             <input
               type="text"
