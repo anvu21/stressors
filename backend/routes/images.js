@@ -85,14 +85,18 @@ router.post('/upload',verifyToken, upload.single('image'), async (req, res) => {
   }
 
 });
-
+//for profile signup
 router.post('/profile/upload', upload.single('image'), async (req, res) => {
-  const file = req.file;
+  
+  let newFileName
+  try {
+    if(req.file){
+    const file = req.file;
   // Generate a random string for filename
   let randomName = crypto.randomBytes(16).toString("hex");
   // Preserve the file extension
   let fileExtension = file.originalname.split(".").pop();
-  let newFileName = `${randomName}.${fileExtension}`;  
+   newFileName = `${randomName}.${fileExtension}`;  
   
   //const fileBuffer = await sharp(file.buffer).resize({ height: 1920, width: 1080, fit: "contain" }).toBuffer()
 
@@ -104,8 +108,6 @@ router.post('/profile/upload', upload.single('image'), async (req, res) => {
     Body: fs.createReadStream(file.path),
     ContentType: req.file.mimetype // this will make the uploaded file publicly accessible. Adjust as necessary
   };
-
-  try {
     await s3.send(new PutObjectCommand(uploadParams));
     //const fileUrl = `https://${uploadParams.Bucket}.s3.${process.env.BUCKET_REGION}.amazonaws.com/${uploadParams.Key}`;
     //console.log(`File uploaded successfully. ${fileUrl}`);
@@ -117,14 +119,17 @@ router.post('/profile/upload', upload.single('image'), async (req, res) => {
       }
       console.log(`Temp file deleted: ${file.path}`);
     });
+  }
   } catch (err) {
     console.log('Error', err);
     res.status(500).send(err);
   }
 
-  
+  let image_url
+  if (newFileName){
+     image_url = newFileName
 
-  let image_url = newFileName
+  }
 
   const { username, password, groupId, bio } = req.body;
 
