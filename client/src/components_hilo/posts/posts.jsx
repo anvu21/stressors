@@ -70,7 +70,7 @@ const Posts = ({ profile, username, userId, groupId, posts, loading, commentText
         </div>
       ) : (
       posts.slice(0, visiblePosts).map((post, index) => (
-        <div className={`${styles.post_box} ${post.up_down === "up" ? styles.hi_post : post.up_down === "down" ? styles.lo_post : ""}`} key={post.id}>
+        <div key={post.id} className={`${styles.post_box} ${post.up_down === "up" ? styles.hi_post : post.up_down === "down" ? styles.lo_post : ""}`}>
           <div className={styles.post_top}>
             <Link to={`/profile/${post.username || username}`} className={styles.char_btn}>
               <img className={styles.char_pic} src={post.prof_pic || post.profile_pic_url} alt="Profile Picture"/>
@@ -150,11 +150,13 @@ const Posts = ({ profile, username, userId, groupId, posts, loading, commentText
               {comments
               .filter((comment) => comment.post_id === post.id)
               .map((comment) => (
-                <div className={styles.comment_each}>
+                <div key={comment.id} className={styles.comment_each}>
                   <div className='h-full flex'>
                     <Link to={`/profile/${comment.username || username}`} className={styles.profile_icon_pos}>
+                    
+                    {/** comment profile may not work yet*/}
                       {profile && profile.profile_pic_url !== null && (
-                        <img className={styles.profile_icon} src={post.profile_pic_url || profile.profile_pic_url} alt="Avatar"/>
+                        <img className={styles.profile_icon} src={post.profile_pic_url || profile.profile_pic_url } alt="Avatar"/>
                       )}
                     </Link>
                   </div>

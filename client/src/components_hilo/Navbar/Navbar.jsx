@@ -25,15 +25,16 @@ const Navbar = ({  }) => {
           <a className={styles.nav_item} href="/">
             Home
           </a>
-          <a className={styles.nav_item} href="/messages" onClick={() => setOpen(!open)}>
+          <a className={styles.nav_item} href="/messages">
             Message
             {notifications > 0 && (
               <div className={styles.notify}>{notifications}</div>
             )}
           </a>
-          <Link to={`/profile/${username}`} className={styles.nav_item} >
+          <a></a>
+          <a href={`/profile/${username}`} className={styles.nav_item} >
               Profile
-          </Link>
+          </a>
 
           {/*
           <a className={styles.nav_item} href="/thing1">Thing 2</a>
