@@ -412,7 +412,7 @@ router.post('/fake_actor/post', upload.single('image'), async (req, res) => {
   const { text } = req.body;
   //const { id: userId } = req.user;
   //console.log(req.body)
-  const { id: userId } = req.body;
+  const { userId } = req.body;
  //console.log(userId)
   let group_id = req.body.group_id
   let image_url = newFileName
