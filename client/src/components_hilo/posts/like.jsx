@@ -31,8 +31,8 @@ const LikeButton = ({ post, postId, groupId, userId }) => {
       if(response.status === 200 || response.status === 201) {
         setNumLikes((prevLikes) => (isLiked ? prevLikes - 1 : prevLikes + 1));
       }
-      //console.log("Like")
-      //console.log(response.data.message);
+
+      console.log("Like button clicked ", response.data);
     } catch (error) {
       console.error('Failed to like/unlike:', error);
     }
@@ -43,10 +43,9 @@ const LikeButton = ({ post, postId, groupId, userId }) => {
       const response = await axios.get(`${import.meta.env.VITE_APP_API_URL}/likes/group/${groupId}`);      
       const likes = response.data;
       setNumLikes(likes.filter((like) => like.post_id === postId).length);
-      setIsLiked(likes.some((like) => like.post_id === postId));
+      setIsLiked(likes.some((like) => like.post_id === postId)); //&& like.user_id === userId
 
-      //console.log("Like fetch")
-      //console.log(response);
+      console.log("Like fetch ", response.data);
     } catch (error) {
       console.error(error);
     }

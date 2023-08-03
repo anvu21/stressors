@@ -132,8 +132,8 @@ const Signup = () => {
             <button className={styles.upload_text} onClick={handleCamera}>
               Upload an Image
             </button>
-            <div className={styles.image}>
-              <img id="imagePreview" className="object-cover w-full h-full rounded-full"/>
+            <div className={styles.image_pos}>
+              <img id="imagePreview" className={styles.image}/>
             </div>
 
             {error && <div className={styles.error_msg}>{error}</div>}

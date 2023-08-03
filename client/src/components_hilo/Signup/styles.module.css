@@ -38,8 +38,12 @@
     @apply mt-3 hover:underline;
 }
 
-.image{
+.image_pos{
     @apply m-3 flex justify-center items-center w-[200px] h-[200px] rounded-full overflow-hidden bg-gray-300 border border-gray-500;
+}
+
+.image {
+    @apply object-cover w-full h-full rounded-full;
 }
 
 .signup_btn_pos {

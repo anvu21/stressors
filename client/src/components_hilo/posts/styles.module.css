@@ -23,7 +23,7 @@
 }
 
 .char_pic {
-    @apply w-8 absolute mt-2 left-3 rounded-full overflow-hidden object-cover;
+    @apply w-8 h-8 absolute mt-2 left-3 rounded-full overflow-hidden object-cover;
 }
 
 .char_name {
@@ -75,11 +75,11 @@
 }
 
 .profile_icon_pos {
-    @apply w-8 relative rounded-full overflow-hidden mx-3;
+    @apply aspect-square w-9 m-3 flex justify-center items-center rounded-full overflow-hidden;
 }
 
 .profile_icon {
-    @apply w-full h-full object-cover;
+    @apply w-full h-full object-cover rounded-full;
 }
 
 .comment_bar {
@@ -108,6 +108,10 @@
 
 .comment_text {
     @apply text-xs break-all;
+}
+
+.comment_pic {
+    @apply aspect-square w-8 mx-3 flex justify-center items-center rounded-full overflow-hidden object-cover;
 }
 
 .send_pos {

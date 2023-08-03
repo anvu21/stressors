@@ -19,7 +19,7 @@
 }
 
 .profile_image {
-    @apply w-44 h-44 rounded-full border-[4px] border-gray-300 z-20;
+    @apply w-44 h-44 rounded-full object-cover border-[4px] border-gray-300 z-20;
 }
 
 .username {
@@ -36,83 +36,3 @@
 
 
 
-
-.post_box {
-    @apply w-[600px] bg-white border border-slate-300 relative justify-center rounded-lg shadow-sm flex-col mt-3;
-}
-
-.hi_post {
-    @apply bg-green-300 border border-slate-300 relative rounded-lg shadow-sm flex-col mt-3;
-}
-
-.lo_post {
-    @apply bg-red-300 border border-slate-300 relative rounded-lg shadow-sm flex-col mt-3;
-}
-
-.post_top {
-    @apply w-full min-h-[50px] relative top-0 left-0 rounded-tl-lg rounded-tr-lg items-center;
-}
-
-.char_btn {
-    @apply flex;
-}
-
-.char_pic {
-    @apply w-8 absolute mt-2 left-3 rounded-full overflow-hidden object-cover;
-}
-
-.char_name {
-    @apply text-black font-semibold absolute top-3 left-14;
-}
-
-.dates {
-    @apply flex text-xs text-neutral-600 absolute right-5 top-4;
-}
-
-.content {
-    @apply w-full bg-white relative mt-12 left-0 flex text-sm text-black p-4 border-t border-b border-slate-300;
-}
-
-.photo_pos {
-    @apply w-full min-h-[000px] relative flex justify-center;
-}
-
-.photo {
-    @apply relative max-h-[400px] min-w-[350px];
-}
-
-.react_bar {
-    @apply w-full h-8 relative bg-white border-t border-b border-slate-300 flex items-center;
-}
-
-.reply_btn {
-    @apply h-full w-1/3 relative flex justify-center items-center hover:bg-stone-200;
-}
-
-.reply_icon {
-    @apply w-[15px] fill-current text-neutral-500;
-}
-
-.reply_text {
-    @apply text-sm text-neutral-500 font-semibold p-1;
-}
-
-.like_click {
-    @apply w-[15px] fill-current text-blue-500;
-}
-
-.num_likes {
-    @apply w-10 h-full bg-amber-400 left-0 absolute text-black flex justify-center items-center;
-}
-
-.posts_bot {
-    @apply w-full min-h-[80px] relative rounded-b-lg flex flex-col items-center;
-}
-
-.profile_icon_pos {
-    @apply w-8 relative rounded-full overflow-hidden mx-3;
-}
-
-.profile_icon {
-    @apply w-full h-full object-cover;
-}

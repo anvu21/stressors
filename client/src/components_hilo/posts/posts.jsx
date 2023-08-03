@@ -122,7 +122,7 @@ const Posts = ({ profile, username, userId, groupId, posts, loading, commentText
           
           <div className={styles.posts_bot}>
             <div className={styles.comment_bar}>
-              <Link to={`/profile/${post.username || username}`} className={styles.profile_icon_pos}>
+              <Link to={`/profile/${username}`} className={styles.profile_icon_pos}>
                 {profile && profile.profile_pic_url !== null && (
                   <img className={styles.profile_icon} src={profile.profile_pic_url} alt="Avatar"/>
                 )}
@@ -152,11 +152,11 @@ const Posts = ({ profile, username, userId, groupId, posts, loading, commentText
               .map((comment) => (
                 <div key={comment.id} className={styles.comment_each}>
                   <div className='h-full flex'>
-                    <Link to={`/profile/${comment.username || username}`} className={styles.profile_icon_pos}>
+                    <Link to={`/profile/${comment.username || username}`}>
                     
                     {/** comment profile may not work yet*/}
                       {profile && profile.profile_pic_url !== null && (
-                        <img className={styles.profile_icon} src={profile.profile_pic_url} alt="Avatar"/>
+                        <img className={styles.comment_pic} src={profile.profile_pic_url} alt="Avatar"/>
                       )}
                     </Link>
                   </div>

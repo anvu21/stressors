@@ -11,7 +11,7 @@
 }
 
 .user_pic {
-    @apply w-[full] absolute top-0 object-cover rounded-tl-lg rounded-tr-lg;
+    @apply w-[full] aspect-square absolute top-0 object-cover;
 }
 
 .name {
@@ -32,7 +32,7 @@
 }
 
 .profile_icon {
-    @apply w-8 h-8 rounded-full mr-2;
+    @apply w-8 h-8 rounded-full mr-2 object-cover;
 }
 
 .post_input {
