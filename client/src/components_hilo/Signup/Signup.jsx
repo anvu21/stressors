@@ -9,6 +9,13 @@ const Signup = () => {
 
   const handleCamera = () => {
     document.getElementById('fileInput').click();
+      // Check if the file input has any selected file
+    if (fileInput && fileInput.files && fileInput.files.length > 0) {
+      fileInput.click();
+    } else {
+      // Display an error message or handle the case when no file is selected from the camera
+      console.log("No file selected from the camera.");
+    }
   };
   
   const handleFileChange = (e) => {
@@ -77,7 +84,7 @@ const Signup = () => {
 
         <div className={styles.signup_box}>
           <div className={styles.signup_text}>Create a new account</div>
-          <form className={styles.input_contain} onSubmit={handleSubmit}>
+          <div className={styles.input_contain}>
             
             <input
               type="text"
@@ -131,10 +138,10 @@ const Signup = () => {
 
             {error && <div className={styles.error_msg}>{error}</div>}
             
-            <button type="submit" className={styles.signup_btn_pos}>
+            <button type="submit" className={styles.signup_btn_pos} onClick={handleSubmit}>
               <div className={styles.signup_btn}>Sign Up</div>  
             </button>  
-          </form>
+          </div>
 
           <button className={styles.acct_btn_pos}>
             <a className={styles.acct_btn} href="/login">Have an account?</a>

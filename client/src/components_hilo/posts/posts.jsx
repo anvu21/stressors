@@ -156,7 +156,7 @@ const Posts = ({ profile, username, userId, groupId, posts, loading, commentText
                     
                     {/** comment profile may not work yet*/}
                       {profile && profile.profile_pic_url !== null && (
-                        <img className={styles.profile_icon} src={post.profile_pic_url || profile.profile_pic_url } alt="Avatar"/>
+                        <img className={styles.profile_icon} src={profile.profile_pic_url} alt="Avatar"/>
                       )}
                     </Link>
                   </div>
