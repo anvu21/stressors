@@ -150,6 +150,7 @@ router.post('/profile/upload', upload.single('image'), async (req, res) => {
   }
 
 });
+//Post images get
 router.get("/posts/:groupId", async (req, res) => {
   try {
     const { groupId } = req.params;
@@ -196,7 +197,7 @@ router.get("/posts/:groupId", async (req, res) => {
   }
 });
 
-
+//users posts
 router.get("/users_posts/:username", async (req, res) => {
   // Query inside the GET route
   try {
@@ -211,7 +212,7 @@ router.get("/users_posts/:username", async (req, res) => {
     console.log(userProfile);
 
 
-    pool.query('SELECT posts.*, users.username, users.profile_pic_url FROM posts INNER JOIN users ON posts.user_id = users.id WHERE posts.user_id = $1  OR posts.group_id = 100', [userProfile.id], async (error, results) => {
+    pool.query('SELECT posts.*, users.username, users.profile_pic_url FROM posts INNER JOIN users ON posts.user_id = users.id WHERE posts.user_id = $1 ', [userProfile.id], async (error, results) => {
     if (error) {
       console.error(error);
       res.status(500).send(error);
@@ -251,7 +252,7 @@ router.get("/users_posts/:username", async (req, res) => {
 
 });
 
-
+//users info
 router.get("/users/:username", async (req, res) => {
   // Query inside the GET route
   try {
