@@ -241,11 +241,11 @@ app.post('/like',verifyToken,  async (req, res) => {//verifyToken ,
     
     try {
       const { groupId } = req.params;
-      const result = await pool.query(`
-        SELECT likes.* 
+      const result = await pool.query(
+        `SELECT likes.*, posts.content, users.username
         FROM likes 
-        INNER JOIN users ON likes.user_id = users.id
         INNER JOIN posts ON likes.post_id = posts.id 
+        INNER JOIN users ON likes.user_id = users.id
         WHERE likes.group_id = $1`, 
         [groupId]
       );
