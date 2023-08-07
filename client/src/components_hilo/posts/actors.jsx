@@ -1,6 +1,6 @@
 import { random } from 'lodash';
 
-
+/**
 const generateRandomDate = (postId) => {
   const localStorageKey = `randomDates_${postId}`;
 //  const storedDates = localStorage.getItem(localStorageKey);
@@ -25,7 +25,7 @@ const generateRandomDate = (postId) => {
   }
 };
 
-/** this code is located below actorsData list
+ this code is located below actorsData list
  * const actors = actorsData.map((item) => ({
   ...item,
   ...generateRandomDate(item.id),
