@@ -241,12 +241,22 @@ app.post('/like',verifyToken,  async (req, res) => {//verifyToken ,
     
     try {
       const { groupId } = req.params;
-      const result = await pool.query('SELECT Likes.* FROM Likes INNER JOIN Posts ON Likes.post_id = Posts.id WHERE Posts.group_id = $1', [groupId]);
+
+      const result = await pool.query(
+        `SELECT likes.*, posts.content, users.username
+        FROM likes 
+        INNER JOIN posts ON likes.post_id = posts.id 
+        INNER JOIN users ON likes.user_id = users.id
+        WHERE likes.group_id = $1`, 
+        [groupId]
+      );
+
       //console.log(result)
       if (result.rows.length === 0) {
         return res.status(404).json({ message: 'No likes found for this group' });
       }
-      //console.log(result.rows);
+      
+      console.log('Fetched likes:', result.rows); // Add this line
 
       return res.status(200).json(result.rows);
     } catch (err) {
