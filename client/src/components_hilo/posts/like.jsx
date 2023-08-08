@@ -3,10 +3,11 @@ import React, { useState, useEffect }  from 'react';
 import { Link } from 'react-router-dom';
 import axios from "axios";
 
-const LikeButton = ({ post, postId, groupId, userId }) => {
+const LikeButton = ({ post, postId, userId }) => {
   const [isLiked, setIsLiked] = useState(false);
   const [numLikes, setNumLikes] = useState(0);
-
+  let groupId =localStorage.getItem("groupID") 
+  
   useEffect(() => {
     fetchLikes();
   }, []);
@@ -31,8 +32,7 @@ const LikeButton = ({ post, postId, groupId, userId }) => {
       if(response.status === 200 || response.status === 201) {
         setNumLikes((prevLikes) => (isLiked ? prevLikes - 1 : prevLikes + 1));
       }
-      //console.log("Like")
-      //console.log(response.data.message);
+      console.log("Like button clicked ", response.data);
     } catch (error) {
       console.error('Failed to like/unlike:', error);
     }
@@ -45,8 +45,7 @@ const LikeButton = ({ post, postId, groupId, userId }) => {
       setNumLikes(likes.filter((like) => like.post_id === postId).length);
       setIsLiked(likes.some((like) => like.post_id === postId));
 
-      //console.log("Like fetch")
-      //console.log(response);
+      console.log({groupId}, {postId}, "Like fetch ", response.data);
     } catch (error) {
       console.error(error);
     }
