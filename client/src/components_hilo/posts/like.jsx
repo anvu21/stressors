@@ -3,10 +3,11 @@ import React, { useState, useEffect }  from 'react';
 import { Link } from 'react-router-dom';
 import axios from "axios";
 
-const LikeButton = ({ post, postId, groupId, userId }) => {
+const LikeButton = ({ post, postId, userId }) => {
   const [isLiked, setIsLiked] = useState(false);
   const [numLikes, setNumLikes] = useState(0);
-
+  let groupId =localStorage.getItem("groupID") 
+  
   useEffect(() => {
     fetchLikes();
   }, []);
