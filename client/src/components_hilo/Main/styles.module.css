@@ -11,7 +11,7 @@
 }
 
 .user_pic {
-    @apply w-[full] aspect-square absolute top-0 object-cover;
+    @apply w-[full] aspect-square absolute top-0 object-cover rounded-t-lg;
 }
 
 .name {
@@ -44,11 +44,11 @@
 }
 
 .send_camera {
-    @apply w-8 h-8 fill-current text-neutral-500 hover:text-neutral-700;
+    @apply w-8 h-8 m-1.5 fill-current text-neutral-500 hover:text-neutral-700;
 }
 
 .hilo {
-    @apply w-5 h-8 m-1;
+    @apply w-5 h-8 m-1.5;
 }
 
 .post_bar_bot {
@@ -57,4 +57,42 @@
 
 .post_img {
     @apply max-h-[400px] mb-1;
+}
+
+/* Mobile */
+@media (max-width: 640px) {
+    .screen {
+        @apply p-2 flex-col;
+    }
+
+    .user_box {
+        @apply hidden;
+    }
+
+    .post_bar {
+        @apply w-full min-h-[40px] mb-5 mt-2;
+    }
+
+    .post_bar_top {
+        @apply px-2 py-1;
+    }
+
+    .profile_icon {
+        @apply w-6 h-6;
+    }
+
+    .post_input {
+        @apply py-1 px-2 mr-2;
+    }
+
+    .send_camera {
+        @apply w-6 h-6 m-1;
+    }
+    .hilo {
+        @apply w-4 h-6 m-1;
+    }
+
+    .post_img {
+        @apply max-h-[500px];
+    }
 }

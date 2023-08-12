@@ -1,8 +1,5 @@
-// src/ChatList.js
+import styles from './styles.module.css';
 import React, { useEffect, useState } from 'react';
-
-
-
 
 
 const ChatList = ({ selectedConversation, onSelectConversation }) => {
@@ -40,8 +37,8 @@ const ChatList = ({ selectedConversation, onSelectConversation }) => {
 
 
   return (
-    <div className="p-4">
-      <h1 className="text-2xl font-bold mb-4">Chats</h1>
+    <div className={styles.list_bg}>
+      <h1 className={styles.chats_text}>Chats</h1>
       <ul className="space-y-4">
         {groupUsers.map((groupUsers) => (
           <li

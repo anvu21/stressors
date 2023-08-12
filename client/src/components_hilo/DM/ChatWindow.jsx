@@ -97,11 +97,12 @@ const ChatWindow = ({ conversation }) => {
   };
   
   return (
-    <div className="h-full p-4">
+    
+    <div className={styles.message_box}>
       {conversation ? (
-        <div className="h-full bg-white border border-gray-300 rounded">
-          <div className="p-4 flex flex-col h-full">
-            <h1 className="text-2xl font-bold mb-4 border-b border-gray-300">{conversation.name}</h1>
+        <div className={styles.message_bg}>
+          <div className={styles.message_flex}>
+            <h1 className={styles.name}>{conversation.name}</h1>
             <div className="flex-grow overflow-y-auto" ref={chatWindowRef}>
               {/* Messages */}
               <div className="flex flex-col space-y-4 px-4">
@@ -113,13 +114,13 @@ const ChatWindow = ({ conversation }) => {
                     <div
                       className={`${
                         msg.sender === user
-                          ? 'bg-cyan-500 text-white rounded-t-lg rounded-bl-lg items-end break-all'
-                          : 'bg-gray-200 rounded-t-lg rounded-br-lg items-start break-all'
+                          ? styles.user_content
+                          : styles.friend_content
                       } py-2 px-4 max-w-lg`}
                     >
                       {msg.content}
                     </div>
-                    <div className="text-gray-500 text-xs mt-1">
+                    <div className={styles.time}>
                       {msg.sender} - {msg.timestamp}
                     </div>
                   </div>
@@ -129,13 +130,13 @@ const ChatWindow = ({ conversation }) => {
             <div className="mt-4 flex">
               <input
                 type="text"
-                className="flex-grow border border-gray-300 rounded px-4 py-2 mr-2 focus:outline-none"
+                className={styles.input}
                 placeholder="Type your message..."
                 value={message}
                 onChange={handleMessageChange}
               />
               <button
-                className="bg-blue-500 text-white px-4 py-2 rounded focus:outline-none"
+                className={styles.send}
                 onClick={handleSendMessage}
               >
                 Send
@@ -145,8 +146,8 @@ const ChatWindow = ({ conversation }) => {
           </div>
         </div>
       ) : (
-        <div className="h-full flex items-center justify-center">
-          <p className="text-gray-500">Select a conversation to start chatting.</p>
+        <div className={styles.default}>
+          Select a conversation to start chatting.
         </div>
       )}
     </div>

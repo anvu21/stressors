@@ -202,7 +202,7 @@ const Profile = () => {
             </div>
             {/**no edit function yet 
             <button className={styles.edit}>Edit Profile</button>*/}
-            <h2 className="text-lg mt-5 ml-14">About Me</h2>
+            <h2 className={styles.about}>About Me</h2>
             <p className={styles.bio}>{profile.bio}</p>
           </div>
    

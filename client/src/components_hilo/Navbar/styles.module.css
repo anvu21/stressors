@@ -11,7 +11,7 @@
 }
 
 .nav_items {
-    @apply h-full relative ml-auto flex justify-center items-center;
+    @apply h-full relative m-auto flex justify-center items-center;
 }
 
 .nav_active {
@@ -23,7 +23,7 @@
 }
 
 .logout {
-    @apply relative ml-auto hover:underline;
+    @apply relative ml-5 hover:underline;
 }
 
 .logo_pos {
@@ -36,4 +36,11 @@
 
 .notify {
     @apply w-1 h-1 absolute top-2 ml-20 text-xs bg-red-500 rounded-full justify-center items-center flex p-2;
+}
+
+/* Mobile */
+@media (max-width: 640px) {
+    .logo {
+      @apply hidden;
+    }
 }

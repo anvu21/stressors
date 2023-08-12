@@ -7,11 +7,11 @@
 }
 
 .hi_post {
-    @apply bg-green-300 border border-slate-300 relative rounded-lg shadow-sm flex-col mt-3;
+    @apply bg-green-300;
 }
 
 .lo_post {
-    @apply bg-red-300 border border-slate-300 relative rounded-lg shadow-sm flex-col mt-3;
+    @apply bg-red-300;
 }
 
 .post_top {
@@ -39,11 +39,11 @@
 }
 
 .photo_pos {
-    @apply w-full min-h-[000px] relative flex justify-center;
+    @apply w-full h-auto relative flex justify-center items-center;
 }
 
 .photo {
-    @apply relative max-h-[400px];
+    @apply max-h-[400px];
 }
 
 .react_bar {
@@ -71,7 +71,7 @@
 }
 
 .posts_bot {
-    @apply w-full min-h-[80px] relative rounded-b-lg flex flex-col items-center;
+    @apply w-full h-auto relative rounded-b-lg flex flex-col items-center;
 }
 
 .profile_icon_pos {
@@ -124,4 +124,78 @@
 
 .load {
     @apply relative bg-oran hover:bg-orange-400 hover:text-black text-white font-semibold py-2 px-4 mt-5 rounded-lg;
+}
+/* Mobile */
+@media (max-width: 640px) {
+    .post_box {
+        @apply w-full mt-2;
+    }
+
+    .post_top {
+        @apply min-h-[40px];
+    }
+
+    .content {
+        @apply p-2;
+    }
+
+    .photo_pos {
+        @apply w-full;
+    }
+
+    .photo {
+        @apply w-full max-h-full;
+    }
+
+    .react_bar {
+        @apply h-6;
+    }
+
+    .num_likes {
+        @apply w-8 h-full;
+    }
+
+    .posts_bot {
+        @apply px-5;
+    }
+
+    .profile_icon_pos {
+        @apply w-6 m-2;
+    }
+
+    .comment_bar {
+        @apply w-full h-[40px];
+    }
+
+    .comment_input_pos {
+        @apply w-full;
+    }
+
+    .comment_input {
+        @apply py-2 pr-12;
+    }
+
+    .comment_box {
+        @apply w-full m-2;
+    }
+
+    .comment_each {
+        @apply py-2;
+    }
+
+    .comment_name {
+        @apply text-xs mr-2;
+    }
+
+    .comment_pic {
+        @apply w-6 mx-2;
+    }
+
+    .send_pos {
+        @apply right-2;
+    }
+
+    .load {
+        @apply mt-3 py-1 px-2;
+    }
 }
