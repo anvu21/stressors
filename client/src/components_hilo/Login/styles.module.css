@@ -3,7 +3,7 @@
 @import 'tailwindcss/utilities';
 
 .screen {
-    @apply w-full min-h-[1000px] relative bg-gray-200 flex flex-col items-center p-5;
+    @apply w-full h-screen relative bg-gray-200 flex flex-col items-center p-5;
 }
 
 .logo_pos {

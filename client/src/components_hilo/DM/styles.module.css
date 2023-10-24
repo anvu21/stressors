@@ -35,15 +35,21 @@
 }
 
 .user_content {
-   @apply bg-cyan-500 text-white rounded-t-lg rounded-bl-lg items-end break-all py-2 px-4 max-w-lg;
+  @apply bg-cyan-500 text-white rounded-t-lg rounded-bl-lg items-end;
+  overflow-wrap: break-word;
 }
 
 .friend_content {
-  @apply bg-gray-200 rounded-t-lg rounded-br-lg items-start break-all py-2 px-4 max-w-lg;
+  @apply bg-gray-200 rounded-t-lg rounded-br-lg items-start;
+  overflow-wrap: break-word;
 }
 
 .time {
   @apply text-gray-500 text-xs mt-1;
+}
+
+.input_flex {
+  @apply mt-4 flex;
 }
 
 .input {
@@ -66,7 +72,7 @@
   }
 
   .list_bg {
-    @apply w-full min-h-[50px];
+    @apply w-full h-1/6;
   }
 
   .message_box {

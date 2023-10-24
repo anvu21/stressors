@@ -127,7 +127,7 @@ const ChatWindow = ({ conversation }) => {
                 ))}
               </div>
             </div>
-            <div className="mt-4 flex">
+            <div className={styles.input_flex}>
               <input
                 type="text"
                 className={styles.input}
