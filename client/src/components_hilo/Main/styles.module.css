@@ -4,7 +4,7 @@
 
 
 .screen {
-    @apply w-screen min-h-screen bg-purp mt-14 relative flex justify-center p-5;
+    @apply min-w-full min-h-screen bg-purp mt-14 relative flex justify-center p-5;
 }
 
 .screen_centered {

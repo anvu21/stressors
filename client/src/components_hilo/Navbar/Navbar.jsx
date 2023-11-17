@@ -35,7 +35,9 @@ const Navbar = ({  }) => {
           <a href={`/profile/${username}`} className={styles.nav_item} >
               Profile
           </a>
-
+          <a className={styles.nav_item} href="/admin">
+            Admin
+          </a>
           {/*
           <a className={styles.nav_item} href="/thing1">Thing 2</a>
           <a className={styles.nav_item} href="/thing1">Thing 3</a>

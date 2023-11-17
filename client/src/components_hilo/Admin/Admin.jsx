@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import axios from "axios";
 //import Navbar from '../Navbar/Navbar';
 //import PostBar from '../posts/postBar';
-import Posts from '../posts/posts';
+import Posts from './AdminPosts';
 //import actors from '../posts/actors';
 
 const Main = () => {
@@ -88,6 +88,7 @@ const Main = () => {
       });
     
       setPosts(sortedPosts);
+      console.log("Posts fetch");
       console.log(sortedPosts);
       setLoading(false);
 
@@ -247,7 +248,7 @@ const Main = () => {
 
   const fetchComments = async () => {
     try {
-      const response = await axios.get(`${import.meta.env.VITE_APP_API_URL}/comments/${groupId}`, {
+      const response = await axios.get(`${import.meta.env.VITE_APP_API_URL}/images/comments/${groupId}`, {
         headers: {
           'auth-token': localStorage.getItem('token')
         }
@@ -267,12 +268,11 @@ const Main = () => {
 
   
   return (
-    <div>
       <div className={styles.screen}> 
   
-        {/** User profile box */}
         <div className={styles.screen_centered}>
           <div className={styles.left_col}>
+            {/**Profile Box */}
             <div className={styles.user_box}>
               {/** profile not editable by user yet */}
               <Link to={`/profile/${username}`}>
@@ -290,8 +290,9 @@ const Main = () => {
               <div className={styles.post_bar_top}>
                 <Link to={`/profile/${username}`}>
                   {profile && profile.profile_pic_url !== null && (
-                    <img src={profile.profile_pic_url} alt="Avatar" className={styles.profile_icon} />
-                  )}
+                    <div className={styles.profile_icon_flx}>
+                      <img src={profile.profile_pic_url} alt="Avatar" className={styles.profile_icon} />
+                    </div>)}
                 </Link>
                 <input
                   type="text"
@@ -361,7 +362,6 @@ const Main = () => {
           </div>
         </div>  
       </div>
-    </div>
   );
 }
 
