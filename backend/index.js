@@ -241,7 +241,6 @@ app.post('/like',verifyToken,  async (req, res) => {//verifyToken ,
     
     try {
       const { groupId } = req.params;
-      //const result = await pool.query('SELECT Likes.* FROM Likes INNER JOIN Posts ON Likes.post_id = Posts.id WHERE Posts.group_id = $1 OR Posts.group_id = 100', [groupId]);
       const result = await pool.query(
         `SELECT likes.*, posts.content, users.username
         FROM likes 
