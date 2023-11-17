@@ -99,7 +99,7 @@ const Profile = () => {
 
   const fetchComments = async () => {
     try {
-      const response = await axios.get(`${import.meta.env.VITE_APP_API_URL}/comments/${groupId}`, {
+      const response = await axios.get(`${import.meta.env.VITE_APP_API_URL}/images/comments/${groupId}`, {
         headers: {
           'auth-token': localStorage.getItem('token')
         }
@@ -188,69 +188,46 @@ const Profile = () => {
   return (
     <div>
       <div className={styles.screen}>
-
-        <div key={profile.id}>
-          <div className={styles.container}>
-            <img className={styles.bg_img} src="/HiLoBanner.png"></img>
-           
-            <div className={styles.profile}>
-              {/** temporay prof img */}
-              {profile && profile.profile_pic_url !== null && (
-                <img className={styles.profile_image} src={profile.prof_pic || profile.profile_pic_url} alt="Profile" />
-              )}
-              <h1 className={styles.username}>{profile.username}</h1>
+        <div className={styles.screen_centered}>
+          
+          <div key={profile.id}>
+            <div className={styles.user_box}>
+              <img className={styles.bg_img} src="/HiLoBanner.png"></img>
+                <div className={styles.prof_flex}>
+                  <div className={styles.namePic}>
+                    {/** temporay prof img */}
+                    {profile && profile.profile_pic_url !== null && (
+                      <img className={styles.user_pic} src={profile.prof_pic || profile.profile_pic_url} alt="Profile" />
+                    )}
+                    <h1 className={styles.username}>{profile.username}</h1>
+                  </div>
+                  {/**no edit function yet 
+                  <button className={styles.edit}>Edit Profile</button>*/}
+                  <h2 className={styles.about}>About Me</h2>
+                  <p className={styles.bio}>{profile.bio}</p>
+              </div>
             </div>
-            {/**no edit function yet 
-            <button className={styles.edit}>Edit Profile</button>*/}
-            <h2 className={styles.about}>About Me</h2>
-            <p className={styles.bio}>{profile.bio}</p>
-          </div>
-   
+    
 
 
-          {/** 
-           * post in main 
-              content: "test"
-              created_at: "2023-07-25T22:15:57.811Z"
-              group_id: 1
-              id: 37
-              imageUrl: "https://mountaintopanniepoon.s3.us-east-1.amazonaws.com/f946f593b2e378994883f206641e10da.jpeg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAW5BUIUZYUYV7G44L%2F20230725%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20230725T221740Z&X-Amz-Expires=3600&X-Amz-Signature=f08b0ce96bf3702acada95c30dab56ef83c94e1db34369804b0c47e66c474d54&X-Amz-SignedHeaders=host&x-id=GetObject"
-              image_url: "f946f593b2e378994883f206641e10da.jpeg"
-              up_down: "down"
-              updated_at: "2023-07-25T22:15:57.811Z"
-              user_id: 1
-              username: "test1"
-
-           * post in profile
-              content: "again"
-              created_at: "2023-07-25T22:15:57.811Z"
-              group_id: 1
-              id: 37
-              image_url: "f946f593b2e378994883f206641e10da.jpeg"
-              up_down: "down"
-              updated_at: "2023-07-25T22:15:57.811Z"
-              user_id: 1
-
-           * post.imageUrl=https://mountaintopanniepoon.s3.us-east-1.amazonaws.com{.jpeg} not included in posts databse
-           * post.image_url=(image).jpeg
-          */}
-          <div className='mt-5 flex flex-col items-center'>
-          <Posts    
-            profile={profile}
-            username={username}        
-            posts={posts}
-            userId={profile.id}
-            groupId={profile.groupId}
-            loading={loading}
-            commentText={commentText}
-            handleCommentChange={handleCommentChange}
-            handleAddComment={handleAddComment}
-            comments={comments}            
-            //allGroupLikes={allGroupLikes}
-          />
+            <div className='mt-5 flex flex-col items-center'>
+            <Posts    
+              profile={profile}
+              username={username}        
+              posts={posts}
+              userId={profile.id}
+              groupId={profile.groupId}
+              loading={loading}
+              commentText={commentText}
+              handleCommentChange={handleCommentChange}
+              handleAddComment={handleAddComment}
+              comments={comments}            
+              //allGroupLikes={allGroupLikes}
+            />
+            </div>
           </div>
         </div>
-      </div>
+      </div>  
     </div>
   )
 }

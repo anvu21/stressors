@@ -204,6 +204,45 @@ router.get("/posts/:groupId", async (req, res) => {
     res.status(500).send('An error occurred during the operation.');
   }
 });
+//comments images get
+router.get('/comments/:groupId', async (req, res) => {
+  try {
+    const { groupId } = req.params;
+    console.log(groupId);
+    pool.query(
+    `SELECT comments.*, users.username, users.profile_pic_url 
+    FROM comments 
+    INNER JOIN users ON comments.user_id = users.id 
+    WHERE comments.group_id = $1`, 
+    [groupId], async (error, results) => {
+      if (error) {
+        console.error(error);
+        res.status(500).send(error);
+        return;
+      }
+      const comments = results.rows;
+
+      for (let comment of comments) {
+        if (comment.profile_pic_url) {
+          comment.profile_pic_url = await getSignedUrl(
+            s3,
+              new GetObjectCommand({
+                Bucket: process.env.BUCKET_NAME,
+                Key: comment.profile_pic_url
+              }),
+              { expiresIn: 3600 }
+          );
+        }
+      }
+
+      res.send(comments);
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('An error occurred during the operation.');
+  }
+});
+
 
 //users posts
 router.get("/users_posts/:username", async (req, res) => {

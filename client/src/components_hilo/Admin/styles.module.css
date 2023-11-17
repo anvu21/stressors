@@ -4,7 +4,7 @@
 
 
 .screen {
-    @apply w-screen min-h-screen bg-purp mt-14 relative flex justify-center p-5;
+    @apply min-w-min min-h-screen bg-purp mt-14 relative flex justify-center p-5;
 }
 
 .screen_centered {
@@ -22,8 +22,6 @@
 .user_pic {
     @apply w-4/5 aspect-square m-3 mx-auto object-cover rounded-full border border-slate-300 bg-slate-100;
 }
-
-
 
 .name {
     @apply text-sm text-black font-bold border-b border-t border-slate-300 p-3;
@@ -96,14 +94,5 @@
     }
     .bio {
         @apply max-w-[280px];
-    }
-    .post_col {
-        @apply w-full min-w-0;
-    }
-    .profile_icon_flx {
-        @apply aspect-square w-9 flex justify-center items-center rounded-full;
-    }
-    .profile_icon {
-        @apply w-full h-full object-cover rounded-full;
     }
 }

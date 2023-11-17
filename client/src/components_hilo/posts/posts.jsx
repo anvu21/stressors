@@ -153,11 +153,7 @@ const Posts = ({ profile, username, userId, groupId, posts, loading, commentText
                 <div key={comment.id} className={styles.comment_each}>
                   <div className='h-full flex'>
                     <Link to={`/profile/${comment.username || username}`}>
-                    
-                    {/** comment profile may not work yet*/}
-                      {profile && profile.profile_pic_url !== null && (
-                        <img className={styles.comment_pic} src={profile.profile_pic_url} alt="Avatar"/>
-                      )}
+                      <img className={styles.comment_pic} src={comment.profile_pic_url} alt="Profile Picture"/>
                     </Link>
                   </div>
                   <div className={styles.comment_name}>{comment.username}</div>

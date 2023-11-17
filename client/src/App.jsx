@@ -7,6 +7,7 @@ import Main from './components_hilo/Main/Main';
 import Profile from './components_hilo/Profile/Profile';
 import DM from './components_hilo/DM/DM';
 import Navbar from './components_hilo/Navbar/Navbar';
+import Admin from './components_hilo/Admin/Admin';
 
 
 function App() {
@@ -18,7 +19,7 @@ function App() {
       <BrowserRouter>
         {user && <Navbar />}
         <Routes>
-       
+
           <Route path="/main" element={<Main />}/>
           {user && <Route path="/" exact element={<Main />} />}
           <Route path="/login" element={<Login />}/>
@@ -27,6 +28,7 @@ function App() {
   
           <Route path="/profile/:username" element={<Profile />}/>
           <Route path="/messages" element={<DM />} />
+          <Route path="/admin" element={<Admin />} />
           <Route path="/*" element={<Navigate replace to="/main" />} />
 
         </Routes>
