@@ -40,10 +40,10 @@ const LikeButton = ({ post, postId, userId }) => {
 
   const fetchLikes = async () => {
     try {
-      const response = await axios.get(`${import.meta.env.VITE_APP_API_URL}/likes/group/${groupId}`);      
+      const response = await axios.get(`${import.meta.env.VITE_APP_API_URL}/actor/allLikes/`);      
       const likes = response.data;
       setNumLikes(likes.filter((like) => like.post_id === postId).length);
-      setIsLiked(likes.some((like) => like.post_id === postId)); //&& like.user_id === userId
+      setIsLiked(likes.some((like) => like.post_id === postId && like.username === localStorage.getItem('name'))); //&& like.user_id === userId
 
       console.log({groupId}, {postId}, "Like fetch ", response.data);
     } catch (error) {

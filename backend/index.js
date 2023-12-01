@@ -484,7 +484,29 @@ app.post('/actor/like',  async (req, res) => {//verifyToken ,
 }
 });
 
+/// GET ALL LIKES
+app.get('/actor/allLikes/', async (req, res) => {
+    
+    
+  try {
+    const result = await pool.query(
+      `SELECT likes.*, posts.content, users.username
+      FROM likes 
+      INNER JOIN posts ON likes.post_id = posts.id 
+      INNER JOIN users ON likes.user_id = users.id`    );
+    //console.log(result)
+    if (result.rows.length === 0) {
+      return res.status(404).json({ message: 'No likes found for this group' });
+    }
+    
+    console.log('Fetched likes:', result.rows); // Add this line
 
+    return res.status(200).json(result.rows);
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ message: 'Internal server error' });
+  }
+});
 
 server.listen(process.env.PORT||5000, () => {
   console.log(`server start on port ${process.env.PORT || 5000}`);
