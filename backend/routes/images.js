@@ -597,6 +597,44 @@ router.get("/fake_actors/:username", async (req, res) => {
 
 });
 
+router.get('/admin/comments/', async (req, res) => {
+  try {
+    console.log("FETCHING COMMENTS")
+    const { groupId } = req.params;
+    console.log(groupId);
+    pool.query(
+    `SELECT comments.*, users.username, users.profile_pic_url 
+    FROM comments 
+    INNER JOIN users ON comments.user_id = users.id`, async (error, results) => {
+      if (error) {
+        console.error(error);
+        res.status(500).send(error);
+        return;
+      }
+      const comments = results.rows;
+
+      for (let comment of comments) {
+        if (comment.profile_pic_url) {
+          comment.profile_pic_url = await getSignedUrl(
+            s3,
+              new GetObjectCommand({
+                Bucket: process.env.BUCKET_NAME,
+                Key: comment.profile_pic_url
+              }),
+              { expiresIn: 3600 }
+          );
+        }
+      }
+
+      res.send(comments);
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('An error occurred during the operation.');
+  }
+});
+
+
 ///// ADMIN ACTOR UPLOADS
 
 

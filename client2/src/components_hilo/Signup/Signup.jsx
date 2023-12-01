@@ -124,7 +124,7 @@ const Signup = () => {
           </div>
 
           <button className={styles.acct_btn_pos}>
-            <a className={styles.acct_btn} href="/login">Have an account?</a>
+            <a className={styles.acct_btn} href="/admin">Go Back?</a>
           </button>
         </div>
         

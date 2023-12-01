@@ -512,7 +512,31 @@ server.listen(process.env.PORT||5000, () => {
   console.log(`server start on port ${process.env.PORT || 5000}`);
 });
 
+//// ADMIN COMMENT
+app.post('/admin/comment', async (req, res) => {
+  const { postId, comment_text } = req.body;
+  console.log(req.body)
+  //const {userId, group_id} = req.body;
+  const { user_id: userId  } = req.body;
+  const group_id = 100
+  console.log("userID"+userId)
+  console.log("postID"+postId) 
+  console.log("text"+comment_text) 
+  console.log("GroupID"+group_id)
+  if (!postId || !comment_text) {
+    return res.status(400).json({ message: 'Post id and text are required' });
+  }
 
+  try {
+    const result = await pool.query('INSERT INTO Comments (post_id, user_id, content,group_id, created_at, updated_at) VALUES ($1, $2, $3 , $4 , CURRENT_TIMESTAMP, CURRENT_TIMESTAMP) RETURNING id', [postId, userId, comment_text,group_id]);
+
+    return res.status(201).json({ message: 'Comment created successfully', commentId: result.rows[0].id });
+
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ message: 'Internal server error' });
+  }
+});
 /*
 app.listen(PORT,()=>{
     console.log(`server start on port ${PORT}`)

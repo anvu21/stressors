@@ -93,7 +93,7 @@ const Admin = () => {
       console.log("Posts fetch");
       console.log(sortedPosts);
       setLoading(false);
-
+      fetchComments()
     } catch (error) {
       console.error('Fetching posts failed:', error);
       setLoading(false);
@@ -237,13 +237,13 @@ const Admin = () => {
     e.preventDefault();
     //console.log("Comment text"+commentText)
     let groupid =localStorage.getItem("groupID") 
+    let user_id =localStorage.getItem("id_key") 
+
     const { comment_text } = commentText;
     console.log(commentText)
     try {
-      const response = await axios.post(`${import.meta.env.VITE_APP_API_URL}/comment`, { comment_text, group_id: groupid, postId: post__id}, {
-        headers: {
-          'auth-token': localStorage.getItem('token') 
-        }
+      const response = await axios.post(`${import.meta.env.VITE_APP_API_URL}/admin/comment`, { comment_text, group_id: groupid, postId: post__id, user_id : userId }, {
+        
       });   
       
       setCommentText((prevCommentText) => ({
@@ -265,10 +265,8 @@ const Admin = () => {
 
   const fetchComments = async () => {
     try {
-      const response = await axios.get(`${import.meta.env.VITE_APP_API_URL}/images/comments/${groupId}`, {
-        headers: {
-          'auth-token': localStorage.getItem('token')
-        }
+      const response = await axios.get(`${import.meta.env.VITE_APP_API_URL}/images/admin/comments/`, {
+        
       });
       console.log(response)
       const sortedComments = response.data.sort((a, b) => {
@@ -320,6 +318,11 @@ const Admin = () => {
                     <option key={index} value={username}>{username}</option>
                 ))}
             </select>
+            <div className={styles.admin_signup_button}>
+      <Link to="/admin/signup">
+        <button className={styles.button_style}>Admin Signup</button>
+      </Link>
+    </div>
         </div>
             {/**Profile Box */}
             <div className={styles.user_box}>
