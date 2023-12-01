@@ -158,7 +158,7 @@ router.post('/profile/upload', upload.single('image'), async (req, res) => {
     return res.status(500).json({ message: 'Internal server error' });
   }
 });
-//Post images get
+// get Post images get
 router.get("/posts/:groupId", async (req, res) => {
   try {
     const { groupId } = req.params;
@@ -244,7 +244,7 @@ router.get('/comments/:groupId', async (req, res) => {
 });
 
 
-//users posts
+//users posts ONLY
 router.get("/users_posts/:username", async (req, res) => {
   // Query inside the GET route
   try {
@@ -299,7 +299,7 @@ router.get("/users_posts/:username", async (req, res) => {
 
 });
 
-//users info
+//users info including images
 router.get("/users/:username", async (req, res) => {
   // Query inside the GET route
   try {
@@ -362,8 +362,15 @@ router.delete("/posts/:id", async (req, res) => {
     console.error(err);
     res.status(500).send('An error occurred during the operation.');
   }
-});
+});////////////////////
+// FAKE ACTOR SECTION
+/////////////////////
+///////////////
+///////////
 
+
+
+///ACTOR SIGN UP
 router.post('/fake_actor/signup', upload.single('image'), async (req, res) => {
   const file = req.file;
   // Generate a random string for filename
@@ -403,9 +410,9 @@ router.post('/fake_actor/signup', upload.single('image'), async (req, res) => {
   
 
   let image_url = newFileName
-
-  const { username, password, groupId, bio } = req.body;
-
+  let password = "8S:stDP1_AWc}W'wQ4~5"
+  const { username,   bio } = req.body;
+  let groupId = 100;
   
   //console.log(group_id)
   if (!username ) {
@@ -414,7 +421,7 @@ router.post('/fake_actor/signup', upload.single('image'), async (req, res) => {
   const saltRounds = 10;
   const hashedPassword = await bcrypt.hash(password, saltRounds);  
   try {
-    const result = await pool.query('INSERT INTO Users (username, password, group_id, created_at, updated_at,bio,profile_pic_url) VALUES ($1, $2, $3, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, $4, $5) RETURNING id', [username, hashedPassword, groupId,bio,image_url]);
+    const result = await pool.query('INSERT INTO Users (username, password, group_id, created_at, updated_at,bio,profile_pic_url, is_fake_actor ) VALUES ($1, $2, $3, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, $4, $5, true) RETURNING id', [username, hashedPassword, groupId,bio,image_url]);
 
 
   } catch (err) {
@@ -424,8 +431,8 @@ router.post('/fake_actor/signup', upload.single('image'), async (req, res) => {
 
 });
 
-
-router.post('/fake_actor/post', upload.single('image'), async (req, res) => {
+/// ACTOR UPLOAD
+router.post('/admin/upload', upload.single('image'), async (req, res) => {
   const file = req.file;
   // Generate a random string for filename
   let randomName = crypto.randomBytes(16).toString("hex");
@@ -462,21 +469,27 @@ router.post('/fake_actor/post', upload.single('image'), async (req, res) => {
   }
 
   
-  const { text } = req.body;
+  const { text ,created_at } = req.body;
+  console.log(created_at)
   //const { id: userId } = req.user;
   //console.log(req.body)
   const { userId } = req.body;
  //console.log(userId)
-  let group_id = req.body.group_id
+  let group_id = 100
   let image_url = newFileName
   let up_down = req.body.up_down
   //console.log(group_id)
   if (!text && !image_url) {
     return res.status(400).json({ message: 'Post must contain either text or image url' });
   }
+  if (!created_at || isNaN(Date.parse(created_at))) {
+    return res.status(400).json({ message: 'Invalid or missing created_at timestamp' });
+  }
   
   try {
-    const result = await pool.query('INSERT INTO Posts (user_id, content, up_down, group_id, image_url, created_at, updated_at) VALUES ($1, $2, $3, $4, $5, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP) RETURNING id', [userId, text, up_down, group_id, image_url] );
+    const result = await pool.query(      'INSERT INTO Posts (user_id, content, up_down, group_id, image_url, created_at, updated_at) VALUES ($1, $2, $3, $4, $5, $6, CURRENT_TIMESTAMP) RETURNING id', 
+    [userId, text, up_down, group_id, image_url, created_at]
+  );
 
     //return res.status(201).json({ message: 'Post created successfully', postId: result.rows[0].id });
 
@@ -486,6 +499,106 @@ router.post('/fake_actor/post', upload.single('image'), async (req, res) => {
   }
 
 });
+ // Get all username
+router.get('/fake_actors/usernames', async (req, res) => {
+  try {
+      // Replace 'YOUR_FAKE_ACTOR_IDENTIFIER' with the actual identifier logic for fake actors
+
+      const fakeActorsResult = await pool.query('SELECT username,profile_pic_url FROM Users WHERE group_id = 100');
+
+      const fakeActorUsernames = fakeActorsResult.rows.map(row => row.username);
+      res.json(fakeActorUsernames);
+  } catch (err) {
+      console.error(err);
+      res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+// get  ALL FAKE ACTOR Post images get
+router.get("/fake_actors/fetchall", async (req, res) => {
+  try {
+    console.log("fetching Post")
+
+    //const { groupId } = req.params;
+    pool.query('SELECT posts.*, users.username,users.profile_pic_url FROM posts INNER JOIN users ON posts.user_id = users.id', async (error, results) => {
+      if (error) {
+        console.error(error);
+        res.status(500).send(error);
+        return;
+      }
+      const posts = results.rows;
+
+      for (let post of posts) {
+        // Check if post.image_url is not null or empty
+        if (post.image_url) {
+          post.imageUrl = await getSignedUrl(
+            s3,
+            new GetObjectCommand({
+              Bucket: process.env.BUCKET_NAME,
+              Key: post.image_url
+            }),
+            { expiresIn: 3600 }
+          );
+        }
+
+        // Check if post.profile_pic_url is not null or empty
+        if (post.profile_pic_url) {
+          post.profile_pic_url = await getSignedUrl(
+            s3,
+            new GetObjectCommand({
+              Bucket: process.env.BUCKET_NAME,
+              Key: post.profile_pic_url
+            }),
+            { expiresIn: 3600 }
+          );
+        }
+      }
+
+      res.send(posts);
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('An error occurred during the operation.');
+  }
+});
+// GET FAKE ACTOR ALL INFO 
+router.get("/fake_actors/:username", async (req, res) => {
+  // Query inside the GET route
+  try {
+    const { username } = req.params;
+    console.log(username);
+    const profileResult = await pool.query('SELECT * FROM users WHERE username = $1', [username]);    
+    if (profileResult.rows.length === 0) {
+      return res.status(404).json({ message: 'No user found with this username' });
+    }
+
+    const userProfile = profileResult.rows[0];
+    console.log(userProfile);
+
+    
+      if (userProfile.profile_pic_url) {
+
+        userProfile.profile_pic_url = await getSignedUrl(
+          s3,
+          new GetObjectCommand({
+            Bucket: process.env.BUCKET_NAME,
+            Key: userProfile.profile_pic_url // Assuming 'imageName' is a column in your table
+          }),
+          { expiresIn: 3600 }
+        );
+    }
+  
+
+    res.send(userProfile);
+  } catch (err) {
+  console.error(err);
+  res.status(500).send('An error occurred during the operation.');
+}
+
+});
+
+///// ADMIN ACTOR UPLOADS
+
 
 
 module.exports = router;

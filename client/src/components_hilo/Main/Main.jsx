@@ -183,7 +183,7 @@ const Main = () => {
       } */
 
       // user profile and posts fetch
-      const response = await axios.get(`${import.meta.env.VITE_APP_API_URL}/images/users/${username}`); 
+      const response = await axios.get(`${import.meta.env.VITE_APP_API_URL}/images/fake_actors/${username}`); 
       console.log(response.data.profile_pic_url);
       if (response.data.profile_pic_url === null) {
         // Set a default image URL when profile_pic_url is null

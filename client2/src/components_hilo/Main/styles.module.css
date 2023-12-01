@@ -1,0 +1,109 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+
+.screen {
+    @apply min-w-full min-h-screen bg-purp mt-14 relative flex justify-center p-5;
+}
+
+.screen_centered {
+    @apply flex flex-row space-x-4 mr-60;
+}
+
+.left_col {
+    @apply w-48 flex flex-col;
+}
+
+.user_box {
+    @apply w-full min-h-[300px] bg-white border-2 border-slate-300 rounded-lg relative flex flex-col p-3;
+}
+
+.user_pic {
+    @apply w-4/5 aspect-square m-3 mx-auto object-cover rounded-full border border-slate-300 bg-slate-100;
+}
+
+
+
+.name {
+    @apply text-sm text-black font-bold border-b border-t border-slate-300 p-3;
+    overflow-wrap: break-word;
+}
+
+.bio {
+    @apply text-sm text-black p-3;
+    overflow-wrap: break-word;
+}
+
+
+
+.post_col {
+    @apply min-w-[500px] flex flex-col;
+}
+
+.post_bar {
+    @apply w-full min-h-[50px] flex-col items-center bg-gray-300 rounded-lg;
+}
+
+.post_bar_top {
+    @apply w-full h-full flex items-center px-3 py-2;
+}
+
+.profile_icon {
+    @apply w-8 h-8 rounded-full mr-2 object-cover;
+}
+
+.post_input {
+    @apply flex-grow py-2 px-4 bg-white rounded-lg resize-none focus:outline-none;
+}
+
+.p {
+    @apply p-1;
+}
+
+.send_camera {
+    @apply w-8 h-8 m-1.5 fill-current text-neutral-500 hover:text-neutral-700;
+}
+
+.hilo {
+    @apply w-5 h-8 m-1.5;
+}
+
+.post_bar_bot {
+    @apply flex justify-center items-center;
+}
+
+.post_img {
+    @apply max-h-[400px] mb-1;
+}
+
+/* Mobile */
+@media (max-width: 640px) {
+    .screen_centered {
+        @apply flex flex-col space-x-0 space-y-4 mr-0;
+    }
+    .left_col {
+        @apply w-full;
+    }
+    .user_box {
+        @apply min-h-[100px] relative flex flex-row;
+    }
+    .user_pic {
+        @apply w-20 mr-5;
+    }
+    .name {
+        @apply max-w-[200px] border-0;
+    }
+    .bio {
+        @apply max-w-[280px];
+    }
+    .post_col {
+        @apply w-full min-w-0;
+    }
+    .profile_icon_flx {
+        @apply aspect-square w-9 flex justify-center items-center rounded-full;
+    }
+    .profile_icon {
+        @apply w-full h-full object-cover rounded-full;
+    }
+}

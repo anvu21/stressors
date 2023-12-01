@@ -1,7 +1,4 @@
 
-
-
-
 CREATE TABLE Users (
     id SERIAL PRIMARY KEY,
     username VARCHAR(255) UNIQUE NOT NULL,
@@ -9,7 +6,9 @@ CREATE TABLE Users (
     bio VARCHAR(255) NOT NULL,
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP,
-    group_id  int
+    group_id  int,
+    profile_pic_url VARCHAR(255),
+    is_fake_actor BOOLEAN NOT NULL DEFAULT false
 );
 
 CREATE TABLE Posts (

@@ -438,6 +438,53 @@ io.on('connection', (socket) => {
     console.log('user disconnected');
   });
 });
+///// FAKE ACTOR LIKE 
+app.post('/actor/like',  async (req, res) => {//verifyToken ,
+  try{
+    
+  const { postId } = req.body;
+  let group_id = 100;
+  //const { id: userId } = req.user;
+  const {  userId} = req.body;
+  console.log("postId "+postId)
+  console.log("group_id "+group_id)
+  console.log("Userid "+userId)
+  if (!postId) {
+    return res.status(400).json({ message: 'Post id is required' });
+  }
+  //const result = await pool.query('INSERT INTO likes (post_id, user_id,group_id ,created_at) VALUES ($1, $2,$3 , CURRENT_TIMESTAMP) RETURNING id', [postId, userId,group_id]);
+
+  
+    const existingLikeResult = await pool.query('SELECT * FROM Likes WHERE post_id = $1 AND user_id = $2 AND group_id = $3', [postId, userId, group_id]);
+
+    if (existingLikeResult.rows.length > 0) {
+      // If a like already exists, delete it
+      try {
+        await pool.query('DELETE FROM Likes WHERE post_id = $1 AND user_id = $2 AND group_id = $3', [postId, userId, group_id]);
+        return res.status(200).json({ message: 'Like removed successfully' });
+      } catch (err) {
+        console.error(err);
+        return res.status(500).json({ message: 'Internal server error' });
+      }
+    } else {
+      // If no like exists, create it
+      try {
+        const result = await pool.query('INSERT INTO Likes (post_id, user_id, group_id, created_at) VALUES ($1, $2, $3, CURRENT_TIMESTAMP) RETURNING id', [postId, userId, group_id]);
+        return res.status(201).json({ message: 'Like added successfully', likeId: result.rows[0].id });
+      } catch (err) {
+        console.error(err);
+        return res.status(500).json({ message: 'Internal server error' });
+      }
+    }
+  
+  
+}catch (err){
+
+  console.error(err);
+}
+});
+
+
 
 server.listen(process.env.PORT||5000, () => {
   console.log(`server start on port ${process.env.PORT || 5000}`);

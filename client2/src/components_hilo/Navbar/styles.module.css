@@ -1,0 +1,46 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+.top_nav {
+    @apply w-full h-14 bg-white border-b border-slate-300 fixed top-0 z-50 flex justify-center;
+}
+
+.nav_contain {
+    @apply container mx-auto px-10 flex items-center;
+}
+
+.nav_items {
+    @apply h-full relative m-auto flex justify-center items-center;
+}
+
+.nav_active {
+    @apply border-b-4 border-oran px-5 py-3;
+}
+
+.nav_item {
+    @apply hover:border-b-4 border-yel px-5 py-3;
+}
+
+.logout {
+    @apply relative ml-5 hover:underline;
+}
+
+.logo_pos {
+    @apply w-20 relative;
+}
+
+.logo {
+    @apply w-full h-full object-cover;
+}
+
+.notify {
+    @apply w-1 h-1 absolute top-2 ml-20 text-xs bg-red-500 rounded-full justify-center items-center flex p-2;
+}
+
+/* Mobile */
+@media (max-width: 640px) {
+    .logo {
+      @apply hidden;
+    }
+}
